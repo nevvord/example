@@ -1,13 +1,33 @@
+import axios from 'axios';
+
+export const strict = false;
+
 export const state = () => ({
-    kek: "lol"
-})
+    _Technology: [],
+    _Specialization: []
+});
 
 
 export const mutations = {
-    setkek(state){
-        console.log(state.kek);
-        state.kek = "patau";
-        console.log(state.kek);
-        
+    getTechnology(state){
+        axios.get(`http://localhost:3012/technology`).then(res => {
+            state._Technology = res.data;            
+        });
+    },
+    deletTechnology(state, id){
+        axios.delete('http://localhost:3012/technology/'+ id).then(res=>{
+            state._Technology = state._Technology.filter( u => u._id !== id);
+        });
+    },
+    pushToTechnology(state, obj){
+        state._Technology.push(obj);
+    },
+    getSpecialization(state){
+        axios.get(`http://localhost:3012/specialization`).then(res => {
+            state._Specialization = res.data;            
+        });
+    },
+    pushToSpecialization(state, obj){
+        state._Specialization.push(obj);
     }
-}
+};

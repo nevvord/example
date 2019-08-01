@@ -1,6 +1,6 @@
 <template>
     <div>
-        {{hi}}  
+        <div v-html="hi"></div> 
     </div>
 </template>
 <script>

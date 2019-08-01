@@ -1,50 +1,50 @@
 <template>
-<div>
-    <div :class="{slideMenuShow: sShow, slideMenuHide: sHide  }">
-        <b-row>
-            <b-col>
-                <div class="itemSlideMenu" @click="setContent('projects')">
-                    Проекты
+    <div>
+        <div :class="{slideMenuShow: sShow, slideMenuHide: sHide  }">
+            <b-row>
+                <b-col>
+                    <div class="itemSlideMenu" @click="setContent('projects')">
+                        Проекты
+                    </div>
+                    <div class="itemSlideMenu" @click="setContent('works')">
+                        Работы
+                    </div>
+                    <div class="itemSlideMenu" @click="setContent('specialization')">
+                        Специализация
+                    </div>
+                    <div class="itemSlideMenu" @click="setContent('technology')">
+                        Технологии
+                    </div>
+                </b-col>
+            </b-row>
+        </div>
+        <div class="content bg-dark" >
+                <div class="cLogo vertical_text">
+                    NCP
                 </div>
-                <div class="itemSlideMenu" @click="setContent('works')">
-                    Работы
-                </div>
-                <div class="itemSlideMenu" @click="setContent('specialization')">
-                    Специализация
-                </div>
-                <div class="itemSlideMenu" @click="setContent('technology')">
-                    Технологии
-                </div>
-            </b-col>
-        </b-row>
-    </div>
-    <div class="content bg-dark" >
-            <div class="cLogo vertical_text">
-                NCP
-            </div>
-        <b-row>
-            <b-col>
-                <b-link to="/" class="item"><i class="fas fa-home"></i></b-link>
-            </b-col>
-        </b-row>
-        <b-row>
-            <b-col>
-                <b-link  class="item" @click="openSlider()"><i class="fas fa-plus"></i></b-link>
-            </b-col>
-        </b-row>
+            <b-row>
+                <b-col>
+                    <b-link to="/" class="item"><i class="fas fa-home"></i></b-link>
+                </b-col>
+            </b-row>
+            <b-row>
+                <b-col>
+                    <b-link  class="item" @click="openSlider()"><i class="fas fa-plus"></i></b-link>
+                </b-col>
+            </b-row>
 
-        <b-row class="btmBlock">
-            <b-col cols="12">
-                    <b-img 
-                    src="~/static/image/14026904592519.jpg"
-                    class="userImg" 
-                    v-b-popover.hover="'Admin'" 
-                    title="Nevvord">
-                    </b-img>
-            </b-col>
-        </b-row>
+            <b-row class="btmBlock">
+                <b-col cols="12">
+                        <b-img 
+                        src="~/static/image/14026904592519.jpg"
+                        class="userImg" 
+                        v-b-popover.hover="'Admin'" 
+                        title="Nevvord">
+                        </b-img>
+                </b-col>
+            </b-row>
+        </div>
     </div>
-</div>
 </template>
 
 <script>
@@ -63,6 +63,7 @@ export default {
             this.sShow = !this.sShow;
             this.sHide = !this.sHide;
         },
+        // Настройки контента
         setContent(change) {
             this.$store.commit('admin/setContent', change);
             this.openSlider();

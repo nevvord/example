@@ -21,13 +21,18 @@ import Projects from '~/components/crm/content/Projects.vue';
 import Works from '~/components/crm/content/Works.vue';
 import Specialization from '~/components/crm/content/Specialization.vue';
 import Technology from '~/components/crm/content/Technology.vue';
+import { mapMutations } from 'vuex';
+
 
 export default {
+    created(store){
+        this.$store.commit('getTechnology')
+        this.$store.commit('getSpecialization')
+    },
+    middleware: 'admin',
     layout: 'cp',
     methods: {
-        change(){
-            this.$store.commit('setkek')
-        }
+        
     },
     components:{
         Projects,
