@@ -37,6 +37,8 @@
 
         <b-button type="submit" variant="primary">Добавить</b-button>
 
+        {{form}}
+
       </b-form>
     </b-container>
     <b-container class="botContent">
@@ -50,6 +52,18 @@
                             {{spec.description}}
                         </b-card-text>
 
+                        {{techData}}
+                        <hr>
+                        {{specData[0].technology}}
+
+                        <div v-for="tech in techData" :key="tech.key">
+                            <div v-for="specTech in specData.technology" :key="specTech.key">
+                                {{specTech}}
+                                <div v-if="tech._id === specTech">
+                                    kek
+                                </div>
+                            </div>
+                        </div>
 
 
                         <b-button-group>

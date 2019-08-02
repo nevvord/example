@@ -24,7 +24,10 @@ export const mutations = {
     },
     getSpecialization(state){
         axios.get(`http://localhost:3012/specialization`).then(res => {
-            state._Specialization = res.data;            
+            state._Specialization = res.data;
+            state._Specialization.technology = state._Specialization.technology.split(',')
+            console.log(state._Specialization.technology);
+                 
         });
     },
     pushToSpecialization(state, obj){
