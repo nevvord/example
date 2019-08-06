@@ -3,16 +3,16 @@
         <div :class="{slideMenuShow: sShow, slideMenuHide: sHide  }">
             <b-row>
                 <b-col>
-                    <div class="itemSlideMenu" @click="setContent('projects')">
+                    <div :class="{itemSlideMenu: true, bgItemAtive : prBG} " @click="setContent('projects')">
                         Проекты
                     </div>
-                    <div class="itemSlideMenu" @click="setContent('works')">
+                    <div :class="{itemSlideMenu: true, bgItemAtive : wrBG}" @click="setContent('works')">
                         Работы
                     </div>
-                    <div class="itemSlideMenu" @click="setContent('specialization')">
+                    <div :class="{itemSlideMenu: true, bgItemAtive : spBG}" @click="setContent('specialization')">
                         Специализация
                     </div>
-                    <div class="itemSlideMenu" @click="setContent('technology')">
+                    <div :class="{itemSlideMenu: true, bgItemAtive : tcBG}" @click="setContent('technology')">
                         Технологии
                     </div>
                 </b-col>
@@ -29,7 +29,7 @@
             </b-row>
             <b-row>
                 <b-col>
-                    <b-link  class="item" @click="openSlider()"><i class="fas fa-plus"></i></b-link>
+                    <b-link  class="item" @click="openSlider()"><i class="fas fa-wrench"></i></b-link>
                 </b-col>
             </b-row>
 
@@ -54,7 +54,12 @@ export default {
         return{
             // Переменые для выплывающего меню
             sShow : false,
-            sHide : true
+            sHide : true,
+            // Переменные для активации элементов
+            prBG: false,
+            wrBG: false,
+            spBG: false,
+            tcBG: false
         }
     },
     methods: {
@@ -63,10 +68,35 @@ export default {
             this.sShow = !this.sShow;
             this.sHide = !this.sHide;
         },
+        // Костыль для активации элемента меню
+        activeElement(change){
+            if (change === "projects") {
+                this.prBG = true;
+                this.wrBG = false;
+                this.spBG = false;
+                this.tcBG = false;
+            }else if (change === "works") {
+                this.prBG = false;
+                this.wrBG = true;
+                this.spBG = false;
+                this.tcBG = false;
+            }else if (change === "specialization") {
+                this.prBG = false;
+                this.wrBG = false;
+                this.spBG = true;
+                this.tcBG = false;
+            }else if (change === "technology") {
+                this.prBG = false;
+                this.wrBG = false;
+                this.spBG = false;
+                this.tcBG = true;
+            }
+        },
         // Настройки контента
         setContent(change) {
             this.$store.commit('admin/setContent', change);
             this.openSlider();
+            this.activeElement(change);
         }
     }
 
@@ -74,9 +104,23 @@ export default {
 </script>
 
 <style scoped>
+.bgItemAtive{
+    background-color:  #e4a1a349;
+    box-shadow: inset 0 0 5px 0 black;
+}
+
 .itemSlideMenu {
     text-align: left;
     padding: 5px 10px;
+    cursor: pointer;
+    color: white;
+    border-bottom: solid 1px rgba(0, 0, 0, 0.137);
+    transition: 0.3s;
+    font-family: Calibri;
+}
+
+.itemSlideMenu:hover {
+    background-color:  #e4a1a349;
 }
 .slideMenuHide {
     position: fixed;
@@ -93,9 +137,10 @@ export default {
     top: 0;
     left: 40px;
     height: 100vh;
-    background-color: rgb(223, 223, 223);
+    background-color: rgb(92, 92, 92);
     transition: 0.5s;
     opacity: 0.9;
+    box-shadow: 5px 0px 5px 5px #00000049;
     z-index: 98;
 }
 .userImg{
