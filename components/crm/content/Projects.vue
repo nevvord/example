@@ -1,49 +1,46 @@
 <template>
-  <div>
-        <b-container>
-            <b-form @submit="onSubmit" @reset="onReset" v-if="show">
-                <b-form-group
-                    id="input-group-1"
-                    label="Имя проекта:"
-                    label-for="input-1"
-                    description=""
-                >
-                    <b-form-input
-                    id="input-1"
-                    v-model="form.name"
-                    type="text"
-                    required
-                    placeholder="Ввидите имя проекта"
-                    ></b-form-input>
-                </b-form-group>
+  <div class="content">
+    <b-container>
+      <b-form @submit="onSubmit" @reset="onReset">
+        <b-row>
+          <b-col sm="12" lg="6">
+            <b-form-group id="input-group-1" label="Имя проекта:" label-for="input-1" description="Это будет отображено на странице проектов">
+              <b-form-input id="input-1" v-model="form.name" type="text" required placeholder="Ввидите имя проекта">
+              </b-form-input>
+            </b-form-group>
+          </b-col>
+          <b-col sm="12" lg="6">
+            <b-form-group id="input-group-2" label="Ссылка на сайт проекта:" label-for="input-1" description="Это создаст ссылку на сайт (Если конечно он есть)">
+              <b-form-input id="input-1" v-model="form.link" type="text" required placeholder="http://ssilka.com">
+              </b-form-input>
+            </b-form-group>
+          </b-col>
+          <b-col sm="12">
+            <b-form-group id="input-group-3" label="Описание проекта:" label-for="input-2">
+              <b-form-textarea id="input-2" v-model="form.inner" required
+                placeholder="Описание проекта"></b-form-textarea>
+            </b-form-group>
+          </b-col>
+          <b-col>
+            <b-form-group id="input-group-3" label="Лого\Картинка для проекта:" label-for="input-3">
+              <b-form-file v-model="form.file" :state="Boolean(form.file)" placeholder="Выберете картинку..."
+                drop-placeholder="Drop file here..."></b-form-file>
+              <div class="mt-3">Выбранная картинка: {{ form.file ? form.file.name : '' }}</div>
+            </b-form-group>
+          </b-col>
+        </b-row>
 
-                <b-form-group id="input-group-2" label="Описание проекта:" label-for="input-2">
-                    <b-form-input
-                    id="input-2"
-                    v-model="form.inner"
-                    required
-                    placeholder="Введите текст который будет отображатся на стартовой странице."
-                    ></b-form-input>
-                </b-form-group>
 
-                <b-form-group id="input-group-3" label="Food:" label-for="input-3">
-                    <b-form-file multiple :file-name-formatter="formatNames"></b-form-file>
-                </b-form-group>
 
-                <b-form-group id="input-group-4">
-                    <b-form-checkbox-group v-model="form.checked" id="checkboxes-4">
-                    <b-form-checkbox value="me">Check me out</b-form-checkbox>
-                    <b-form-checkbox value="that">Check that out</b-form-checkbox>
-                    </b-form-checkbox-group>
-                </b-form-group>
+        
 
-                <b-button type="submit" variant="primary">Submit</b-button>
-                <b-button type="reset" variant="danger">Reset</b-button>
-            </b-form>
-            <b-card class="mt-3" header="Form Data Result">
-                <pre class="m-0">{{ form }}</pre>
-            </b-card>
-        </b-container>
+        <b-button type="submit" variant="primary">Submit</b-button>
+        <b-button type="reset" variant="danger">Reset</b-button>
+      </b-form>
+      <b-card class="mt-3" header="Form Data Result">
+        <pre class="m-0">{{ form }}</pre>
+      </b-card>
+    </b-container>
   </div>
 </template>
 
@@ -53,9 +50,9 @@
       return {
         form: {
           name: '',
+          link: '',
           inner: '',
-          food: null,
-          checked: []
+          file: null
         },
         foods: [{ text: 'Select One', value: null }, 'Carrots', 'Beans', 'Tomatoes', 'Corn'],
         show: true
@@ -89,3 +86,9 @@
     }
   }
 </script>
+
+<style scoped>
+.content {
+  padding-top: 40px;
+}
+</style>

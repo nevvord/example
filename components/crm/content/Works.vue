@@ -1,14 +1,325 @@
 <template>
-    <div>
-        <div v-html="hi"></div> 
-    </div>
+  <div class="content">
+    <b-container>
+      <b-form @submit="upld">
+        <b-form-group id="input-group-1" label="Название специализации:" label-for="input-1">
+          <b-form-input id="input-1" v-model="form.name" type="text" required
+            placeholder="Ввидите название специализации">
+          </b-form-input>
+        </b-form-group>
+
+        <b-form-group id="input-group-2" label="Текст на главной странице:" label-for="input-2">
+          <b-form-input id="input-2" v-model="form.description" required
+            placeholder="Введите текст который будет отображатся на стартовой странице."></b-form-input>
+        </b-form-group>
+
+        <b-form-group id="input-group-3" label="Картинка на главной странице:" label-for="input-3">
+          <b-form-file v-model="form.file" :state="Boolean(form.file)" placeholder="Выберете картинку..."
+            drop-placeholder="Drop file here..."></b-form-file>
+          <div class="mt-3">Выбранная картинка: {{ form.file ? form.file.name : '' }}</div>
+        </b-form-group>
+
+        <b-form-group id="input-group-4" label="Технологии:">
+          <b-form-checkbox-group v-model="form.technology" id="checkboxes-4" :state="state">
+            <b-form-checkbox class="checkBox" v-for="tech in techData" :key="tech.key" :value="tech._id">
+              <b-img :src="'http://localhost:3012/' + tech.file" fluid></b-img>
+            </b-form-checkbox>
+            <b-form-invalid-feedback :state="state">Выберете до трех техологий</b-form-invalid-feedback>
+            <b-form-valid-feedback :state="state">Спасибо</b-form-valid-feedback>
+          </b-form-checkbox-group>
+        </b-form-group>
+
+        <b-form-group id="input-group-5" label="HTML на странице:" label-for="input-5">
+          <b-form-textarea id="textarea" v-model="form.inner" placeholder="Введите HTML для страници(в подробнее)"
+            rows="6">
+          </b-form-textarea>
+        </b-form-group>
+
+        <div class="innerHtmlBlock" v-html="form.inner"></div>
+
+        <b-button type="submit" variant="primary">Добавить</b-button>
+
+      </b-form>
+    </b-container>
+    <b-container class="botContent">
+      <b-row align-v="start">
+        <b-col v-for="spec in worksData" :key="spec.key" sm="12" lg="4">
+          <b-row>
+            <b-col>
+              <b-card :title="spec.name" :img-src="'http://localhost:3012/' + spec.file" img-alt="spec.name" img-top
+                tag="article" style="max-width: 20rem;" class="mb-2">
+                <b-card-text>
+                  {{spec.description}}
+                </b-card-text>
+                <b-row>
+                  <b-col cols="4" v-for="specTech in spec.technology" :key="specTech.key">
+                    <div v-for="tech in techData" :key="tech.key">
+                      <div v-if="tech._id === specTech">
+                        <b-img :src="'http://localhost:3012/' + tech.file" fluid></b-img>
+                      </div>
+                    </div>
+                  </b-col>
+                </b-row>
+                <hr>
+                <b-row>
+                  <b-col>
+                    <b-button-group class="margCentr">
+                      <b-button variant="success" v-b-modal.modal-1 @click="setHtmlbody(spec.inner, spec._id, spec.name)"> HTML </b-button>
+                      <b-button variant="warning" v-b-modal.modal-2 @click="changeWork(spec)">Изменить</b-button>
+                      <b-button variant="danger" @click="delWork(spec._id)">Удалить</b-button>
+
+
+                    </b-button-group>
+
+                  </b-col>
+                </b-row>
+              </b-card>
+
+            </b-col>
+          </b-row>
+        </b-col>
+      </b-row>
+    </b-container>
+
+    <!-- Всплывающае окно изменения HTML-->
+    <b-modal id="modal-1" :title="html.name" size="xl">
+      <div v-if="changeHTMLIneer === true">
+        <b-form-textarea
+        v-model="html.inner"
+        id="textarea-plaintext"
+        placeholder="Введи хоть что-то для потомков!"
+        autofocus
+        >
+        </b-form-textarea>
+      </div>
+
+      <div v-html="html.inner"></div>
+      
+      <template slot="modal-footer" slot-scope="{ ok, cancel }">
+        <div v-if="changeHTMLIneer === false">
+          <b-button variant="warning" @click="changeHTMLIneer = !changeHTMLIneer">Изменить</b-button>
+        </div>
+        <div v-else-if="changeHTMLIneer === true">
+          <b-button variant="success" @click="setChangeInner">Сохранить</b-button>
+        </div>
+
+        <b-button @click="cancel();">Закрыть</b-button>
+      
+          
+        
+      </template>
+    </b-modal>
+    <!-- Всплывающае окно изменения HTML-->
+    <b-modal id="modal-2" :title="'Изменить: ' + workForChange.oldName" size="xl">
+      <b-form-group
+        label-cols-sm="4"
+        label-cols-lg="2"
+        description="Это поле отобразится на главной странице"
+        label="Введите название:"
+        label-for="input-name"
+      >
+        <b-input v-model="workForChange.name" id="input-name"></b-input>
+      </b-form-group>
+      <b-form-group
+        label-cols-sm="4"
+        label-cols-lg="2"
+        description="Это поле отобразится на главной странице"
+        label="Введите описание:"
+        label-for="textarea-description"
+      >
+        <b-form-textarea
+          placeholder="Введи хоть что-то для потомков!"
+          v-model="workForChange.description"
+          id="textarea-description"
+        ></b-form-textarea>
+      </b-form-group>
+      <hr>
+      <b-row>
+        <b-col sm="12" lg="4" class="imgInChangeBlock">
+          <p>Картинка специализации:</p>
+          <b-img  :src="'http://localhost:3012/' + workForChange.file" fluid></b-img>
+        </b-col>
+        <b-col sm="12" lg="8">
+          <p>Изменить картинку:</p>
+          <b-form-group label="Картинка на главной странице:" label-for="inpImg">
+            <b-form-file id="inpUmg" v-model="workForChange.newFile" :state="Boolean(workForChange.newFile)" placeholder="Выберете картинку..."
+              drop-placeholder="Drop file here..."></b-form-file>
+            <div class="mt-3">Выбранная картинка: {{ workForChange.newFile ? workForChange.newFile.name : '' }}</div>
+          </b-form-group>
+        </b-col>
+      </b-row>
+      <hr>
+
+      <b-form-group id="inpCB" label="Технологии:">
+          <b-form-checkbox-group v-model="workForChange.technology" id="checkboxes-4" :state="state2">
+            <b-form-checkbox class="checkBox" v-for="tech in techData" :key="tech.key" :value="tech._id">
+              <b-img :src="'http://localhost:3012/' + tech.file" fluid></b-img>
+            </b-form-checkbox>
+            <b-form-invalid-feedback :state="state2">Выберете до трех техологий</b-form-invalid-feedback>
+            <b-form-valid-feedback :state="state2">Спасибо</b-form-valid-feedback>
+          </b-form-checkbox-group>
+        </b-form-group>
+
+        <template slot="modal-footer" slot-scope="{ ok, cancel }">
+        <b-button disabled variant="danger">Отменить</b-button>
+        <b-button variant="success" @click="setWork(); cancel();">Сохранить</b-button> 
+        <b-button id="btnClose" @click="cancel();">Закрыть</b-button>
+        <b-tooltip target="btnClose" variant="danger">
+          Осторожно! Все несохраненые данные будут утеряны!
+        </b-tooltip>
+      </template>
+    </b-modal>
+  </div>
 </template>
 <script>
+import axios from 'axios';
+
 export default {
-    data() {
-        return {
-            hi: '<h1>Privet poc</h1>'
-        }
+	data() {
+		return {
+			form: {
+				name: '',
+				description: '',
+				fiel: null,
+				technology: [],
+				inner: ''
+			},
+			techData: this.$store.state._Technology,
+      worksData: this.$store.state._Works,
+      changeHTMLIneer: false,
+      html: {
+        id: '',
+        name: '',
+        inner: ''
+      },
+      workForChange: {
+        id: '',
+        name: '',
+        oldName: '',
+        description: '',
+        file: '',
+        newFile: null,
+        technology: []
+      }
+		}
+  },
+  created($store){
+  },
+	methods: {
+		upld(evt) {
+			evt.preventDefault()
+
+			const fd = new FormData();
+			fd.append('image', this.form.file, this.form.file.name);
+			fd.append('name', this.form.name);
+			fd.append('description', this.form.description);
+			fd.append('technology', this.form.technology);
+			fd.append('inner', this.form.inner);
+			
+
+			axios.post('http://localhost:3012/works', fd).then(
+				res => {
+                    this.$store.commit('pushToWorks', res.data)
+				});
+    },
+    delWork(id){
+                this.$store.commit('deletWorks', id);
+                this.worksData = this.worksData.filter( u => u._id !== id);
+            },
+    setHtmlbody(html, id, name){
+      this.html.inner = html;
+      this.html.id = id;
+      this.html.name = name;    
+    },
+    setChangeInner(){
+      this.changeHTMLIneer = !this.changeHTMLIneer;
+
+      let bodyJson = {
+        id: this.html.id,
+        inner: this.html.inner
+      }
+      axios.put('http://localhost:3012/workInner/' + this.html.id, bodyJson).then(res => {
+        this.$store.commit('changePutInnerWork', bodyJson);
+      })
+    },
+    changeWork(work) {
+      this.workForChange.id = work._id;
+      this.workForChange.name = work.name;
+      this.workForChange.oldName = work.name;
+      this.workForChange.description = work.description;
+      this.workForChange.file = work.file;
+      this.workForChange.technology = work.technology;
+    },
+    setWork(){
+      const fd = new FormData();
+
+      if (this.workForChange.newFile) {
+        fd.append('image', this.workForChange.newFile, this.workForChange.newFile.name);
+      }
+        fd.append('name', this.workForChange.name);
+        fd.append('description', this.workForChange.description);
+        fd.append('technology', this.workForChange.technology);
+        fd.append('inner', this.workForChange.inner);
+      
+      axios.put('http://localhost:3012/works/' + this.workForChange.id, fd).then(res => {
+        this.$store.commit('changeWork', res.data)
+      });
     }
+	},
+	computed: {
+		state() {
+			return this.form.technology.length <= 3 && this.form.technology.length > 0;
+    },
+    state2(){
+      return this.workForChange.technology.length <= 3 && this.workForChange.technology.length > 0;
+    }
+	}
 }
 </script>
+
+<style scoped>
+.checkBox {
+  padding: 5px;
+  width: auto;
+  height: 50px;
+  margin-left: 15px;
+  padding-left: 30px;
+  background-color: rgba(153, 153, 153, 0.089);
+  border: solid 3px rgba(153, 153, 153, 0.384);
+  border-radius: 5px;
+}
+
+.checkBox img {
+  max-width: 55px;
+  max-height: 35px;
+}
+
+
+.innerHTML {
+	height: 50px;
+}
+
+.margCentr {
+  margin: 0 12px;
+}
+
+.content {
+	padding: 50px 0;
+}
+
+.botContent {
+	margin-top: 50px;
+}
+
+.innerHtmlBlock {
+	padding: 15px;
+	background-color: rgb(236, 236, 236);
+	border-radius: 12px;
+	margin-bottom: 15px;
+}
+
+.imgInChangeBlock img {
+  box-shadow: 0px 0px 15px black;
+  border-radius: 10px;
+}
+</style>

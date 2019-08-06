@@ -220,7 +220,6 @@ export default {
 			axios.post('http://localhost:3012/specialization', fd).then(
 				res => {
           this.$store.commit('pushToSpecialization', res.data)
-          this.specData.push(res.data);
 				});
     },
     delSpec(id){

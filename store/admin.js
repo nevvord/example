@@ -1,9 +1,9 @@
 export const state = () => ({
-    content: "projects"
+    content: ""
 })
 
 export const mutations = {
-    setContent(state, change){
+    setContent(state, change) {
         state.content = change;
     }
 }

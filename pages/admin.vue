@@ -28,6 +28,7 @@ export default {
     created(store){
         this.$store.commit('getTechnology')
         this.$store.commit('getSpecialization')
+        this.$store.commit('getWorks')
     },
     middleware: 'admin',
     layout: 'cp',
