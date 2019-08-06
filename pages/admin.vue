@@ -46,6 +46,6 @@ export default {
 
 <style scoped>
 .content {
-    margin-left: 50px;
+    margin-left: 22px;
 }
 </style>

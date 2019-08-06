@@ -74,7 +74,6 @@
                 fd.append('image', this.form.file, this.form.file.name);
                 fd.append('name', this.form.name);
                 fd.append('link', this.form.link);
-                console.log(fd);
                 
                 let bodyJson = {
                     name: this.form.name,
@@ -87,6 +86,7 @@
             },
             delTech(id){
                 this.$store.commit('deletTechnology', id);
+                this.$store.commit('clearSpecWithTechnology', id);
                 this.techData = this.techData.filter( u => u._id !== id);
             }
         }

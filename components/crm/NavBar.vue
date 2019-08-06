@@ -86,6 +86,7 @@ export default {
     background-color: rgb(223, 223, 223);
     transition: 1s;
     opacity: 0;
+    z-index: 98;
 }
 .slideMenuShow {
     position: fixed;
@@ -94,7 +95,8 @@ export default {
     height: 100vh;
     background-color: rgb(223, 223, 223);
     transition: 0.5s;
-    opacity: 1;
+    opacity: 0.9;
+    z-index: 98;
 }
 .userImg{
     border-radius: 50%;
