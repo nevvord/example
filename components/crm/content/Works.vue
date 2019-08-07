@@ -283,6 +283,7 @@ export default {
   width: auto;
   height: 50px;
   margin-left: 15px;
+  margin-bottom: 5px;
   padding-left: 30px;
   background-color: rgba(153, 153, 153, 0.089);
   border: solid 3px rgba(153, 153, 153, 0.384);

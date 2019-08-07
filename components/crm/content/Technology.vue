@@ -23,7 +23,7 @@
     </b-container>
     <b-container class="techList">
         <b-row >
-            <b-col cols="1" class="item" v-for="tech in techData" :key="tech.key">
+            <b-col lg="2" md="2" sm="2" cols="5" xl="1" class="item" v-for="tech in techData" :key="tech.key">
                 <b-row>
                     <b-col>
                         <b-link :href="tech.link">{{ tech.name }}</b-link>

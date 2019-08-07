@@ -1,7 +1,7 @@
 <template>
   <div class="content">
     <b-container>
-      <b-form @submit="onSubmit" @reset="onReset">
+      <b-form @submit="upld()">
         <b-row>
           <b-col sm="12" lg="6">
             <b-form-group id="input-group-1" label="Имя проекта:" label-for="input-1" description="Это будет отображено на странице проектов">
@@ -17,7 +17,7 @@
           </b-col>
           <b-col sm="12">
             <b-form-group id="input-group-3" label="Описание проекта:" label-for="input-2">
-              <b-form-textarea id="input-2" v-model="form.inner" required
+              <b-form-textarea id="input-2" v-model="form.description" required
                 placeholder="Описание проекта"></b-form-textarea>
             </b-form-group>
           </b-col>
@@ -34,13 +34,13 @@
 
         
 
-        <b-button type="submit" variant="primary">Submit</b-button>
-        <b-button type="reset" variant="danger">Reset</b-button>
+        <b-button type="submit" variant="primary">Добавить</b-button>
       </b-form>
       <b-card class="mt-3" header="Form Data Result">
         <pre class="m-0">{{ form }}</pre>
       </b-card>
     </b-container>
+    {{projData}}
   </div>
 </template>
 
@@ -51,37 +51,26 @@
         form: {
           name: '',
           link: '',
-          inner: '',
+          description: '',
           file: null
         },
-        foods: [{ text: 'Select One', value: null }, 'Carrots', 'Beans', 'Tomatoes', 'Corn'],
-        show: true
+        projData: this.$store.state._Project
       }
     },
     methods: {
-      onSubmit(evt) {
+      upld(evt) {
         evt.preventDefault()
-        alert(JSON.stringify(this.form))
-      },
-      onReset(evt) {
-        evt.preventDefault()
-        // Reset our form values
-        this.form.email = ''
-        this.form.name = ''
-        this.form.food = null
-        this.form.checked = []
-        // Trick to reset/clear native browser form validation state
-        this.show = false
-        this.$nextTick(() => {
-          this.show = true
-        })
-      },
-        formatNames(files) {
-        if (files.length === 1) {
-          return files[0].name
-        } else {
-          return `${files.length} files selected`
-        }
+        
+        const fd = new FormData();
+        fd.append('image', this.form.file, this.form.file.name);
+        fd.append('name', this.form.name);
+        fd.append('description', this.form.description);
+        fd.append('link', this.form.link);
+
+        axios.post('http://localhost:3012/project', fd).then(
+				res => {
+          this.$store.commit('pushToProject', res.data)
+				});
       }
     }
   }

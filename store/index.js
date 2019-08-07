@@ -5,7 +5,8 @@ export const strict = false;
 export const state = () => ({
     _Technology: [],
     _Specialization: [],
-    _Works: []
+    _Works: [],
+    _Project: []
 });
 
 
@@ -53,6 +54,9 @@ export const mutations = {
     },
     pushToSpecialization(state, obj) {
         state._Specialization.push(obj);
+    },
+    pushToProject(state, obj) {
+        state._Project.push(obj);
     },
     //PUSH
     //PUT
