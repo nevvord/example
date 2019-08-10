@@ -7,8 +7,11 @@
                 </b-col>
             </b-row>
             <b-row class="text-white">
-                <b-col cols="7">
-                    <div id="map"></div>                
+                <b-col sm="12" lg="7">
+                    <gmap-map :center="center" :map-type-id="mapTypeId" :zoom="18">
+                        <gmap-marker v-for="(item, index) in markers" :key="index" :position="item.position"
+                            @click="center = item.position" />
+                    </gmap-map>
                 </b-col>
                 <b-col sm="12" lg="5">
                     <p>Украина</p>
@@ -31,21 +34,29 @@
 </template>
 
 <script>
-
-function initMap() {
-    var coordinates = {lat: 47.212325, lng: 38.933663},
-    
-        map = new google.maps.Map(document.getElementById('map'), {
-            center: coordinates
-        });
-}
-
 export default {
+    data() {
+    return {
+      center: { lat: 46.472182, lng: 30.718992 },
+      mapTypeId: "roadmap",
+      markers: [
+        { position: { lat: 46.472182, lng: 30.718992 } },
+        { position: { lat: 46.472182, lng: 30.718992 } }
+      ]
+    };
+  }
     
-}
+}   
 </script>
 
 <style scoped>
+.vue-map-container {
+  height: 280px;
+  max-width: 992px;
+  width: 100%;
+  border: 3px solid white;
+  border-radius: 5px;   
+}
 .fContent {
     background-color: #e5474b;
     padding: 50px 0;

@@ -16,7 +16,7 @@ export default {
     ],
     script: [
       { src: "https://kit.fontawesome.com/b194ce6fcf.js", body: true },
-      { src:"https://maps.googleapis.com/maps/api/js?key=AIzaSyDErFPrPynUMhkr_I9wkVpgebHbKf_3LW0", body: true}
+      //{ src:"https://maps.googleapis.com/maps/api/js?key= ", body: true}
     ]
   },
   /*
@@ -28,11 +28,14 @@ export default {
   */
   css: [
   ],
+  env: {
+    VUE_APP_GOOGLE_MAPS_API_KEY: process.env.VUE_APP_GOOGLE_MAPS_API_KEY
+  },
   /*
   ** Plugins to load before mounting the App
   */
   plugins: [
-
+    "@/plugins/google-maps"
   ],
   /*
   ** Nuxt.js modules
@@ -41,7 +44,8 @@ export default {
     // Doc: https://bootstrap-vue.js.org/docs/
     'bootstrap-vue/nuxt',
     'nuxt-fontawesome',
-    '@nuxtjs/axios'
+    '@nuxtjs/axios',
+    "@nuxtjs/dotenv"
   ],
   axios: {
     // proxyHeaders: false
@@ -54,6 +58,6 @@ export default {
     ** You can extend webpack config here
     */
     extend(config, ctx) {
-    }
+    },
   }
 }
