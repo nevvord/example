@@ -32,7 +32,7 @@
 
 <style scoped>
 .SCCont {
-    padding: 50px 0;
+    padding: 50px 15px;
 }
 h3 {
     color: #e5474b;

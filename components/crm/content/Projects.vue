@@ -1,7 +1,7 @@
 <template>
   <div class="content">
     <b-container>
-      <b-form @submit="upld()">
+      <b-form @submit="upld">
         <b-row>
           <b-col sm="12" lg="6">
             <b-form-group id="input-group-1" label="Имя проекта:" label-for="input-1" description="Это будет отображено на странице проектов">
@@ -11,7 +11,7 @@
           </b-col>
           <b-col sm="12" lg="6">
             <b-form-group id="input-group-2" label="Ссылка на сайт проекта:" label-for="input-1" description="Это создаст ссылку на сайт (Если конечно он есть)">
-              <b-form-input id="input-1" v-model="form.link" type="text" required placeholder="http://ssilka.com">
+              <b-form-input id="input-1" v-model="form.link" type="text" placeholder="http://ssilka.com">
               </b-form-input>
             </b-form-group>
           </b-col>
@@ -29,22 +29,83 @@
             </b-form-group>
           </b-col>
         </b-row>
-
-
-
-        
-
         <b-button type="submit" variant="primary">Добавить</b-button>
       </b-form>
-      <b-card class="mt-3" header="Form Data Result">
-        <pre class="m-0">{{ form }}</pre>
-      </b-card>
     </b-container>
-    {{projData}}
+    <hr>
+    <b-container class="projects">
+      <b-row>
+        <b-col sm="12" v-for="proj in projData" :key="proj.key" class="projectBlock">
+          <b-row class="headProj">
+            <b-col cols="6" class="text-left text-uppercase ">
+              {{proj.name}}
+            </b-col>
+            <b-col cols="6" v-if="proj.link" class=" text-right text-uppercase text-decoration-none">
+              <b-link :href="proj.link">
+                Сайт проекта
+              </b-link>
+            </b-col>
+          </b-row>
+          <b-row>
+            <b-col lg="3">
+              <b-img :src="'http://localhost:3012/' + proj.file" fluid class="imjProj"> 
+              </b-img>
+            </b-col>
+            <b-col lg="8">
+              {{proj.description}}
+            </b-col>
+          </b-row>
+          <hr>
+          <b-row>
+            <b-col class="text-right">
+              <b-button-group>
+                <b-button variant="warning" v-b-modal.change-1 @click="changeProj(proj)">Изменить</b-button>
+                <b-button variant="danger" @click="del(proj._id)">Удалить</b-button>
+              </b-button-group>
+            </b-col>
+          </b-row>
+        </b-col>
+      </b-row>
+    </b-container>
+    <b-modal id="change-1" :title="'Изменить: ' + change.oldName " size="xl">
+      <b-form-group label="Имя проекта" description="Єто поле обязательно" label-for="inputName">
+        <b-form-input id="inputName" v-model="change.name" required placeholder="Имя проекта"></b-form-input>
+      </b-form-group>
+      <b-form-group label="Ссылка на сайт проекта" description="Поле не обязательно. Ссылка не будет отображена если ее не ввести" label-for="inputLink">
+        <b-form-input id="inputLink" v-model="change.link" placeholder="http://ssilka.com"></b-form-input>
+      </b-form-group>
+      <b-form-group label="Описание проекта" description="Обязательное поле" label-for="inputDesc">
+        <b-form-textarea id="inputDesc" v-model="change.description" required placeholder="Описание проекта"></b-form-textarea>
+      </b-form-group>
+      <b-row>
+        <b-col sm="12" lg="3">
+          <b-img :src="'http://localhost:3012/' + change.file" fluid></b-img>
+        </b-col>
+        <b-col sm="12" lg="9">
+          <b-form-group label="Картинка для проекта:" label-for="inputFile">
+            <b-form-file id="inputFile" v-model="change.newFile" :state="Boolean(change.newFile)" placeholder="Выберете картинку..."
+              drop-placeholder="Drop file here..."></b-form-file>
+            <div class="mt-3">Выбранная картинка: {{ change.newFile ? change.newFile.name : '' }}</div>
+        </b-form-group>
+        </b-col>
+      </b-row>
+      <template slot="modal-footer" slot-scope="{ ok, cancel }">
+        <b-button variant="success" @click="setProj(); cancel();">Сохранить</b-button>
+        <b-button id="btnClose" @click="cancel();">Закрыть</b-button>
+        <b-tooltip target="btnClose" variant="danger">
+          Осторожно! Все несохраненые данные будут утеряны!
+        </b-tooltip>
+          
+        
+      </template>
+
+    </b-modal>
   </div>
 </template>
 
 <script>
+  import axios from 'axios';
+
   export default {
     data() {
       return {
@@ -54,12 +115,23 @@
           description: '',
           file: null
         },
-        projData: this.$store.state._Project
+        projData: this.$store.state._Project,
+        change: {
+          id: '',
+          name: '',
+          oldName: '',
+          link: '',
+          description: '',
+          file: null,
+          newFile: null
+        }
       }
     },
     methods: {
       upld(evt) {
         evt.preventDefault()
+
+        this.projData = this.$store.state._Project;
         
         const fd = new FormData();
         fd.append('image', this.form.file, this.form.file.name);
@@ -71,6 +143,34 @@
 				res => {
           this.$store.commit('pushToProject', res.data)
 				});
+      },
+      changeProj(data){
+        this.change.id = data._id;
+        this.change.name = data.name;
+        this.change.oldName = data.name;
+        this.change.link = data.link;
+        this.change.description = data.description;
+        this.change.file = data.file;
+        this.change.newFile = null;
+
+
+      },
+      del(id){
+        this.$store.commit('deletProject', id);
+        this.projData = this.projData.filter(u => u._id !== id);
+      },
+      setProj(){
+        const fd = new FormData();
+        if(this.change.newFile){
+          fd.append('image', this.change.newFile, this.change.newFile.name);
+        }
+        fd.append('name', this.change.name);
+        fd.append('link', this.change.link);
+        fd.append('description', this.change.description);
+
+        axios.put('http://localhost:3012/project/' + this.change.id, fd).then(res => {
+          this.$store.commit('changeProject', res.data);
+        });
       }
     }
   }
@@ -78,6 +178,26 @@
 
 <style scoped>
 .content {
-  padding-top: 40px;
+  padding: 40px 0;
+}
+
+.projectBlock {
+  padding: 10px;
+  border: 2px solid rgba(0, 0, 0, 0.089);
+  border-radius: 15px;
+  background-color: rgba(0, 0, 0, 0.007);
+  margin-bottom: 10px;
+}
+.projects {
+  padding-top: 20px;
+}
+.headProj {
+  border-bottom: solid 1px rgba(0, 0, 0, 0.226);
+  padding: 0 10px;
+  margin: 0 0  15px 0;
+}
+
+.imjProj {
+  border-radius: 5px;
 }
 </style>

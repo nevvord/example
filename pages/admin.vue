@@ -12,6 +12,9 @@
         <div v-else-if="this.$store.state.admin.content === 'technology'">
             <Technology />
         </div>
+        <div v-else-if="this.$store.state.admin.content === 'page'">
+            <Page />
+        </div>
     </div>
     
 </template>
@@ -21,6 +24,7 @@ import Projects from '~/components/crm/content/Projects.vue';
 import Works from '~/components/crm/content/Works.vue';
 import Specialization from '~/components/crm/content/Specialization.vue';
 import Technology from '~/components/crm/content/Technology.vue';
+import Page from '~/components/crm/content/Page.vue';
 import { mapMutations } from 'vuex';
 
 
@@ -29,6 +33,8 @@ export default {
         this.$store.commit('getTechnology')
         this.$store.commit('getSpecialization')
         this.$store.commit('getWorks')
+        this.$store.commit('getProject')
+        this.$store.commit('getPage')
     },
     middleware: 'admin',
     layout: 'cp',
@@ -39,7 +45,8 @@ export default {
         Projects,
         Works,
         Specialization,
-        Technology
+        Technology,
+        Page
     }
     
 }

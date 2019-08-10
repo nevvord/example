@@ -68,7 +68,9 @@
         methods: {
             // Загружаем технологию на сервер
             upld(evt) { 
-                evt.preventDefault()
+                evt.preventDefault();
+
+                this.techData= this.$store.state._Technology;
             
                 const fd = new FormData();
                 fd.append('image', this.form.file, this.form.file.name);

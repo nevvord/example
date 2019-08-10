@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="bg-light">
     <Slider /> 
     <Works />
     <Job />
@@ -13,13 +13,26 @@ import Works from '~/components/Works.vue'
 import Job from '~/components/Job.vue'
 import SomeContetnt from '~/components/SomeContetnt.vue'
 export default {
-    components: {
-      Slider,
-      Works,
-      Job,
-      SomeContetnt
+  data() {
+    return{
+
     }
+  },
+  middleware: 'admin',
+  created(store) {
+    this.$store.commit('getTechnology')
+    this.$store.commit('getSpecialization')
+    this.$store.commit('getWorks')
+    this.$store.commit('getProject')
+    this.$store.commit('getPage')
+  },
+  components: {
+    Slider,
+    Works,
+    Job,
+    SomeContetnt
   }
+}
 </script>
 
 <style>

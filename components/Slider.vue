@@ -22,7 +22,7 @@
                 
                 <h3>ИНФОРМАЦИОННЫЕ ТЕХНОЛОГИИ И АВТОМАТИЗАЦИЯ</h3>
                 <p>ПОСТАВКИ ОБОРУДОВАНИЯ И РАЗРАБОТКА ПРОГРАММНОГО ОБЕСПЕЧЕНИЯ</p>
-                <b-button variant="outline-light"  to="/hi">Связаться</b-button>
+                <b-button variant="outline-light"  to="/contacts">Связаться</b-button>
                     </b-col>
                 </b-row>
             </b-carousel-slide>

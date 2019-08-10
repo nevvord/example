@@ -2,122 +2,88 @@
     <div class="jobContent">
         <b-container>
             <b-row>
-                <b-col>
+                <b-col class="block" sm="12" md="6" lg="4" v-for="spec in this.$store.state._Specialization" :key="spec.key">
                     <b-row>
-                        <b-col>
-                            <i class="fas fa-industry fa-4x"></i>
+                        <b-col class="text-center">
+                            <b-img class="imgSize" :src="'http://localhost:3012/' + spec.file" fluid></b-img>
                         </b-col>
                     </b-row>
                     <b-row>
                         <b-col>
-                            <h3>ПРОМЫШЛЕННОСТЬ И АВТОМАТИЗАЦИЯ</h3>
-                        </b-col>
-                    </b-row>
-                    <b-row>
-                        <b-col>
-                            <p>
-                                Аппаратные и программные решения для индустрии.
-                            </p>
-                        </b-col>
-                    </b-row>
-                    <b-row class="contAImg">
-                        <b-col cols="4">
-                            <b-img src="~/static/image/logo/siemens.png" fluid></b-img>
-                        </b-col>
-                        <b-col cols=4>
-                            <b-img src="~/static/image/logo/siemens.png" fluid></b-img>
-                        </b-col>
-                    </b-row>
-                    <b-row>
-                        <b-col class="contButt">
-                            <b-button squared variant="outline-danger" size="lg" to="/automation">Подробнее</b-button>
-                        </b-col>
-                    </b-row>
-                </b-col>
-                <b-col>
-                    <b-row>
-                        <b-col>
-                            <i class="fas fa-industry fa-4x"></i>
-                        </b-col>
-                    </b-row>
-                    <b-row>
-                        <b-col>
-                            <h3>ПРОМЫШЛЕННОСТЬ И АВТОМАТИЗАЦИЯ</h3>
+                            <h3>{{spec.name}}</h3>
                         </b-col>
                     </b-row>
                     <b-row>
                         <b-col>
                             <p>
-                                Аппаратные и программные решения для индустрии.
+                                {{spec.description}}
                             </p>
                         </b-col>
                     </b-row>
                     <b-row class="contAImg">
-                        <b-col cols="4">
-                            <b-img src="~/static/image/logo/siemens.png" fluid></b-img>
-                        </b-col>
-                        <b-col cols=4>
-                            <b-img src="~/static/image/logo/siemens.png" fluid></b-img>
-                        </b-col>
-                    </b-row>
-                    <b-row>
-                        <b-col class="contButt">
-                            <b-button squared variant="outline-danger" size="lg">Подробнее</b-button>
-                        </b-col>
-                    </b-row>
-                </b-col>
-                <b-col>
-                    <b-row>
-                        <b-col>
-                            <i class="fas fa-industry fa-4x"></i>
-                        </b-col>
-                    </b-row>
-                    <b-row>
-                        <b-col>
-                            <h3>ПРОМЫШЛЕННОСТЬ И АВТОМАТИЗАЦИЯ</h3>
-                        </b-col>
-                    </b-row>
-                    <b-row>
-                        <b-col>
-                            <p>
-                                Аппаратные и программные решения для индустрии.
-                            </p>
-                        </b-col>
-                    </b-row>
-                    <b-row class="contAImg">
-                        <b-col cols="4">
-                            <b-img src="~/static/image/logo/siemens.png" fluid></b-img>
-                        </b-col>
-                        <b-col cols=4>
-                            <b-img src="~/static/image/logo/siemens.png" fluid></b-img>
+                        <b-col cols="4" v-for="specTech in spec.technology" :key="specTech.key" class="align-middle">
+                            <div v-for="stateTech in $store.state._Technology" :key="stateTech.key">
+                                <b-img class="imgTech align-middle" v-if="specTech === stateTech._id" :src="'http://localhost:3012/' + stateTech.file" fluid></b-img>
+                            </div>
                         </b-col>
                     </b-row>
                     <b-row>
                         <b-col class="contButt">
-                            <b-button squared variant="outline-danger" size="lg">Подробнее</b-button>
+                            <b-container>
+                                <b-button squared variant="outline-danger" size="lg" to="/specialization" @click="specInner(spec.inner)" >Подробнее</b-button>
+                            </b-container>
                         </b-col>
                     </b-row>
+                    <hr>
                 </b-col>
             </b-row>
         </b-container>
     </div>
 </template>
+<script>
+export default {
+    data(){
+        return{
+            specData: this.$store.state._Specialization
+        }
+    },
+    methods: {
+        specInner(inner){
+            this.$store.commit('changeSpecInner', inner)
+        }
+    }
+    
+}
+</script>
 
 <style scoped>
 .jobContent {
     background-color: #f3f3f3;
 }
 
+.block {
+    margin-top: 25px;
+}
+
 .jobContent {
-    padding: 75px 0;
+    padding: 50px 0;
 }
 h3 {
     color: #e5474b;
 }
 .contButt, .contAImg, h3 {
-    padding: 15px 0;
+    padding: 15px 0px;
 }
 p{
     font-size: 18px;
+}
+
+.imgSize {
+    max-height: 225px;
+    width: 350px;
+}
+
+.imgTech {
+    max-height: 34px;
 }
 </style>

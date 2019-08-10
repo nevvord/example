@@ -207,7 +207,9 @@ export default {
   },
 	methods: {
 		upld(evt) {
-			evt.preventDefault()
+      evt.preventDefault()
+      
+      this.worksData= this.$store.state._Works;
 
 			const fd = new FormData();
 			fd.append('image', this.form.file, this.form.file.name);

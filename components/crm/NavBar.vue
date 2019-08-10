@@ -3,6 +3,9 @@
         <div :class="{slideMenuShow: sShow, slideMenuHide: sHide  }">
             <b-row>
                 <b-col>
+                    <div :class="{itemSlideMenu: true, bgItemAtive : pgBG} " @click="setContent('page')">
+                        Страницы
+                    </div>
                     <div :class="{itemSlideMenu: true, bgItemAtive : prBG} " @click="setContent('projects')">
                         Проекты
                     </div>
@@ -59,7 +62,8 @@ export default {
             prBG: false,
             wrBG: false,
             spBG: false,
-            tcBG: false
+            tcBG: false,
+            pgBG: false
         }
     },
     methods: {
@@ -75,21 +79,31 @@ export default {
                 this.wrBG = false;
                 this.spBG = false;
                 this.tcBG = false;
+                this.pgBG = false;
             }else if (change === "works") {
                 this.prBG = false;
                 this.wrBG = true;
                 this.spBG = false;
                 this.tcBG = false;
+                this.pgBG = false;
             }else if (change === "specialization") {
                 this.prBG = false;
                 this.wrBG = false;
                 this.spBG = true;
                 this.tcBG = false;
+                this.pgBG = false;
             }else if (change === "technology") {
                 this.prBG = false;
                 this.wrBG = false;
                 this.spBG = false;
                 this.tcBG = true;
+                this.pgBG = false;
+            }else if (change === "page") {
+                this.prBG = false;
+                this.wrBG = false;
+                this.spBG = false;
+                this.tcBG = false;
+                this.pgBG = true;
             }
         },
         // Настройки контента

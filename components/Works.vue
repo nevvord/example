@@ -1,95 +1,37 @@
 <template>
     <b-container class="content">
         <b-row>
-            <b-col class="workBlock">
-                <b-container>   
-                    <b-row class="text-center">
+            <b-col sm="12" md="6" lg="4" class=" " v-for="work in this.$store.state._Works" :key="work.key">
+                <b-container class="bg-white">   
+                    <b-row>
                         <b-col class="headWorks">
-                            <h3>КОМПЬЮТЕРНЫЕ СЕТИ</h3>
+                            <h3 class="text-uppercase">{{work.name}}</h3>
                         </b-col>
                     </b-row>
                     <b-row>
-                        <b-img src="~/static/image/network.png" fluid alt="Responsive image"></b-img>
+                        <b-container>
+                            <b-img :src="'http://localhost:3012/' + work.file" fluid :alt="work.name"></b-img>
+                        </b-container>
                     </b-row>
                     <b-row>
-                        <p>Проектирование и реализация компьютерных сетей под любые задачи бизнеса.</p>
+                        <b-container>
+                            <p class="fontMidBlock">{{work.description}}</p>
+                        </b-container>
                     </b-row>
                     <b-row>
-                        <b-col cols="4">
-                            <a href="http://google.com"><b-img class="opImg" src="~/static/image/logo/access.png" fluid></b-img></a>
-                        </b-col>
-                        <b-col cols="4">
-                            <b-img src="~/static/image/logo/aes.png" fluid></b-img>
-                        </b-col>
-                        <b-col cols="4">
-                            <b-img src="~/static/image/logo/asterisk.png" fluid></b-img>
-                        </b-col>
-                    </b-row>
-                    <b-row>
-                        <b-col class="contButt">
-                            <b-button squared variant="outline-danger" size="lg">Подробнее</b-button>
-                        </b-col>
-                    </b-row>
-                </b-container>
-            </b-col>
-            <b-col class="workBlock">
-                <b-container>   
-                    <b-row class="text-center">
-                        <b-col class="headWorks">
-                            <h3>КОМПЬЮТЕРНЫЕ СЕТИ</h3>
+                        <b-col cols="4" v-for="workTech in work.technology" :key="workTech.key" >
+                            <div class="asd" v-for="tech in $store.state._Technology" :key="tech.key" v-if="workTech === tech._id">
+                                <span class="align-middle">
+                                    <a :href="tech.link" class="align-middle">
+                                        <b-img class="opImg align-middle" :src="'http://localhost:3012/' + tech.file" fluid></b-img>
+                                    </a>
+                                </span>
+                            </div>
                         </b-col>
                     </b-row>
                     <b-row>
-                        <b-img src="~/static/image/network.png" fluid alt="Responsive image"></b-img>
-                    </b-row>
-                    <b-row>
-                        <p>Проектирование и реализация компьютерных сетей под любые задачи бизнеса.</p>
-                    </b-row>
-                    <b-row>
-                        <b-col cols="4">
-                            <a href="http://google.com"><b-img src="~/static/image/logo/access.png"></b-img></a>
-                        </b-col>
-                        <b-col cols="4">
-                            <b-img src="~/static/image/logo/aes.png"></b-img>
-                        </b-col>
-                        <b-col cols="4">
-                            <b-img src="~/static/image/logo/asterisk.png"></b-img>
-                        </b-col>
-                    </b-row>
-                    <b-row>
-                        <b-col class="contButt">
-                            <b-button squared variant="outline-danger" size="lg">Подробнее</b-button>
-                        </b-col>
-                    </b-row>
-                </b-container>
-            </b-col>
-            <b-col class="workBlock">
-                <b-container>   
-                    <b-row class="text-center">
-                        <b-col class="headWorks">
-                            <h3>КОМПЬЮТЕРНЫЕ СЕТИ</h3>
-                        </b-col>
-                    </b-row>
-                    <b-row>
-                        <b-img src="~/static/image/network.png" fluid alt="Responsive image"></b-img>
-                    </b-row>
-                    <b-row>
-                        <p>Проектирование и реализация компьютерных сетей под любые задачи бизнеса.</p>
-                    </b-row>
-                    <b-row>
-                        <b-col cols="4">
-                            <a href="http://google.com"><b-img src="~/static/image/logo/access.png"></b-img></a>
-                        </b-col>
-                        <b-col cols="4">
-                            <b-img src="~/static/image/logo/aes.png"></b-img>
-                        </b-col>
-                        <b-col cols="4">
-                            <b-img src="~/static/image/logo/asterisk.png"></b-img>
-                        </b-col>
-                    </b-row>
-                    <b-row>
-                        <b-col class="contButt">
-                            <b-button squared variant="outline-danger" size="lg">Подробнее</b-button>
+                        <b-col class="contButt"  >
+                            <b-button squared variant="outline-danger" size="lg" to="work" @click="workInner(work.inner)">Подробнее</b-button>
                         </b-col>
                     </b-row>
                 </b-container>
@@ -97,10 +39,35 @@
         </b-row>
     </b-container>
 </template>
+<script>
+export default {
+    data(){
+        return {
+            techData: this.$store.state._Technologe
+        }
+    },
+    methods: {
+        workInner(inner){
+            this.$store.commit('changeWorkInner', inner)
+        }
+    }
+}
+</script>
 
 <style scoped>
+.fontMidBlock {
+    line-height: 200%;
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+.asd {
+    height: 100%;
+}
+
 .workBlock {
     padding: 15px;
+    margin: 0px;
 }
 
 .headWorks {
@@ -117,10 +84,11 @@ h3, p {
 }
 
 .contButt {
-    padding: 25px 0;
+    padding: 25px 15px;
 }
 .opImg {
     transition: 0.3s;
+    max-height: 40px;
 }
 
 .opImg:hover {

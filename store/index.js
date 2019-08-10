@@ -6,7 +6,11 @@ export const state = () => ({
     _Technology: [],
     _Specialization: [],
     _Works: [],
-    _Project: []
+    _Project: [],
+    _Page:[],
+    _PageInner: '',
+    _WorkInner: '',
+    _SpecInner: ''
 });
 
 
@@ -27,6 +31,16 @@ export const mutations = {
             state._Works = res.data;
         });
     },
+    getProject(state) {
+        axios.get(`http://localhost:3012/project`).then(res => {
+            state._Project = res.data.reverse();
+        });
+    },
+    getPage(state) {
+        axios.get(`http://localhost:3012/page`).then(res => {
+            state._Page = res.data;
+        });
+    },
     //GET
     //DELETE
     deletTechnology(state, id) {
@@ -44,6 +58,16 @@ export const mutations = {
             state._Works = state._Works.filter(u => u._id !== id);
         });
     },
+    deletProject(state, id) {
+        axios.delete('http://localhost:3012/project/' + id).then(res => {
+            state._Project = state._Project.filter(u => u._id !== id);
+        });
+    },
+    deletPage(state, id) {
+        axios.delete('http://localhost:3012/page/' + id).then(res => {
+            state._Page = state._Page.filter(u => u._id !== id);
+        });
+    },
     //DELETE
     //PUSH
     pushToTechnology(state, obj) {
@@ -56,7 +80,10 @@ export const mutations = {
         state._Specialization.push(obj);
     },
     pushToProject(state, obj) {
-        state._Project.push(obj);
+        state._Project.unshift(obj);
+    },
+    pushToPage(state, obj) {
+        state._Page.push(obj);
     },
     //PUSH
     //PUT
@@ -78,6 +105,50 @@ export const mutations = {
             }
             return spec;
         });
+
+    },
+    changePage(state, body) {
+        state._Page = state._Page.map(page => {
+            if (page._id === body.id) {
+                page.inner = body.inner;
+                page.name = body.name;
+                return page;
+            }
+            return page;
+        });
+
+    },
+    changeWorkInner(state, inner) {
+        state._WorkInner = inner
+    },
+    changeSpecInner(state, inner) {
+        state._SpecInner = inner
+    },
+    changeProject(state, body) {
+        if(body.file) {
+            state._Project = state._Project.map(proj => {
+
+                if (proj._id === body.id) {
+                    proj.name = body.name;
+                    proj.link = body.link;
+                    proj.description = body.description;
+                    proj.file = body.file;
+                    return proj;
+                }
+                return proj;
+            });
+        }else{
+            state._Project = state._Project.map(proj => {
+
+                if (proj._id === body.id) {
+                    proj.name = body.name;
+                    proj.link = body.link;
+                    proj.description = body.description;
+                    return proj;
+                }
+                return proj;
+            });
+        }
 
     },
     changeSpecialization(state, body) {
@@ -163,5 +234,14 @@ export const mutations = {
         state._Works.forEach(element => {
             axios.put('http://localhost:3012/workTech/' + element._id, { technology: element.technology });
         });
+    },
+    //Clear
+    // USER WORK
+
+    pageInner(state, inner) {
+        state._PageInner = '';
+        state._PageInner = inner;
+
     }
+
 };

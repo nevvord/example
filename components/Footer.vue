@@ -10,7 +10,7 @@
                 <b-col cols="7">
                     <div id="map"></div>                
                 </b-col>
-                <b-col cols="5">
+                <b-col sm="12" lg="5">
                     <p>Украина</p>
                     <p>Одесская область</p>
                     <p>Одесса</p>

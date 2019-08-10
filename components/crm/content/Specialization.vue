@@ -64,7 +64,8 @@
                 <b-row>
                   <b-col>
                     <b-button-group class="margCentr">
-                      <b-button variant="success" v-b-modal.modal-1 @click="setHtmlbody(spec.inner, spec._id, spec.name)"> HTML </b-button>
+                      <b-button variant="success" v-b-modal.modal-1
+                        @click="setHtmlbody(spec.inner, spec._id, spec.name)"> HTML </b-button>
                       <b-button variant="warning" v-b-modal.modal-2 @click="changeSpec(spec)">Изменить</b-button>
                       <b-button variant="danger" @click="delSpec(spec._id)">Удалить</b-button>
 
@@ -84,17 +85,13 @@
     <!-- Всплывающае окно изменения HTML-->
     <b-modal id="modal-1" :title="html.name" size="xl">
       <div v-if="changeHTMLIneer === true">
-        <b-form-textarea
-        v-model="html.inner"
-        id="textarea-plaintext"
-        placeholder="Введи хоть что-то для потомков!"
-        autofocus
-        >
+        <b-form-textarea v-model="html.inner" id="textarea-plaintext" placeholder="Введи хоть что-то для потомков!"
+          autofocus>
         </b-form-textarea>
       </div>
 
       <div v-html="html.inner"></div>
-      
+
       <template slot="modal-footer" slot-scope="{ ok, cancel }">
         <div v-if="changeHTMLIneer === false">
           <b-button variant="warning" @click="changeHTMLIneer = !changeHTMLIneer">Изменить</b-button>
@@ -104,46 +101,33 @@
         </div>
 
         <b-button @click="cancel();">Закрыть</b-button>
-      
-          
-        
+
+
+
       </template>
     </b-modal>
     <!-- Всплывающае окно изменения HTML-->
     <b-modal id="modal-2" :title="'Изменить: ' + specForChange.oldName" size="xl">
-      <b-form-group
-        label-cols-sm="4"
-        label-cols-lg="2"
-        description="Это поле отобразится на главной странице"
-        label="Введите название:"
-        label-for="input-name"
-      >
+      <b-form-group label-cols-sm="4" label-cols-lg="2" description="Это поле отобразится на главной странице"
+        label="Введите название:" label-for="input-name">
         <b-input v-model="specForChange.name" id="input-name"></b-input>
       </b-form-group>
-      <b-form-group
-        label-cols-sm="4"
-        label-cols-lg="2"
-        description="Это поле отобразится на главной странице"
-        label="Введите описание:"
-        label-for="textarea-description"
-      >
-        <b-form-textarea
-          placeholder="Введи хоть что-то для потомков!"
-          v-model="specForChange.description"
-          id="textarea-description"
-        ></b-form-textarea>
+      <b-form-group label-cols-sm="4" label-cols-lg="2" description="Это поле отобразится на главной странице"
+        label="Введите описание:" label-for="textarea-description">
+        <b-form-textarea placeholder="Введи хоть что-то для потомков!" v-model="specForChange.description"
+          id="textarea-description"></b-form-textarea>
       </b-form-group>
       <hr>
       <b-row>
         <b-col sm="12" lg="4" class="imgInChangeBlock">
           <p>Картинка специализации:</p>
-          <b-img  :src="'http://localhost:3012/' + specForChange.file" fluid></b-img>
+          <b-img :src="'http://localhost:3012/' + specForChange.file" fluid></b-img>
         </b-col>
         <b-col sm="12" lg="8">
           <p>Изменить картинку:</p>
           <b-form-group label="Картинка на главной странице:" label-for="inpImg">
-            <b-form-file id="inpUmg" v-model="specForChange.newFile" :state="Boolean(specForChange.newFile)" placeholder="Выберете картинку..."
-              drop-placeholder="Drop file here..."></b-form-file>
+            <b-form-file id="inpUmg" v-model="specForChange.newFile" :state="Boolean(specForChange.newFile)"
+              placeholder="Выберете картинку..." drop-placeholder="Drop file here..."></b-form-file>
             <div class="mt-3">Выбранная картинка: {{ specForChange.newFile ? specForChange.newFile.name : '' }}</div>
           </b-form-group>
         </b-col>
@@ -151,18 +135,18 @@
       <hr>
 
       <b-form-group id="inpCB" label="Технологии:">
-          <b-form-checkbox-group v-model="specForChange.technology" id="checkboxes-4" :state="state2">
-            <b-form-checkbox class="checkBox" v-for="tech in techData" :key="tech.key" :value="tech._id">
-              <b-img :src="'http://localhost:3012/' + tech.file" fluid></b-img>
-            </b-form-checkbox>
-            <b-form-invalid-feedback :state="state2">Выберете до трех техологий</b-form-invalid-feedback>
-            <b-form-valid-feedback :state="state2">Спасибо</b-form-valid-feedback>
-          </b-form-checkbox-group>
-        </b-form-group>
+        <b-form-checkbox-group v-model="specForChange.technology" id="checkboxes-4" :state="state2">
+          <b-form-checkbox class="checkBox" v-for="tech in techData" :key="tech.key" :value="tech._id">
+            <b-img :src="'http://localhost:3012/' + tech.file" fluid></b-img>
+          </b-form-checkbox>
+          <b-form-invalid-feedback :state="state2">Выберете до трех техологий</b-form-invalid-feedback>
+          <b-form-valid-feedback :state="state2">Спасибо</b-form-valid-feedback>
+        </b-form-checkbox-group>
+      </b-form-group>
 
-        <template slot="modal-footer" slot-scope="{ ok, cancel }">
+      <template slot="modal-footer" slot-scope="{ ok, cancel }">
         <b-button disabled variant="danger">Отменить</b-button>
-        <b-button variant="success" @click="setSpec(); cancel();">Сохранить</b-button> 
+        <b-button variant="success" @click="setSpec(); cancel();">Сохранить</b-button>
         <b-button id="btnClose" @click="cancel();">Закрыть</b-button>
         <b-tooltip target="btnClose" variant="danger">
           Осторожно! Все несохраненые данные будут утеряны!
@@ -175,16 +159,16 @@
 import axios from 'axios';
 
 export default {
-	data() {
-		return {
-			form: {
-				name: '',
-				description: '',
-				fiel: null,
-				technology: [],
-				inner: ''
-			},
-			techData: this.$store.state._Technology,
+  data() {
+    return {
+      form: {
+        name: '',
+        description: '',
+        fiel: null,
+        technology: [],
+        inner: ''
+      },
+      techData: this.$store.state._Technology,
       specData: this.$store.state._Specialization,
       changeHTMLIneer: false,
       html: {
@@ -201,37 +185,38 @@ export default {
         newFile: null,
         technology: []
       }
-		}
+    }
   },
-  created($store){
-  },
-	methods: {
-		upld(evt) {
-			evt.preventDefault()
+  created($store) {},
+  methods: {
+    upld(evt) {
+      evt.preventDefault()
 
-			const fd = new FormData();
-			fd.append('image', this.form.file, this.form.file.name);
-			fd.append('name', this.form.name);
-			fd.append('description', this.form.description);
-			fd.append('technology', this.form.technology);
-			fd.append('inner', this.form.inner);
-			
+      this.specData= this.$store.state._Specialization;
 
-			axios.post('http://localhost:3012/specialization', fd).then(
-				res => {
+      const fd = new FormData();
+      fd.append('image', this.form.file, this.form.file.name);
+      fd.append('name', this.form.name);
+      fd.append('description', this.form.description);
+      fd.append('technology', this.form.technology);
+      fd.append('inner', this.form.inner);
+
+
+      axios.post('http://localhost:3012/specialization', fd).then(
+        res => {
           this.$store.commit('pushToSpecialization', res.data)
-				});
+        });
     },
-    delSpec(id){
-                this.$store.commit('deletSpecialization', id);
-                this.specData = this.specData.filter( u => u._id !== id);
-            },
-    setHtmlbody(html, id, name){
+    delSpec(id) {
+      this.$store.commit('deletSpecialization', id);
+      this.specData = this.specData.filter(u => u._id !== id);
+    },
+    setHtmlbody(html, id, name) {
       this.html.inner = html;
       this.html.id = id;
-      this.html.name = name;    
+      this.html.name = name;
     },
-    setChangeInner(){
+    setChangeInner() {
       this.changeHTMLIneer = !this.changeHTMLIneer;
 
       let bodyJson = {
@@ -250,30 +235,30 @@ export default {
       this.specForChange.file = spec.file;
       this.specForChange.technology = spec.technology;
     },
-    setSpec(){
+    setSpec() {
       const fd = new FormData();
 
       if (this.specForChange.newFile) {
         fd.append('image', this.specForChange.newFile, this.specForChange.newFile.name);
       }
-        fd.append('name', this.specForChange.name);
-        fd.append('description', this.specForChange.description);
-        fd.append('technology', this.specForChange.technology);
-        fd.append('inner', this.specForChange.inner);
-      
+      fd.append('name', this.specForChange.name);
+      fd.append('description', this.specForChange.description);
+      fd.append('technology', this.specForChange.technology);
+      fd.append('inner', this.specForChange.inner);
+
       axios.put('http://localhost:3012/specialization/' + this.specForChange.id, fd).then(res => {
         this.$store.commit('changeSpecialization', res.data)
       });
     }
-	},
-	computed: {
-		state() {
-			return this.form.technology.length <= 3 && this.form.technology.length > 0;
+  },
+  computed: {
+    state() {
+      return this.form.technology.length <= 3 && this.form.technology.length > 0;
     },
-    state2(){
+    state2() {
       return this.specForChange.technology.length <= 3 && this.specForChange.technology.length > 0;
     }
-	}
+  }
 }
 </script>
 
