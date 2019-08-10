@@ -32,7 +32,7 @@
                             <b-form-input placeholder="Ключ..." v-model="key"></b-form-input>
                         </b-col>
                         <b-col sm="12" lg="4" class="text-center">
-                            <b-button variant="success" @click="keyProof">Подтвердить</b-button>
+                            <b-button variant="success" @click="keyProof(key)">Подтвердить</b-button>
                         </b-col>
                     </b-row>
                 </b-form-group>
@@ -58,11 +58,7 @@ export default {
     },
     mounted(){
         this.keyCookie = document.cookie.replace(/(?:(?:^|.*;\s*)login\s*\=\s*([^;]*).*$)|^.*$/, "$1");
-        axios.get('http://localhost:3012/login').then(res => {
-            if(res.data.key !== false && this.keyCookie === res.data.key){
-                this.avtorization = true;
-            }
-        });
+        this.keyProof(this.keyCookie);
     },
     methods:{
         avtorizStart(){
@@ -74,10 +70,11 @@ export default {
                 this.oops = 'Вы ввели неверный почтовый адрес'
             }
         },
-        keyProof(){
-            axios.post('http://localhost:3012/loginKey', {key: this.key}).then(res =>{
+        keyProof(key){
+            axios.post('http://localhost:3012/loginKey', {key : key}).then(res =>{
                 if (res.data.avtorize === true){
                     document.cookie = `login = ${key}`;
+                    this.$store.commit('setCookie', key)
                     this.avtorization = true
                 }else{
                     this.avtorization = false

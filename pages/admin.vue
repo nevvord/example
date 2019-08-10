@@ -15,6 +15,11 @@
         <div v-else-if="this.$store.state.admin.content === 'page'">
             <Page />
         </div>
+        <div v-else class="defContent">
+            <b-container>
+                Добро пожаловать в Админ панель NCP
+            </b-container>
+        </div>
     </div>
     
 </template>
@@ -55,5 +60,8 @@ export default {
 <style scoped>
 .content {
     margin-left: 22px;
+}
+.defContent{
+    margin-left: 25px;
 }
 </style>
