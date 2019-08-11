@@ -4,5 +4,4 @@ export default function ({store}) {
     store.commit('getWorks');
     store.commit('getProject');
     store.commit('getPage');
-    console.log("MW work");
 }

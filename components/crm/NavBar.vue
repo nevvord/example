@@ -38,12 +38,7 @@
 
             <b-row class="btmBlock">
                 <b-col cols="12">
-                        <b-img 
-                        src="~/static/image/14026904592519.jpg"
-                        class="userImg" 
-                        v-b-popover.hover="'Admin'" 
-                        title="Nevvord">
-                        </b-img>
+                    <p class="text-white vertical" @click="exit">Выход</p>
                 </b-col>
             </b-row>
         </div>
@@ -52,6 +47,8 @@
 
 <script>
 import { mapMutations } from 'vuex';
+import axios from 'axios';
+axios.defaults.withCredentials = true;
 export default {
     data(){
         return{
@@ -111,6 +108,13 @@ export default {
             this.$store.commit('admin/setContent', change);
             this.openSlider();
             this.activeElement(change);
+        },
+        exit(){
+            axios.post('http://localhost:3012/unlog').then(res=>{
+                if(res.data.avtorize === false){
+                    this.$store.commit('setAuth', false)
+                }
+            })
         }
     }
 
@@ -169,6 +173,18 @@ export default {
     font-size:12px;
 }
 
+.vertical{
+    margin: 0;
+    padding: 10px;
+    writing-mode: tb-rl;
+    transform:rotate(180deg);
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.vertical:hover{
+    opacity: 0.5;
+}
 .cLogo {
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     width: 100%;

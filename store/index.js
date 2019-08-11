@@ -11,16 +11,16 @@ export const state = () => ({
     _PageInner: '',
     _WorkInner: '',
     _SpecInner: '',
-    _Cookie: ''
+    _Auth: false
 });
 
 
 export const mutations = {
-    //COOKIE
-    setCookie(state,key){
-        state._Cookie = key;
+    //AUTH
+    setAuth(state, bull){
+        bull === true ? state._Auth = true : state._Auth = false;
     },
-    //COOKIE
+    //AUTH
     //GET
     getTechnology(state) {
         axios.get(`http://localhost:3012/technology`).then(res => {

@@ -35,7 +35,7 @@ export default {
 
 <style scoped>
 .content {
-    padding: 56px;
+    padding: 75px;
 }
 .post{
     padding: 5px;

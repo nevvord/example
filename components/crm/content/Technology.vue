@@ -76,11 +76,6 @@
                 fd.append('image', this.form.file, this.form.file.name);
                 fd.append('name', this.form.name);
                 fd.append('link', this.form.link);
-                fd.append('key', this.$store.state._Cookie);
-
-                console.log(this.$store.state._Cookie);
-                console.log(fd);
-                
                 
                 let bodyJson = {
                     name: this.form.name,

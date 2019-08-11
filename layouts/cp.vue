@@ -1,5 +1,6 @@
 <template>
-    <div v-if="avtorization">
+<div v-if="ready">
+    <div v-if="this.$store.state._Auth">
         <NavBar />
         <nuxt />   
     </div>
@@ -39,26 +40,35 @@
             </b-container>
         </b-container>
     </div>
+</div>
 </template>
 
 <script>
 import axios from 'axios';
+axios.defaults.withCredentials = true;
 import NavBar from '~/components/crm/NavBar.vue'
 export default {
     data() {
         return{
             avtorization: false,
+            ready: false,
             send: false,
             trueMail: 'nevvord@gmail.com',
             mail: '',
             oops: '',
             key:'',
-            keyCookie: ''
+            //keyCookie: ''
         }
     },
-    mounted(){
-        this.keyCookie = document.cookie.replace(/(?:(?:^|.*;\s*)login\s*\=\s*([^;]*).*$)|^.*$/, "$1");
-        this.keyProof(this.keyCookie);
+    created(){
+        axios.get('http://localhost:3012/keyproof').then(res =>{
+            if (res.data.avtorize === true){
+                this.$store.commit('setAuth', res.data.avtorize)
+            }else{
+                this.$store.commit('setAuth', res.data.avtorize)
+            }
+            this.ready = true;
+        });
     },
     methods:{
         avtorizStart(){
@@ -71,13 +81,13 @@ export default {
             }
         },
         keyProof(key){
-            axios.post('http://localhost:3012/loginKey', {key : key}).then(res =>{
+            axios.post('http://localhost:3012/loginKey', {key}).then(res =>{
                 if (res.data.avtorize === true){
-                    document.cookie = `login = ${key}`;
-                    this.$store.commit('setCookie', key)
-                    this.avtorization = true
+                    this.$store.commit('setAuth', res.data.avtorize)
+                    
+                    this.send = !this.send;
                 }else{
-                    this.avtorization = false
+                    this.$store.commit('setAuth', res.data.avtorize)
                 }
             });
         }
