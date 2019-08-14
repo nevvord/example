@@ -41,6 +41,9 @@
         </b-container>
     </div>
 </div>
+<div v-else class="container text-center padding-top">
+    <b-spinner variant="success" type="grow" label="Spinning"></b-spinner>
+</div>
 </template>
 
 <script>
@@ -61,7 +64,7 @@ export default {
         }
     },
     created(){
-        axios.get('http://localhost:3012/keyproof').then(res =>{
+        axios.get(this.$store.state._ServerHttp + 'keyproof').then(res =>{
             if (res.data.avtorize === true){
                 this.$store.commit('setAuth', res.data.avtorize)
             }else{
@@ -73,7 +76,7 @@ export default {
     methods:{
         avtorizStart(){
             if (this.trueMail === this.mail){
-                axios.post('http://localhost:3012/login').then(res => {
+                axios.post(this.$store.state._ServerHttp + 'login').then(res => {
                     this.send = !this.send;
                 });
             }else{
@@ -81,7 +84,7 @@ export default {
             }
         },
         keyProof(key){
-            axios.post('http://localhost:3012/loginKey', {key}).then(res =>{
+            axios.post(this.$store.state._ServerHttp + 'loginKey', {key}).then(res =>{
                 if (res.data.avtorize === true){
                     this.$store.commit('setAuth', res.data.avtorize)
                     
@@ -100,5 +103,8 @@ export default {
 </script>
 
 <style scoped>
+.padding-top{
+    padding-top: 50vh;
+}
 
 </style>

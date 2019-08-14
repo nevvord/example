@@ -1,11 +1,17 @@
 <template>
-    <div>
+    <div class="content">
         <b-container>
+            <h3>Добавить страницу</h3>
+            <hr>
             <b-form>
                 <b-form-group label="Имя страницы:" description="Єто будет отабраженно на главной странице в навбаре"
                     label-for="inpName">
                     <b-form-input id="inpName" required placeholder="Имя прокекта" v-model="form.name"></b-form-input>
                 </b-form-group>
+                <b-form-checkbox v-model="form.display" name="check-button" switch class="switch">
+                    Отображать страницу в Навбаре?
+                </b-form-checkbox>
+                <br>
                 <b-form-group label="HTML код на странице" description="Єто будет отображено на странице"
                     label-for="textArea">
                     <b-form-textarea id="textArea" placeholder="Тут введите HTML код" v-model="form.inner">
@@ -40,6 +46,10 @@
                 <b-form-group label="Имя страницы:" description="Єто будет отабраженно на главной странице в навбаре">
                     <b-form-input requireq placeholder="Имя страницы" v-model="change.newName"></b-form-input>
                 </b-form-group>
+                <b-form-checkbox v-model="change.display" name="check-button" switch class="switch">
+                    Отображать страницу в Навбаре?
+                </b-form-checkbox>
+                <br>
                 <b-form-group label="HTML код на странице" description="Єто будет отображено на странице">
                     <b-form-textarea requireq placeholder="HTML код на странице" v-model="change.inner">
                     </b-form-textarea>
@@ -66,21 +76,23 @@ export default {
         return {
             form: {
                 name: '',
-                inner: ''
+                inner: '',
+                display: true
             },
             pageData: this.$store.state._Page,
             change: {
                 id: '',
                 name: '',
                 newName: '',
-                inner: ''
+                inner: '',
+                display: true
             }
         }
     },
     methods:{
         ulpd(){
             this.pageData = this.$store.state._Page;
-            axios.post('http://localhost:3012/page', this.form).then(res =>{
+            axios.post(this.$store.state._ServerHttp + 'page', this.form).then(res =>{
                 this.$store.commit('pushToPage', res.data);
             })
         },
@@ -89,14 +101,16 @@ export default {
             this.change.name = body.name;
             this.change.newName = body.name;
             this.change.inner = body.inner;
+            this.change.display = body.display;
         },
         putChange(){
             let body = {
                 id: this.change.id,
                 name: this.change.newName,
                 inner: this.change.inner,
+                display: this.change.display
             };
-            axios.put('http://localhost:3012/page/' + this.change.id, body).then(res => {
+            axios.put(this.$store.state._ServerHttp + 'page/' + this.change.id, body).then(res => {
                 this.$store.commit('changePage', body);
             });
         },
@@ -108,6 +122,9 @@ export default {
 }
 </script>
 <style scoped>
+.content {
+    padding-top: 45px;
+}
 .pageBlock{
     padding: 5px;
     border: 1px solid rgba(0, 0, 0, 0.11);

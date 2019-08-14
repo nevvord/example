@@ -13,16 +13,12 @@
         @sliding-start="onSlideStart"
         @sliding-end="onSlideEnd"
         >
-            <b-carousel-slide img-src="~/static/image/banner-2.jpg">
+            <b-carousel-slide class="img" img-src="~/static/image/banner-2.jpg">
                 <b-row>
                     <b-col>
-
-                    
-                    
-                
-                <h3>ИНФОРМАЦИОННЫЕ ТЕХНОЛОГИИ И АВТОМАТИЗАЦИЯ</h3>
-                <p>ПОСТАВКИ ОБОРУДОВАНИЯ И РАЗРАБОТКА ПРОГРАММНОГО ОБЕСПЕЧЕНИЯ</p>
-                <b-button variant="outline-light"  to="/contacts">Связаться</b-button>
+                        <h3>ИНФОРМАЦИОННЫЕ ТЕХНОЛОГИИ И АВТОМАТИЗАЦИЯ</h3>
+                        <p>ПОСТАВКИ ОБОРУДОВАНИЯ И РАЗРАБОТКА ПРОГРАММНОГО ОБЕСПЕЧЕНИЯ</p>
+                        <b-button variant="outline-light"  to="/contacts">Связаться</b-button>
                     </b-col>
                 </b-row>
             </b-carousel-slide>
@@ -55,6 +51,12 @@ export default {
     margin-top: 56px;
     background-color: #000;
     transition: 1s;
-    
+    padding: 0px;
 }
+
+.img {
+    max-height: 95vh;
+}
+
+
 </style>

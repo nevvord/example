@@ -1,9 +1,9 @@
 <template>
-  <div class="bg-light">
+  <div class="content bg-light">
     <Slider /> 
     <Works />
     <Job />
-    <SomeContetnt />
+    <SomeContent />
   </div>
 </template>
 
@@ -11,7 +11,7 @@
 import Slider from '~/components/Slider.vue'
 import Works from '~/components/Works.vue'
 import Job from '~/components/Job.vue'
-import SomeContetnt from '~/components/SomeContetnt.vue'
+import SomeContent from '~/components/SomeContent.vue'
 export default {
   data() {
     return{
@@ -30,7 +30,7 @@ export default {
     Slider,
     Works,
     Job,
-    SomeContetnt
+    SomeContent
   }
 }
 </script>

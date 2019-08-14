@@ -1,7 +1,8 @@
 <template>
   <div class="content">
     <b-container class="topContent">
-        <h1>Добавить технологию</h1>
+        <h3>Добавить Технологию</h3>
+        <hr>
       <b-form @submit="upld" onsubmit="false" enctype="multipart/form-data">
         <b-form-group id="input-group-1" label="Название технологии:" label-for="input-1" description="">
           <b-form-input id="input-1" v-model="form.name" type="text" required placeholder="Введите название технологии">
@@ -31,7 +32,7 @@
                 </b-row>
                 <b-row class="img">
                     <b-col>
-                        <b-img :src="'http://localhost:3012/' + tech.file" fluid></b-img>
+                        <b-img :src="$store.state._ServerHttp + tech.file" fluid></b-img>
                     </b-col>
                 </b-row>
                 <hr>
@@ -81,14 +82,14 @@
                     name: this.form.name,
                     link: this.form.link
                 }
-                axios.post('http://localhost:3012/technology', fd).then(
+                axios.post(this.$store.state._ServerHttp + 'technology', fd).then(
                     res => {
                     this.$store.commit('pushToTechnology', res.data)
                 });
             },
             delTech(id){
                 this.$store.commit('deletTechnology', id);
-                this.$store.commit('clearSpecWithTechnology', id);
+                this.$store.commit('clearWithTechnology', id);
                 this.techData = this.techData.filter( u => u._id !== id);
             }
         }

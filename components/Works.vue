@@ -10,7 +10,7 @@
                     </b-row>
                     <b-row>
                         <b-container>
-                            <b-img :src="'http://localhost:3012/' + work.file" fluid :alt="work.name"></b-img>
+                            <b-img :src="$store.state._ServerHttp + work.file" fluid :alt="work.name"></b-img>
                         </b-container>
                     </b-row>
                     <b-row>
@@ -23,7 +23,7 @@
                             <div class="asd" v-for="tech in $store.state._Technology" :key="tech.key" v-if="workTech === tech._id">
                                 <span class="align-middle">
                                     <a :href="tech.link" class="align-middle">
-                                        <b-img class="opImg align-middle" :src="'http://localhost:3012/' + tech.file" fluid></b-img>
+                                        <b-img class="opImg align-middle" :src="$store.state._ServerHttp + tech.file" fluid></b-img>
                                     </a>
                                 </span>
                             </div>
@@ -31,7 +31,7 @@
                     </b-row>
                     <b-row>
                         <b-col class="contButt"  >
-                            <b-button squared variant="outline-danger" size="lg" to="work" @click="workInner(work.inner)">Подробнее</b-button>
+                            <b-button squared variant="outline-danger" size="lg" to="work" @click="workInner({ inner : work.inner, id : work.projects })">Подробнее</b-button>
                         </b-col>
                     </b-row>
                 </b-container>
@@ -47,8 +47,8 @@ export default {
         }
     },
     methods: {
-        workInner(inner){
-            this.$store.commit('changeWorkInner', inner)
+        workInner(body){
+            this.$store.commit('changeWorkInner', body)
         }
     }
 }

@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export const strict = false;
+export const strict = false; // Обязательная переменная
 
 export const state = () => ({
     _Technology: [],
@@ -9,9 +9,17 @@ export const state = () => ({
     _Project: [],
     _Page:[],
     _PageInner: '',
-    _WorkInner: '',
-    _SpecInner: '',
-    _Auth: false
+    _WorkBody: {
+        inner: '',
+        id: []
+    },
+    _SpecBody: {
+        inner: '',
+        id: []
+    },
+    _ProjInner: '',
+    _Auth: false,
+    _ServerHttp: 'http://localhost:3012/'
 });
 
 
@@ -23,54 +31,54 @@ export const mutations = {
     //AUTH
     //GET
     getTechnology(state) {
-        axios.get(`http://localhost:3012/technology`).then(res => {
+        axios.get(`${state._ServerHttp}technology`).then(res => {
             state._Technology = res.data;
         });
     },
     getSpecialization(state) {
-        axios.get(`http://localhost:3012/specialization`).then(res => {
+        axios.get(`${state._ServerHttp}specialization`).then(res => {
             state._Specialization = res.data;
         });
     },
     getWorks(state) {
-        axios.get(`http://localhost:3012/works`).then(res => {
+        axios.get(`${state._ServerHttp}works`).then(res => {
             state._Works = res.data;
         });
     },
     getProject(state) {
-        axios.get(`http://localhost:3012/project`).then(res => {
+        axios.get(`${state._ServerHttp}project`).then(res => {
             state._Project = res.data.reverse();
         });
     },
     getPage(state) {
-        axios.get(`http://localhost:3012/page`).then(res => {
+        axios.get(`${state._ServerHttp}page`).then(res => {
             state._Page = res.data;
         });
     },
     //GET
     //DELETE
     deletTechnology(state, id) {
-        axios.delete('http://localhost:3012/technology/' + id).then(res => {
+        axios.delete(`${state._ServerHttp}technology/` + id).then(res => {
             state._Technology = state._Technology.filter(u => u._id !== id);
         });
     },
     deletSpecialization(state, id) {
-        axios.delete('http://localhost:3012/specialization/' + id).then(res => {
+        axios.delete(`${state._ServerHttp}specialization/` + id).then(res => {
             state._Specialization = state._Specialization.filter(u => u._id !== id);
         });
     },
     deletWorks(state, id) {
-        axios.delete('http://localhost:3012/works/' + id).then(res => {
+        axios.delete(`${state._ServerHttp}works/` + id).then(res => {
             state._Works = state._Works.filter(u => u._id !== id);
         });
     },
     deletProject(state, id) {
-        axios.delete('http://localhost:3012/project/' + id).then(res => {
+        axios.delete(`${state._ServerHttp}project/` + id).then(res => {
             state._Project = state._Project.filter(u => u._id !== id);
         });
     },
     deletPage(state, id) {
-        axios.delete('http://localhost:3012/page/' + id).then(res => {
+        axios.delete(`${state._ServerHttp}page/` + id).then(res => {
             state._Page = state._Page.filter(u => u._id !== id);
         });
     },
@@ -103,6 +111,16 @@ export const mutations = {
         });
 
     },
+    changePutInnerProject(state, body) {
+        state._Project = state._Project.map(proj => {
+            if (proj._id === body.id) {
+                proj.inner = body.inner;
+                return proj;
+            }
+            return proj;
+        });
+
+    },
     changePutInnerWork(state, body) {
         state._Works = state._Works.map(spec => {
             if (spec._id === body.id) {
@@ -124,11 +142,16 @@ export const mutations = {
         });
 
     },
-    changeWorkInner(state, inner) {
-        state._WorkInner = inner
+    changeWorkInner(state, body) {
+        state._WorkBody.inner = body.inner;
+        state._WorkBody.id = body.id;
     },
-    changeSpecInner(state, inner) {
-        state._SpecInner = inner
+    changeSpecInner(state, body) {
+        state._SpecBody.inner = body.inner;
+        state._SpecBody.id = body.id;
+    },
+    changeProjInner(state, inner) {
+        state._ProjInner = inner
     },
     changeProject(state, body) {
         if(body.file) {
@@ -213,11 +236,12 @@ export const mutations = {
     },
     putTechToSpec(tech, id) {
         let body = { technology: tech };
-        axios.put('http://localhost:3012/specialization' + id, body).then(res => {});
+        axios.put(`${state._ServerHttp}specialization` + id, body).then(res => {});
     },
     //PUT
     //Clear
-    clearSpecWithTechnology(state, id) {
+    //Очистка специализаий и работ от техналогий и проектов (Изменений не требует!)
+    clearWithTechnology(state, id) {
         state._Specialization = state._Specialization.map(spec => {
             return {
                 ...spec,
@@ -227,7 +251,7 @@ export const mutations = {
             };
         });
         state._Specialization.forEach(element => {
-            axios.put('http://localhost:3012/specTech/' + element._id, { technology: element.technology });
+            axios.put(`${state._ServerHttp}specTech/` + element._id, { technology: element.technology });
         });
         state._Works = state._Works.map(work => {
             return {
@@ -238,12 +262,36 @@ export const mutations = {
             };
         });
         state._Works.forEach(element => {
-            axios.put('http://localhost:3012/workTech/' + element._id, { technology: element.technology });
+            axios.put(`${state._ServerHttp}workTech/` + element._id, { technology: element.technology });
+        });
+    },
+    clearWithProject(state, id) {
+        state._Specialization = state._Specialization.map(spec => {
+            return {
+                ...spec,
+                projects: spec.projects.filter((tech) => {
+                    return tech !== id;
+                })
+            };
+        });
+        state._Specialization.forEach(element => {
+            axios.put(`${state._ServerHttp}specProj/` + element._id, { projects: element.projects });
+        });
+        state._Works = state._Works.map(work => {
+            return {
+                ...work,
+                projects: work.projects.filter((tech) => {
+                    return tech !== id;
+                })
+            };
+        });
+        state._Works.forEach(element => {
+            axios.put(`${state._ServerHttp}workProj/` + element._id, { projects: element.projects });
         });
     },
     //Clear
     // USER WORK
-
+    // Отображение внутриности страниц
     pageInner(state, inner) {
         state._PageInner = '';
         state._PageInner = inner;

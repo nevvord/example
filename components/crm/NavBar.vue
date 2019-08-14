@@ -110,7 +110,7 @@ export default {
             this.activeElement(change);
         },
         exit(){
-            axios.post('http://localhost:3012/unlog').then(res=>{
+            axios.post(this.$store.state._ServerHttp + 'unlog').then(res=>{
                 if(res.data.avtorize === false){
                     this.$store.commit('setAuth', false)
                 }
@@ -144,7 +144,7 @@ export default {
     position: fixed;
     top: 0;
     left: -110px;
-    height: 100vh;
+    height: 200vh;
     background-color: rgb(223, 223, 223);
     transition: 1s;
     opacity: 0;
@@ -154,7 +154,7 @@ export default {
     position: fixed;
     top: 0;
     left: 40px;
-    height: 100vh;
+    height: 200vh;
     background-color: rgb(92, 92, 92);
     transition: 0.5s;
     opacity: 0.9;
@@ -218,7 +218,7 @@ export default {
     text-align: center;
     left: 0;
     width: 40px;
-    height: 100vh;
+    height: 200vh;
     z-index: 99;
     background-color: #999;
 }

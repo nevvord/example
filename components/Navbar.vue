@@ -8,17 +8,8 @@
                 <b-navbar-nav>
                     <b-nav-item to="/projects">Проекты</b-nav-item>
                     <b-nav-item to="/contacts">Контакты</b-nav-item>
-                    <b-nav-item v-for="page in this.$store.state._Page" :key="page.key" @click="goTo(page.inner)" to="page">{{page.name}}</b-nav-item>
+                    <b-nav-item v-for="page in this.$store.state._Page" :key="page.key" @click="goTo(page.inner)" to="page" v-if="page.display">{{page.name}}</b-nav-item>
                 </b-navbar-nav>
-                <!--
-                <b-navbar-nav class="ml-auto">
-                    <b-nav-item-dropdown text="Lang" right>
-                        <b-dropdown-item href="#">EN</b-dropdown-item>
-                        <b-dropdown-item href="#">RU</b-dropdown-item>
-                    </b-nav-item-dropdown>
-                </b-navbar-nav>
-                -->
-                
             </b-collapse>
         </b-navbar>        
     </div>
