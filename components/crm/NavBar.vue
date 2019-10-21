@@ -105,14 +105,23 @@ export default {
         },
         // Настройки контента
         setContent(change) {
-            this.$store.commit('admin/setContent', change);
-            this.openSlider();
-            this.activeElement(change);
+            this.$store.commit('admin/setContent', change)
+            this.openSlider()
+            this.activeElement(change)
         },
         exit(){
-            axios.post(this.$store.state._ServerHttp + 'unlog').then(res=>{
-                if(res.data.avtorize === false){
+            axios
+                .post(this.$store.state._ServerHttp + 'user/logout')
+                .then( res => {
+                if(res.data.logout === 'success'){
                     this.$store.commit('setAuth', false)
+                    localStorage.removeItem('token')
+                    this.$notify({
+                        group: 'foo',
+                        title: 'Success',
+                        text: "Всего доброго",
+                        type: 'Success'
+                    })
                 }
             })
         }

@@ -7,39 +7,30 @@
     <div v-else>
         <b-container>
             <h3 class="text-center">Вы не автаризованы</h3>
+            <br>
+            <br>
             <b-row>
-                <b-col v-if="!send" class="text-center">
+                <b-col class="text-center">
                     <b-row>
                         <b-col sm="12" lg="4"></b-col>
                         <b-col sm="12" lg="4">
-                            <b-form-group label="Введите почтовый адрес:">
-                                <b-form-input v-model="mail" placeholder="Почтовый адрес"></b-form-input>
-                            </b-form-group>
+                            <b-form>
+                                <b-form-group label="Электронная почта:">
+                                    <b-form-input type="email" v-model="form.mail" placeholder="mail@gmail.com"></b-form-input>
+                                </b-form-group>
+                                <b-form-group label="Введите пароль:">
+                                    <b-form-input type="password" v-model="form.password" placeholder="••••••"></b-form-input>
+                                </b-form-group>
+                                <b-button @click="authSend" variant="success">Вход</b-button>
+                            </b-form>
                         </b-col>
                         <b-col sm="12" lg="4"></b-col>
                     </b-row>
-                    <b-row>
-                        <b-col>
-                            <b-button @click="avtorizStart">Авторизироваця</b-button>
-                        </b-col>
-                    </b-row>
-                    {{oops}}
                 </b-col>
             </b-row>
-            <b-container>
-                <b-form-group v-if="send" label="На ваш почтовый адрес был отправлен ключ введите его пожалуйста." description="Если ключ не приходит проверте спам">
-                    <b-row>
-                        <b-col sm="12" lg="8">
-                            <b-form-input placeholder="Ключ..." v-model="key"></b-form-input>
-                        </b-col>
-                        <b-col sm="12" lg="4" class="text-center">
-                            <b-button variant="success" @click="keyProof(key)">Подтвердить</b-button>
-                        </b-col>
-                    </b-row>
-                </b-form-group>
-            </b-container>
         </b-container>
     </div>
+    <notifications group="foo" position="bottom right" />
 </div>
 <div v-else class="container text-center padding-top">
     <b-spinner variant="success" type="grow" label="Spinning"></b-spinner>
@@ -51,37 +42,72 @@ import axios from 'axios';
 axios.defaults.withCredentials = true;
 import NavBar from '~/components/crm/NavBar.vue'
 export default {
+    middleware: 'getApi',
+    head:{
+        title: 'Админ панель'
+    },
     data() {
         return{
-            avtorization: false,
+            form:{
+                mail: '',
+                password: ''
+            },
             ready: false,
-            send: false,
-            trueMail: 'nevvord@gmail.com',
-            mail: '',
-            oops: '',
-            key:'',
-            //keyCookie: ''
         }
     },
-    created(){
-        axios.get(this.$store.state._ServerHttp + 'keyproof').then(res =>{
-            if (res.data.avtorize === true){
-                this.$store.commit('setAuth', res.data.avtorize)
-            }else{
-                this.$store.commit('setAuth', res.data.avtorize)
-            }
-            this.ready = true;
-        });
+    async mounted(){
+        await axios
+            .post(this.$store.state._ServerHttp + 'user/authentication', {
+                token: localStorage.getItem('token')
+            })
+            .then(res => {
+                this.$notify({
+                    group: 'foo',
+                    title: 'Success',
+                    text: res.data.msg,
+                    type: 'Success'
+                })
+                this.$store.commit('setAuth', true)
+                this.ready = true
+            })
+            .catch(err => {
+                this.$store.commit('setAuth', false)
+                this.ready = true
+                console.log(err.response.data);
+                
+                this.$notify({
+                        group: 'foo',
+                        title: 'ERROR',
+                        text: err.response.data.msg,
+                        type: 'error'
+                    })
+            })
     },
     methods:{
-        avtorizStart(){
-            if (this.trueMail === this.mail){
-                axios.post(this.$store.state._ServerHttp + 'login').then(res => {
-                    this.send = !this.send;
-                });
-            }else{
-                this.oops = 'Вы ввели неверный почтовый адрес'
-            }
+        authSend(){
+            axios
+                .post(this.$store.state._ServerHttp + 'user/login', this.form)
+                .then( res => {
+                    console.log(res.data);
+                    
+                    localStorage.setItem('token', res.data.token)
+                    this.$store.commit('setAuth', true)
+                    this.$notify({
+                        group: 'foo',
+                        title: 'Success',
+                        text: res.data.msg,
+                        type: 'Success'
+                    })
+                })
+                .catch( err => {
+                    this.$notify({
+                        group: 'foo',
+                        title: 'ERROR',
+                        text: err.response.data.msg,
+                        type: 'error'
+                    })
+                    //console.error(err)
+                })
         },
         keyProof(key){
             axios.post(this.$store.state._ServerHttp + 'loginKey', {key}).then(res =>{

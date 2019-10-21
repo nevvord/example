@@ -1,6 +1,6 @@
 <template>
     <div>
-        <b-navbar toggleable="lg" type="dark" variant="dark" fixed="top" v-if="pageData">
+        <b-navbar toggleable="lg" type="dark" variant="dark" fixed="top">
             <b-navbar-brand to="/" text-variant="orange"><strong class="brand">ЮЖПРОМАВТОМАТИКА</strong></b-navbar-brand>
             <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
@@ -8,32 +8,12 @@
                 <b-navbar-nav>
                     <b-nav-item to="/projects">Проекты</b-nav-item>
                     <b-nav-item to="/contacts">Контакты</b-nav-item>
-                    <b-nav-item v-for="page in this.$store.state._Page" :key="page.key" @click="goTo(page.inner)" to="page" v-if="page.display">{{page.name}}</b-nav-item>
+                    <b-nav-item v-for="page in $store.state.pages._Page" :key="page.key" :to="`pages/${page._id}`" v-if="page.display">{{page.name}}</b-nav-item>
                 </b-navbar-nav>
             </b-collapse>
         </b-navbar>        
     </div>
 </template>
-
-<script>
-export default {
-    data(){
-        return{
-            pageData: this.$store.state._Page
-        }
-    },
-    created(store){
-        this.$store.commit('getPage')
-    },
-    methods: {
-        goTo(inner){
-            this.$store.commit('pageInner', inner);
-        }
-    }
-    
-}
-</script>
-
 <style scoped>
 .brand {
     color: #e5474b;

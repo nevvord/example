@@ -25,27 +25,17 @@
 </template>
 
 <script>
-import Projects from '~/components/crm/content/Projects.vue';
-import Works from '~/components/crm/content/Works.vue';
-import Specialization from '~/components/crm/content/Specialization.vue';
-import Technology from '~/components/crm/content/Technology.vue';
-import Page from '~/components/crm/content/Page.vue';
+import Projects from '~/components/crm/content/Projects';
+import Works from '~/components/crm/content/Works';
+import Specialization from '~/components/crm/content/Specialization';
+import Technology from '~/components/crm/content/Technology';
+import Page from '~/components/crm/content/Page';
 import { mapMutations } from 'vuex';
 
 
 export default {
-    created(store){
-        this.$store.commit('getTechnology')
-        this.$store.commit('getSpecialization')
-        this.$store.commit('getWorks')
-        this.$store.commit('getProject')
-        this.$store.commit('getPage')
-    },
-    middleware: 'admin',
+    middleware: 'getApi',
     layout: 'cp',
-    methods: {
-        
-    },
     components:{
         Projects,
         Works,

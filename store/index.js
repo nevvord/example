@@ -1,25 +1,11 @@
 import axios from 'axios';
+import { serverHttp } from '../config/default.json'
 
 export const strict = false; // Обязательная переменная
 
 export const state = () => ({
-    _Technology: [],
-    _Specialization: [],
-    _Works: [],
-    _Project: [],
-    _Page:[],
-    _PageInner: '',
-    _WorkBody: {
-        inner: '',
-        id: []
-    },
-    _SpecBody: {
-        inner: '',
-        id: []
-    },
-    _ProjInner: '',
     _Auth: false,
-    _ServerHttp: 'http://localhost:3012/'
+    _ServerHttp: serverHttp
 });
 
 
@@ -29,39 +15,7 @@ export const mutations = {
         bull === true ? state._Auth = true : state._Auth = false;
     },
     //AUTH
-    //GET
-    getTechnology(state) {
-        axios.get(`${state._ServerHttp}technology`).then(res => {
-            state._Technology = res.data;
-        });
-    },
-    getSpecialization(state) {
-        axios.get(`${state._ServerHttp}specialization`).then(res => {
-            state._Specialization = res.data;
-        });
-    },
-    getWorks(state) {
-        axios.get(`${state._ServerHttp}works`).then(res => {
-            state._Works = res.data;
-        });
-    },
-    getProject(state) {
-        axios.get(`${state._ServerHttp}project`).then(res => {
-            state._Project = res.data.reverse();
-        });
-    },
-    getPage(state) {
-        axios.get(`${state._ServerHttp}page`).then(res => {
-            state._Page = res.data;
-        });
-    },
-    //GET
     //DELETE
-    deletTechnology(state, id) {
-        axios.delete(`${state._ServerHttp}technology/` + id).then(res => {
-            state._Technology = state._Technology.filter(u => u._id !== id);
-        });
-    },
     deletSpecialization(state, id) {
         axios.delete(`${state._ServerHttp}specialization/` + id).then(res => {
             state._Specialization = state._Specialization.filter(u => u._id !== id);
@@ -72,34 +26,12 @@ export const mutations = {
             state._Works = state._Works.filter(u => u._id !== id);
         });
     },
-    deletProject(state, id) {
-        axios.delete(`${state._ServerHttp}project/` + id).then(res => {
-            state._Project = state._Project.filter(u => u._id !== id);
-        });
-    },
     deletPage(state, id) {
         axios.delete(`${state._ServerHttp}page/` + id).then(res => {
             state._Page = state._Page.filter(u => u._id !== id);
         });
     },
     //DELETE
-    //PUSH
-    pushToTechnology(state, obj) {
-        state._Technology.push(obj);
-    },
-    pushToWorks(state, obj) {
-        state._Works.push(obj);
-    },
-    pushToSpecialization(state, obj) {
-        state._Specialization.push(obj);
-    },
-    pushToProject(state, obj) {
-        state._Project.unshift(obj);
-    },
-    pushToPage(state, obj) {
-        state._Page.push(obj);
-    },
-    //PUSH
     //PUT
     changePutInner(state, body) {
         state._Specialization = state._Specialization.map(spec => {

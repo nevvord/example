@@ -92,9 +92,23 @@ export default {
     methods:{
         ulpd(){
             this.pageData = this.$store.state._Page;
-            axios.post(this.$store.state._ServerHttp + 'page', this.form).then(res =>{
-                this.$store.commit('pushToPage', res.data);
-            })
+            axios
+                .post(this.$store.state._ServerHttp + 'api/addpage', this.form)
+                .then(res => {
+                    this.$store.commit('pushToPage', res.data);
+                    this.$notify({
+                        group: 'foo',
+                        title: "Success",
+                        text: `Страница <strong>${this.form.name}</strong> успешно добавленна`,
+                        type: 'success'
+                    })
+                })
+                .catch(err => {
+                    this.$notify({
+                        group: 'foo',
+                        title: `ERROR $`
+                    })
+                })
         },
         changeModal(body){
             this.change.id = body._id;

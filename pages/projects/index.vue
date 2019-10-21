@@ -2,7 +2,7 @@
     <div class="content bg-light">
         <b-container>
             <b-row>
-                <b-col class="post bg-white" cols="12" v-for="proj in this.$store.state._Project" :key="proj.key">
+                <b-col class="post bg-white" cols="12" v-for="proj in $store.state.projects._Project" :key="proj.key">
                     <b-row>
                         <b-col cols="12" md="6"  class="align-bottom text-uppercase">
                             {{proj.name}}
@@ -23,7 +23,7 @@
                     <hr>
                     <b-row>
                         <b-col class="text-right">
-                            <b-button squared variant="outline-danger" size="lg" to="/project" @click="projInner(proj.inner)">
+                            <b-button squared variant="outline-danger" size="lg" :to="`/projects/${proj._id}`">
                                 Подробнее
                             </b-button>
                         </b-col>
@@ -33,19 +33,6 @@
         </b-container>
     </div>
 </template>
-<script>
-export default {
-    created(store){
-        this.$store.commit('getProject')
-    },
-    methods: {
-        projInner(inner){
-            this.$store.commit('changeProjInner', inner)
-        }
-    }
-}
-</script>
-
 <style scoped>
 .content {
     padding: 75px;

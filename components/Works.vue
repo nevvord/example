@@ -1,7 +1,7 @@
 <template>
     <b-container class="content">
         <b-row>
-            <b-col sm="12" md="6" lg="4" class=" " v-for="work in this.$store.state._Works" :key="work.key">
+            <b-col sm="12" md="6" lg="4" class=" " v-for="work in $store.state.works._Works" :key="work.key">
                 <b-container class="bg-white">   
                     <b-row>
                         <b-col class="headWorks">
@@ -20,7 +20,7 @@
                     </b-row>
                     <b-row>
                         <b-col cols="4" v-for="workTech in work.technology" :key="workTech.key" >
-                            <div class="asd" v-for="tech in $store.state._Technology" :key="tech.key" v-if="workTech === tech._id">
+                            <div class="asd" v-for="tech in $store.state.technologies._Technology" :key="tech.key" v-if="workTech === tech._id">
                                 <span class="align-middle">
                                     <a :href="tech.link" class="align-middle">
                                         <b-img class="opImg align-middle" :src="$store.state._ServerHttp + tech.file" fluid></b-img>
@@ -31,7 +31,7 @@
                     </b-row>
                     <b-row>
                         <b-col class="contButt"  >
-                            <b-button squared variant="outline-danger" size="lg" to="work" @click="workInner({ inner : work.inner, id : work.projects })">Подробнее</b-button>
+                            <b-button squared variant="outline-danger" size="lg" :to="`/works/${work._id}`" >Подробнее</b-button>
                         </b-col>
                     </b-row>
                 </b-container>
@@ -39,21 +39,6 @@
         </b-row>
     </b-container>
 </template>
-<script>
-export default {
-    data(){
-        return {
-            techData: this.$store.state._Technologe
-        }
-    },
-    methods: {
-        workInner(body){
-            this.$store.commit('changeWorkInner', body)
-        }
-    }
-}
-</script>
-
 <style scoped>
 .fontMidBlock {
     line-height: 200%;

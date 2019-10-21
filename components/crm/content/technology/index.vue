@@ -24,7 +24,7 @@
     </b-container>
     <b-container class="techList">
         <b-row >
-            <b-col lg="2" md="2" sm="2" cols="5" xl="1" class="item" v-for="tech in techData" :key="tech.key">
+            <b-col lg="2" md="2" sm="2" cols="5" xl="1" class="item" v-for="tech in $store.state.technologies._Technology" :key="tech.key">
                 <b-row>
                     <b-col>
                         <b-link :href="tech.link">{{ tech.name }}</b-link>
@@ -38,7 +38,7 @@
                 <hr>
                 <b-row>
                     <b-col>
-                        <b-button variant="danger" @click="delTech(tech._id)">
+                        <b-button variant="danger" @click="delTech(tech._id, tech.file)">
                             Удалить
                         </b-button>
                     </b-col>
@@ -61,36 +61,63 @@
                 form: {
                     name: '',
                     link: '',
-                    file: null,
-                },
-                techData: this.$store.state._Technology
+                    file: null
+                }
             } 
         },
         methods: {
-            // Загружаем технологию на сервер
-            upld(evt) { 
-                evt.preventDefault();
-
-                this.techData= this.$store.state._Technology;
+            async upld(evt) { // Загружаем технологию на сервер
+                evt.preventDefault()
             
-                const fd = new FormData();
-                fd.append('image', this.form.file, this.form.file.name);
-                fd.append('name', this.form.name);
-                fd.append('link', this.form.link);
+                const fd = new FormData()
+                fd.append('image', this.form.file, this.form.file.name)
+                fd.append('name', this.form.name)
+                fd.append('link', this.form.link)
                 
                 let bodyJson = {
                     name: this.form.name,
                     link: this.form.link
                 }
-                axios.post(this.$store.state._ServerHttp + 'technology', fd).then(
-                    res => {
-                    this.$store.commit('pushToTechnology', res.data)
-                });
+                await axios
+                    .post(this.$store.state._ServerHttp + 'api/addtechnology', fd)
+                    .then(res => {
+                        this.$store.commit('technologies/push', res.data.resultat)
+                        this.$notify({
+                            group: 'foo',
+                            title: 'Success',
+                            text: `${res.data.msg}`,
+                            type: 'success'
+                        })
+                    })
+                    .catch(err => {
+                        this.$notify({
+                            group: 'foo',
+                            title: `ERROR ${err.status}`,
+                            text: err.response.data,
+                            type: 'error'
+                        })
+                    })
             },
-            delTech(id){
-                this.$store.commit('deletTechnology', id);
-                this.$store.commit('clearWithTechnology', id);
-                this.techData = this.techData.filter( u => u._id !== id);
+            async delTech(id, file){// Удаление технологии
+                await axios
+                    .delete(this.$store.state._ServerHttp + 'api/deletetechnology/' + id, { data: { file } })
+                    .then(res => {
+                        this.$notify({
+                            group: 'foo',
+                            title: 'Success',
+                            text: "Технологии Удаленна",
+                            type: 'warn'
+                        })
+                        this.$store.commit('technologies/delete', id)
+                    })
+                    .catch(err => {
+                        this.$notify({
+                            group: 'foo',
+                            title: `ERROR ${err.status}`,
+                            text: err.response.data.msg,
+                            type: 'error'
+                        })
+                    })
             }
         }
   }

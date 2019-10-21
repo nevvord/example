@@ -5,7 +5,7 @@ export default {
   ** Headers of the page
   */
   head: {
-    title: "Южпромка" || process.env.npm_package_name || 'Южпром',
+    title: "ЮЖПРОМАВТОМАТИКА" || process.env.npm_package_name || 'Южпром',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -15,8 +15,7 @@ export default {
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ],
     script: [
-      { src: "https://kit.fontawesome.com/b194ce6fcf.js", body: true },
-      //{ src:"https://maps.googleapis.com/maps/api/js?key= ", body: true}
+      { src: "https://kit.fontawesome.com/b194ce6fcf.js", body: true }
     ]
   },
   /*
@@ -35,13 +34,13 @@ export default {
   ** Plugins to load before mounting the App
   */
   plugins: [
-    "@/plugins/google-maps"
+    {src: '~/plugins/google-maps', ssr: false},
+    {src: '~/plugins/vue-notification.js', ssr: false}
   ],
   /*
   ** Nuxt.js modules
   */
   modules: [
-    // Doc: https://bootstrap-vue.js.org/docs/
     'bootstrap-vue/nuxt',
     'nuxt-fontawesome',
     '@nuxtjs/axios',

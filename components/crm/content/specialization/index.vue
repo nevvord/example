@@ -1,7 +1,7 @@
 <template>
   <div class="content">
     <b-container>
-      <h3>Добавить Работу</h3>
+      <h3>Добавить Специализацию</h3>
       <hr>
       <!--Название-->
       <b-form @submit="upld">
@@ -73,18 +73,18 @@
     <!--Нижний блок с контентом-->
     <b-container class="botContent">
       <b-row align-v="start">
-        <b-col v-for="works in worksData" :key="works.key" sm="12" lg="4">
+        <b-col v-for="spec in specData" :key="spec.key" sm="12" lg="4">
           <b-row>
             <b-col>
-              <b-card :title="works.name" :img-src="$store.state._ServerHttp + works.file" img-alt="works.name" img-top
+              <b-card :title="spec.name" :img-src="$store.state._ServerHttp + spec.file" img-alt="spec.name" img-top
                 tag="article" style="max-width: 20rem;" class="mb-2">
                 <b-card-text>
-                  {{works.description}}
+                  {{spec.description}}
                 </b-card-text>
                 <b-row>
-                  <b-col cols="4" v-for="worksTech in works.technology" :key="worksTech.key">
+                  <b-col cols="4" v-for="specTech in spec.technology" :key="specTech.key">
                     <div v-for="tech in techData" :key="tech.key">
-                      <div v-if="tech._id === worksTech">
+                      <div v-if="tech._id === specTech">
                         <b-img :src="$store.state._ServerHttp + tech.file" fluid></b-img>
                       </div>
                     </div>
@@ -95,9 +95,9 @@
                   <b-col>
                     <b-button-group class="margCentr">
                       <b-button variant="success" v-b-modal.modal-1
-                        @click="setHtmlbody(works.inner, works._id, works.name)"> HTML </b-button>
-                      <b-button variant="warning" v-b-modal.modal-2 @click="changeWork(works)">Изменить</b-button>
-                      <b-button variant="danger" @click="delWork(works._id)">Удалить</b-button>
+                        @click="setHtmlbody(spec.inner, spec._id, spec.name)"> HTML </b-button>
+                      <b-button variant="warning" v-b-modal.modal-2 @click="changeSpec(spec)">Изменить</b-button>
+                      <b-button variant="danger" @click="delSpec(spec._id)">Удалить</b-button>
                     </b-button-group>
                   </b-col>
                 </b-row>
@@ -128,28 +128,28 @@
     </b-modal>
     <!-- Всплывающае окно изменения HTML-->
     <!-- Всплывающае окно изменения специализации-->
-    <b-modal id="modal-2" :title="'Изменить: ' + workForChange.oldName" size="xl">
+    <b-modal id="modal-2" :title="'Изменить: ' + specForChange.oldName" size="xl">
       <b-form-group label-cols-sm="4" label-cols-lg="2" description="Это поле отобразится на главной странице"
         label="Введите название:" label-for="input-name">
-        <b-input v-model="workForChange.name" id="input-name"></b-input>
+        <b-input v-model="specForChange.name" id="input-name"></b-input>
       </b-form-group>
       <b-form-group label-cols-sm="4" label-cols-lg="2" description="Это поле отобразится на главной странице"
         label="Введите описание:" label-for="textarea-description">
-        <b-form-textarea placeholder="Введи хоть что-то для потомков!" v-model="workForChange.description"
+        <b-form-textarea placeholder="Введи хоть что-то для потомков!" v-model="specForChange.description"
           id="textarea-description"></b-form-textarea>
       </b-form-group>
       <hr>
       <b-row>
         <b-col sm="12" lg="4" class="imgInChangeBlock">
           <p>Картинка специализации:</p>
-          <b-img :src="$store.state._ServerHttp + workForChange.file" fluid></b-img>
+          <b-img :src="$store.state._ServerHttp + specForChange.file" fluid></b-img>
         </b-col>
         <b-col sm="12" lg="8">
           <p>Изменить картинку:</p>
           <b-form-group label="Картинка на главной странице:" label-for="inpImg">
-            <b-form-file id="inpUmg" v-model="workForChange.newFile" :state="Boolean(workForChange.newFile)"
+            <b-form-file id="inpUmg" v-model="specForChange.newFile" :state="Boolean(specForChange.newFile)"
               placeholder="Выберете картинку..." drop-placeholder="Drop file here..."></b-form-file>
-            <div class="mt-3">Выбранная картинка: {{ workForChange.newFile ? workForChange.newFile.name : '' }}</div>
+            <div class="mt-3">Выбранная картинка: {{ specForChange.newFile ? specForChange.newFile.name : '' }}</div>
           </b-form-group>
         </b-col>
       </b-row>
@@ -158,7 +158,7 @@
         <b-tabs content-class="mt-3">
           <b-tab title="Технологии">
             <b-form-group id="input-group-4">
-              <b-form-checkbox-group v-model="workForChange.technology" id="checkboxes-4" :state="state2">
+              <b-form-checkbox-group v-model="specForChange.technology" id="checkboxes-4" :state="state2">
                 <b-form-checkbox class="checkBox" v-for="tech in techData" :key="tech.key" :value="tech._id">
                   <b-img :src="$store.state._ServerHttp + tech.file" fluid></b-img>
                 </b-form-checkbox>
@@ -169,7 +169,7 @@
           </b-tab>
           <b-tab class="margin-left" title="Проекты">
             <b-form-group id="input-group-6">
-              <b-form-checkbox-group v-model="workForChange.projects" id="checkbox-6">
+              <b-form-checkbox-group v-model="specForChange.projects" id="checkbox-6">
                 <b-form-checkbox class="checkBoxProject bg-light col-12" v-for="proj in $store.state._Project"
                   :key="proj.key" :value="proj._id">
                   <b-row class="max-width">
@@ -191,7 +191,7 @@
         <!--Технологии и проекты-->
       <template slot="modal-footer" slot-scope="{ ok, cancel }">
         <b-button disabled variant="danger">Отменить</b-button>
-        <b-button variant="success" @click="setWork(); cancel();">Сохранить</b-button>
+        <b-button variant="success" @click="setSpec(); cancel();">Сохранить</b-button>
         <b-button id="btnClose" @click="cancel();">Закрыть</b-button>
         <b-tooltip target="btnClose" variant="danger">
           Осторожно! Все несохраненые данные будут утеряны!
@@ -205,25 +205,25 @@
 import axios from 'axios';
 
 export default {
-	data() {
-		return {
-			form: {
-				name: '',
-				description: '',
-				fiel: null,
+  data() {
+    return {
+      form: {
+        name: '',
+        description: '',
+        fiel: null,
         technology: [],
         projects: [],
-				inner: ''
-			},
-			techData: this.$store.state._Technology,
-      worksData: this.$store.state._Works,
+        inner: ''
+      },
+      techData: this.$store.state._Technology,
+      specData: this.$store.state._Specialization,
       changeHTMLIneer: false,
       html: {
         id: '',
         name: '',
         inner: ''
       },
-      workForChange: {
+      specForChange: {
         id: '',
         name: '',
         oldName: '',
@@ -233,84 +233,98 @@ export default {
         technology: [],
         projects: []
       }
-		}
+    }
   },
-  created($store){
-  },
-	methods: {
-		upld(evt) {
+  created($store) {},
+  methods: {
+    upld(evt) {
       evt.preventDefault()
-      
-      this.worksData= this.$store.state._Works;
 
-			const fd = new FormData();
-			fd.append('image', this.form.file, this.form.file.name);
-			fd.append('name', this.form.name);
-			fd.append('description', this.form.description);
-			fd.append('technology', this.form.technology);
-			fd.append('projects', this.form.projects);
-			fd.append('inner', this.form.inner);
-			
+      this.specData= this.$store.state._Specialization;
 
-			axios.post(this.$store.state._ServerHttp + 'works', fd).then(
-				res => {
-          this.$store.commit('pushToWorks', res.data)
-				});
+      const fd = new FormData();
+      fd.append('image', this.form.file, this.form.file.name);
+      fd.append('name', this.form.name);
+      fd.append('description', this.form.description);
+      fd.append('technology', this.form.technology);
+      fd.append('projects', this.form.projects);
+      fd.append('inner', this.form.inner);
+
+
+      axios
+        .post(this.$store.state._ServerHttp + 'api/addspecialization', fd)
+        .then(res => {
+          this.$store.commit('pushToSpecialization', res.data)
+          this.$notify({
+            group: 'foo',
+            title: 'Success',
+            text: `Специализация успешно добавлена`,
+            type: 'success'
+          })
+        })
+        .catch(err => {
+          this.$notify({
+            group: 'foo',
+            title: `Error ${err.status}`,
+            text: `${err.response.data}`,
+            type: 'error'
+          })
+        })
     },
-    delWork(id){
-                this.$store.commit('deletWorks', id);
-                this.worksData = this.worksData.filter( u => u._id !== id);
-            },
-    setHtmlbody(html, id, name){
+    delSpec(id) {
+      this.$store.commit('deletSpecialization', id);
+      this.specData = this.specData.filter(u => u._id !== id);
+    },
+    setHtmlbody(html, id, name) {
       this.html.inner = html;
       this.html.id = id;
-      this.html.name = name;    
+      this.html.name = name;
     },
-    setChangeInner(){
+    setChangeInner() {
       this.changeHTMLIneer = !this.changeHTMLIneer;
 
       let bodyJson = {
         id: this.html.id,
         inner: this.html.inner
       }
-      axios.put(this.$store.state._ServerHttp + 'workInner/' + this.html.id, bodyJson).then(res => {
-        this.$store.commit('changePutInnerWork', bodyJson);
+      axios.put(this.$store.state._ServerHttp + 'specInner/' + this.html.id, bodyJson).then(res => {
+        this.$store.commit('changePutInner', bodyJson);
       })
     },
-    changeWork(work) {
-      this.workForChange.id = work._id;
-      this.workForChange.name = work.name;
-      this.workForChange.oldName = work.name;
-      this.workForChange.description = work.description;
-      this.workForChange.file = work.file;
-      this.workForChange.technology = work.technology;
-      this.workForChange.projects = work.projects;
+    changeSpec(spec) {
+      this.specForChange.id = spec._id;
+      this.specForChange.name = spec.name;
+      this.specForChange.oldName = spec.name;
+      this.specForChange.description = spec.description;
+      this.specForChange.file = spec.file;
+      this.specForChange.technology = spec.technology;
+      this.specForChange.projects = spec.projects;
     },
-    setWork(){
+    setSpec() {
       const fd = new FormData();
 
-      if (this.workForChange.newFile) {
-        fd.append('image', this.workForChange.newFile, this.workForChange.newFile.name);
+      if (this.specForChange.newFile) {
+        fd.append('image', this.specForChange.newFile, this.specForChange.newFile.name);
       }
-        fd.append('name', this.workForChange.name);
-        fd.append('description', this.workForChange.description);
-        fd.append('technology', this.workForChange.technology);
-        fd.append('projects', this.workForChange.projects);
-        fd.append('inner', this.workForChange.inner);
-      
-      axios.put(this.$store.state._ServerHttp + 'works/' + this.workForChange.id, fd).then(res => {
-        this.$store.commit('changeWork', res.data)
+      fd.append('name', this.specForChange.name);
+      fd.append('description', this.specForChange.description);
+      fd.append('technology', this.specForChange.technology);
+      fd.append('projects', this.specForChange.projects);
+      fd.append('inner', this.specForChange.inner);
+
+      axios.put(this.$store.state._ServerHttp + 'specialization/' + this.specForChange.id, fd).then(res => {
+        this.$store.commit('changeSpecialization', res.data)
       });
     }
-	},
-	computed: {
-		state() {
-			return this.form.technology.length <= 3 && this.form.technology.length > 0;
+  },
+  computed: {
+    state() {
+      return this.form.technology.length <= 3 && this.form.technology.length > 0;
     },
-    state2(){
-      return this.workForChange.technology.length <= 3 && this.workForChange.technology.length > 0;
+    state2() {
+      return this.specForChange.technology.length <= 3 && this.specForChange.technology.length > 0;
     }
-	}
+  }
 }
 </script>
 
