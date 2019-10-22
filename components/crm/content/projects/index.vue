@@ -36,7 +36,7 @@
                 rows="6">
               </b-form-textarea>
             </b-form-group>
-            <div class="innerHtmlBlock" v-html="form.inner"></div>
+            <div class="bg-light" v-html="form.inner"></div>
           </b-col>
         </b-row>
         <b-button type="submit" variant="primary">Добавить</b-button>
@@ -131,6 +131,13 @@
                 text: `${res.data.msg}`,
                 type: 'success'
               })
+              this.form = {
+                name: '',
+                link: '',
+                description: '',
+                inner: '',
+                file: null
+              }
             })
             .catch(err => {
               this.$notify({
@@ -165,12 +172,10 @@
     }
   }
 </script>
-
 <style scoped>
 .content {
   padding: 40px 0;
 }
-
 .projectBlock {
   padding: 10px;
   border: 2px solid rgba(0, 0, 0, 0.089);
@@ -186,7 +191,6 @@
   padding: 0 10px;
   margin: 0 0  15px 0;
 }
-
 .imjProj {
   border-radius: 5px;
 }

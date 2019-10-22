@@ -32,6 +32,7 @@ export const mutations = {
             return proj
         })
         state.changeProject.file = newFile
+        state.changeProject.newFile = null
     },
     updateChangeProject(state, project) {
         state.changeProject = {
