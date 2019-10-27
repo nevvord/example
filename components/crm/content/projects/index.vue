@@ -7,36 +7,32 @@
         <b-row>
           <b-col sm="12" lg="6">
             <b-form-group id="input-group-1" label="Имя проекта:" label-for="input-1" description="Это будет отображено на странице проектов">
-              <b-form-input id="input-1" v-model="form.name" type="text" required placeholder="Ввидите имя проекта">
+              <b-form-input id="input-1" v-model="$store.state.projects.form.name" type="text" required placeholder="Ввидите имя проекта">
               </b-form-input>
             </b-form-group>
           </b-col>
           <b-col sm="12" lg="6">
             <b-form-group id="input-group-2" label="Ссылка на сайт проекта:" label-for="input-1" description="Это создаст ссылку на сайт (Если конечно он есть)">
-              <b-form-input id="input-1" v-model="form.link" type="url" placeholder="http://ssilka.com">
+              <b-form-input id="input-1" v-model="$store.state.projects.form.link" type="url" placeholder="http://ssilka.com">
               </b-form-input>
             </b-form-group>
           </b-col>
           <b-col sm="12">
             <b-form-group id="input-group-3" label="Описание проекта:" label-for="input-2">
-              <b-form-textarea id="input-2" v-model="form.description" required
+              <b-form-textarea id="input-2" v-model="$store.state.projects.form.description" required
                 placeholder="Описание проекта"></b-form-textarea>
             </b-form-group>
           </b-col>
           <b-col>
             <b-form-group id="input-group-3" label="Лого\Картинка для проекта:" label-for="input-3">
-              <b-form-file v-model="form.file" :state="Boolean(form.file)" placeholder="Выберете картинку..."
+              <b-form-file v-model="$store.state.projects.form.file" :state="Boolean($store.state.projects.form.file)" placeholder="Выберете картинку..."
                 drop-placeholder="Drop file here..."></b-form-file>
-              <div class="mt-3">Выбранная картинка: {{ form.file ? form.file.name : '' }}</div>
+              <div class="mt-3">Выбранная картинка: {{ $store.state.projects.form.file ? $store.state.projects.form.file.name : '' }}</div>
             </b-form-group>
           </b-col>
           <b-col cols="12">
-            <b-form-group id="input-group-5" label="HTML на странице:" label-for="input-5">
-              <b-form-textarea id="textarea" v-model="form.inner" placeholder="Введите HTML для страници(в подробнее)"
-                rows="6">
-              </b-form-textarea>
-            </b-form-group>
-            <div class="bg-light" v-html="form.inner"></div>
+            <Html />
+            <div class="bg-light" v-html="$store.state.projects.form.inner"></div>
           </b-col>
         </b-row>
         <b-button type="submit" variant="primary">Добавить</b-button>
@@ -93,11 +89,13 @@
   import axios from 'axios'
   import ChangeHtml from './changeHtml'
   import ChangeProject from './changeProject'
+  import Html from './html'
 
   export default {
     components: {
       ChangeHtml,
-      ChangeProject
+      ChangeProject,
+      Html
     },
     data() {
       return {
@@ -115,11 +113,11 @@
         evt.preventDefault()
         
         const fd = new FormData()
-        fd.append('image', this.form.file, this.form.file.name)
-        fd.append('name', this.form.name)
-        fd.append('description', this.form.description)
-        fd.append('inner', this.form.inner)
-        fd.append('link', this.form.link)
+        fd.append('image', this.$store.state.projects.form.file, this.$store.state.projects.form.file.name)
+        fd.append('name', this.$store.state.projects.form.name)
+        fd.append('description', this.$store.state.projects.form.description)
+        fd.append('inner', this.$store.state.projects.form.inner)
+        fd.append('link', this.$store.state.projects.form.link)
 
         await axios
             .post(this.$store.state._ServerHttp + 'api/addproject', fd)
@@ -131,7 +129,7 @@
                 text: `${res.data.msg}`,
                 type: 'success'
               })
-              this.form = {
+              this.$store.state.projects.form = {
                 name: '',
                 link: '',
                 description: '',

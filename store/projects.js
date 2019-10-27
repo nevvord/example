@@ -1,6 +1,13 @@
 export const state = () => ({
     _Project: [],
-    changeProject: {}
+    changeProject: {},
+    form: {
+        name: '',
+        link: '',
+        description: '',
+        inner: '',
+        file: null
+    }
 })
 
 export const mutations = {

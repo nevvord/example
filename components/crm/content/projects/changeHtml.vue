@@ -1,9 +1,11 @@
 <template>
     <b-modal id="change-html" :title="$store.state.projects.changeProject.name" size="xl">
         <div v-if="changeHTMLIneer === true">
-            <b-form-textarea v-model="$store.state.projects.changeProject.inner" id="textarea-plaintext" placeholder="Введи хоть что-то для потомков!"
-                autofocus>
-            </b-form-textarea>
+            <section class="container">
+                <no-ssr placeholder="Codemirror Loading...">
+                <codemirror v-model="$store.state.projects.changeProject.inner" :options="cmOption"></codemirror>
+                </no-ssr>
+            </section>
         </div>
         <div v-html="$store.state.projects.changeProject.inner"></div>
         <!-- Настройки футера модала -->
@@ -26,7 +28,25 @@ import Axios from 'axios'
 export default {
     data(){
         return {
-            changeHTMLIneer : false
+            changeHTMLIneer : false,
+            cmOption: {
+                tabSize: 4,
+                foldGutter: true,
+                styleActiveLine: true,
+                lineNumbers: true,
+                line: true,
+                keyMap: "sublime",
+                mode: 'text/x-vue',
+                theme: 'base16-dark',
+                extraKeys: {
+                    'F11'(cm) {
+                    cm.setOption("fullScreen", !cm.getOption("fullScreen"))
+                    },
+                    'Esc'(cm) {
+                    if (cm.getOption("fullScreen")) cm.setOption("fullScreen", false)
+                    }
+                }
+            }
         }
     },
     methods: {

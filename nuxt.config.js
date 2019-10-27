@@ -26,6 +26,12 @@ export default {
   ** Global CSS
   */
   css: [
+    // lib css
+    'codemirror/lib/codemirror.css',
+    // merge css
+    'codemirror/addon/merge/merge.css',
+    // theme css
+    'codemirror/theme/base16-dark.css'
   ],
   env: {
     VUE_APP_GOOGLE_MAPS_API_KEY: process.env.VUE_APP_GOOGLE_MAPS_API_KEY
@@ -34,8 +40,9 @@ export default {
   ** Plugins to load before mounting the App
   */
   plugins: [
-    {src: '~/plugins/google-maps', ssr: false},
-    {src: '~/plugins/vue-notification.js', ssr: false}
+    { src: '~/plugins/google-maps', ssr: false },
+    { src: '~/plugins/vue-notification.js', ssr: false },
+    { src: '~/plugins/code-mirror.js', ssr: false }
   ],
   /*
   ** Nuxt.js modules
