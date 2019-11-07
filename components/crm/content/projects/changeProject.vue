@@ -34,8 +34,6 @@
     </b-modal>
 </template>
 <script>
-import axios from 'axios'
-
 export default {
     data(){
         return {
@@ -54,7 +52,7 @@ export default {
             fd.append('link', this.$store.state.projects.changeProject.link)
             fd.append('description', this.$store.state.projects.changeProject.description)
 
-            await axios
+            await this.$axios
                 .put(this.$store.state._ServerHttp + 'api/putproject/' + this.$store.state.projects.changeProject._id, fd)
                 .then(res => {
                     this.$store.commit('projects/change', res.data.newFile)
@@ -73,6 +71,7 @@ export default {
                         text: err.response.data.msg,
                         type: 'error'
                     })
+                    this.disabled = false
                 })
         }
     }

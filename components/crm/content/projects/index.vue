@@ -1,8 +1,7 @@
 <template>
-  <div class="content">
-    <b-container>
-      <h3>Добавить Проект</h3>
-      <hr>
+  <div>
+    <b-container class="bg-white pt-4">
+      <h3 class="border-bottom border-dark p-2">Добавить Проект</h3>
       <b-form @submit="upld">
         <b-row>
           <b-col sm="12" lg="6">
@@ -32,19 +31,21 @@
           </b-col>
           <b-col cols="12">
             <Html />
-            <div class="bg-light" v-html="$store.state.projects.form.inner"></div>
+            <div class="bg-light p-3 border border-top-0 border-dark" v-html="$store.state.projects.form.inner"></div>
           </b-col>
         </b-row>
-        <b-button type="submit" variant="primary">Добавить</b-button>
+        <div class="text-right p-3">
+          <b-button type="submit" variant="success">Добавить</b-button>
+        </div>
       </b-form>
     </b-container>
     <hr>
     <!--Отрисовка Проектов-->
-    <b-container class="projects">
+    <b-container>
       <b-row>
-        <b-col sm="12" v-for="proj in $store.state.projects._Project" :key="proj.key" class="projectBlock">
-          <b-row class="headProj">
-            <b-col cols="6" class="text-left text-uppercase ">
+        <b-col class="bg-white mb-2 border" cols="12" v-for="proj in $store.state.projects._Project" :key="proj.key">
+          <b-row class="p-2 border-bottom mb-2">
+            <b-col cols="6" class="text-left text-uppercase">
               {{proj.name}}
             </b-col>
             <b-col cols="6" v-if="proj.link" class=" text-right text-uppercase text-decoration-none">
@@ -53,7 +54,7 @@
               </b-link>
             </b-col>
           </b-row>
-          <b-row>
+          <b-row class="border-bottom pb-2">
             <b-col lg="3">
               <b-img :src="$store.state._ServerHttp + proj.file" fluid class="imjProj"> 
               </b-img>
@@ -62,8 +63,7 @@
               {{proj.description}}
             </b-col>
           </b-row>
-          <hr>
-          <b-row>
+          <b-row class="p-2">
             <b-col class="text-right">
               <b-button-group>
                 <b-button variant="success" v-b-modal.change-html @click="$store.commit('projects/updateChangeProject', proj)">HTML</b-button>
@@ -86,7 +86,6 @@
 </template>
 
 <script>
-  import axios from 'axios'
   import ChangeHtml from './changeHtml'
   import ChangeProject from './changeProject'
   import Html from './html'
@@ -119,7 +118,7 @@
         fd.append('inner', this.$store.state.projects.form.inner)
         fd.append('link', this.$store.state.projects.form.link)
 
-        await axios
+        await this.$axios
             .post(this.$store.state._ServerHttp + 'api/addproject', fd)
             .then(res => {
               this.$store.commit('projects/push', res.data.resultat)
@@ -147,10 +146,12 @@
             })
       },
       async del( id, file ) {
-        await axios
-            .delete(this.$store.state._ServerHttp + 'api/deleteproject/' + id, { data: { file } })
+        await this.$axios
+            .delete(`${this.$store.state._ServerHttp}api/deleteproject/${id}`, { data: { file } })
             .then(res => {
               this.$store.commit('projects/delete', id)
+              this.$store.commit('specializations/clear', id)
+              this.$store.commit('works/clear', id)
               this.$notify({
                 group: 'foo',
                 title: "Success",
@@ -161,7 +162,7 @@
             .catch(err => {
               this.$notify({
                 group: 'foo',
-                title: `ERROR ${err.status}`,
+                title: `ERROR ${err.response.status}`,
                 text: err.response.data.msg,
                 type: 'error'
               })
@@ -170,26 +171,3 @@
     }
   }
 </script>
-<style scoped>
-.content {
-  padding: 40px 0;
-}
-.projectBlock {
-  padding: 10px;
-  border: 2px solid rgba(0, 0, 0, 0.089);
-  border-radius: 15px;
-  background-color: rgba(0, 0, 0, 0.007);
-  margin-bottom: 10px;
-}
-.projects {
-  padding-top: 20px;
-}
-.headProj {
-  border-bottom: solid 1px rgba(0, 0, 0, 0.226);
-  padding: 0 10px;
-  margin: 0 0  15px 0;
-}
-.imjProj {
-  border-radius: 5px;
-}
-</style>

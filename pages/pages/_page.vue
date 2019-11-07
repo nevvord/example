@@ -14,7 +14,7 @@ export default {
         }
     },
     mounted(){    
-        const curPage = this.$store.state.pages._Page.filter(page => page._id = this.$route.params.page)
+        const curPage = this.$store.state.pages._Page.filter(page => page._id === this.$route.params.page)
         this.inner = curPage[0].inner
     }
 }

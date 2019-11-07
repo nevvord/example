@@ -1,8 +1,7 @@
 <template>
-  <div class="content">
-    <b-container class="topContent">
-        <h3>Добавить Технологию</h3>
-        <hr>
+  <div>
+    <b-container class="bg-white pt-4">
+        <h3 class="p-2 border-bottom border-dark">Добавить Технологию</h3>
       <b-form @submit="upld" onsubmit="false" enctype="multipart/form-data">
         <b-form-group id="input-group-1" label="Название технологии:" label-for="input-1" description="">
           <b-form-input id="input-1" v-model="form.name" type="text" required placeholder="Введите название технологии">
@@ -10,7 +9,7 @@
         </b-form-group>
 
         <b-form-group id="input-group-2" label="Ссылка на технологию:" label-for="input-2">
-          <b-form-input id="input-2" v-model="form.link" required placeholder="http://link.com"></b-form-input>
+          <b-form-input id="input-2" v-model="form.link" placeholder="http://link.com"></b-form-input>
         </b-form-group>
  
         <b-form-group id="input-group-3" label="Лого технологии:" label-for="input-3">
@@ -18,26 +17,26 @@
             drop-placeholder="Drop file here..."></b-form-file>
           <div class="mt-3">Выбранная картинка: {{ form.file ? form.file.name : '' }}</div>
         </b-form-group>
-
-        <b-button type="submit" variant="primary">Добавить</b-button>
+        <div class="text-right p-3">
+            <b-button type="submit" variant="success">Добавить</b-button>
+        </div>
       </b-form>
     </b-container>
-    <b-container class="techList">
+    <b-container class="mb-4 pt-4">
         <b-row >
-            <b-col lg="2" md="2" sm="2" cols="5" xl="1" class="item" v-for="tech in $store.state.technologies._Technology" :key="tech.key">
-                <b-row>
-                    <b-col>
-                        <b-link :href="tech.link">{{ tech.name }}</b-link>
+            <b-col class="bg-white border p-0 text-center mb-2" lg="2" md="2" sm="2" cols="6" xl="1" v-for="tech in $store.state.technologies._Technology" :key="tech.key">
+                <b-row class="m-0 p-0 bg-info">
+                    <b-col class="border-bottom p-0">
+                        <b-link class="text-light" style="font-size: 12px;" :href="tech.link">{{ tech.name }}</b-link>
                     </b-col>
                 </b-row>
-                <b-row class="img">
+                <b-row class="border-bottom p-o m-0">
                     <b-col>
                         <b-img :src="$store.state._ServerHttp + tech.file" fluid></b-img>
                     </b-col>
                 </b-row>
-                <hr>
                 <b-row>
-                    <b-col>
+                    <b-col class="p-2">
                         <b-button variant="danger" @click="delTech(tech._id, tech.file)">
                             Удалить
                         </b-button>
@@ -50,11 +49,6 @@
 </template>
 
 <script>
-    import { mapMutations } from 'vuex';
-    import axios from 'axios'
-    import { async } from 'q';
-
-
     export default  {
         data() {
             return {
@@ -78,7 +72,7 @@
                     name: this.form.name,
                     link: this.form.link
                 }
-                await axios
+                await this.$axios
                     .post(this.$store.state._ServerHttp + 'api/addtechnology', fd)
                     .then(res => {
                         this.$store.commit('technologies/push', res.data.resultat)
@@ -99,16 +93,18 @@
                     })
             },
             async delTech(id, file){// Удаление технологии
-                await axios
-                    .delete(this.$store.state._ServerHttp + 'api/deletetechnology/' + id, { data: { file } })
+                await this.$axios
+                    .delete(`${this.$store.state._ServerHttp}api/deletetechnology/${id}`, { data: { file } })
                     .then(res => {
+                        this.$store.commit('technologies/delete', id)
+                        this.$store.commit('specializations/clear', id)
+                        this.$store.commit('works/clear', id)
                         this.$notify({
                             group: 'foo',
                             title: 'Success',
                             text: "Технологии Удаленна",
-                            type: 'warn'
+                            type: 'success'
                         })
-                        this.$store.commit('technologies/delete', id)
                     })
                     .catch(err => {
                         this.$notify({
@@ -118,34 +114,24 @@
                             type: 'error'
                         })
                     })
+            },
+            clearWithTechnology(state, id) {
+                
+                
+                state._Works = state._Works.map(work => {
+                    return {
+                        ...work,
+                        technology: work.technology.filter((tech) => {
+                            return tech !== id
+                        })
+                    }
+                })
+                state._Works.forEach(element => {
+                    this.$axios.put(`${state._ServerHttp}workTech/${element._id}`, {
+                        technology: element.technology
+                    });
+                })
             }
         }
   }
 </script>
-
-<style scoped>
-.content {
-    padding: 25px 0;
-}
-
-.img {
-    height: 40px;
-    padding: 5px;
-}
-
-.techList {
-    margin-top: 25px;
-}
-
-.item {
-    padding: 5px;
-    border: 1px solid #e5474b;
-    border-radius: 10px;
-    text-align: center;
-    margin-left: 5px;
-}
-
-.topContent{
-    margin-bottom: 25px;
-}
-</style>

@@ -1,7 +1,7 @@
 <template>
   <section>
     <no-ssr placeholder="Codemirror Loading...">
-      <codemirror v-model="$store.state.projects.form.inner" :options="cmOption"></codemirror>
+      <codemirror v-model="$store.state.pages.form.inner" :options="cmOption"></codemirror>
     </no-ssr>
   </section>
 </template>
@@ -34,9 +34,5 @@
 </script>
 
 <style scoped>
-  .container {
-    width: 100%;
-    text-align: left;
-    margin: 25px 0;
-  }
+
 </style>

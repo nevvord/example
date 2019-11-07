@@ -73,7 +73,6 @@ export default {
             .catch(err => {
                 this.$store.commit('setAuth', false)
                 this.ready = true
-                console.log(err.response.data);
                 
                 this.$notify({
                         group: 'foo',

@@ -44,7 +44,7 @@ export const mutations = {
     updateChangeProject(state, project) {
         state.changeProject = {
             ...project,
-            newFile : null,
+            newFile: null,
             oldName: project.name
         }
     },

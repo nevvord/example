@@ -14,7 +14,7 @@ export default {
         }
     },
     mounted(){    
-        const curProject = this.$store.state.projects._Project.filter(proj => proj._id = this.$route.params.project)
+        const curProject = this.$store.state.projects._Project.filter(proj => proj._id === this.$route.params.project)
         this.inner = curProject[0].inner 
     }
 }

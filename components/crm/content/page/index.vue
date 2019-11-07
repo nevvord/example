@@ -1,150 +1,145 @@
 <template>
-    <div class="content">
-        <b-container>
-            <h3>Добавить страницу</h3>
-            <hr>
+    <div class="bg-light">
+        <b-container class="bg-white">
+            <h3 class="border-bottom border-dark p-1 pt-4">Добавить страницу</h3>
             <b-form>
-                <b-form-group label="Имя страницы:" description="Єто будет отабраженно на главной странице в навбаре"
-                    label-for="inpName">
-                    <b-form-input id="inpName" required placeholder="Имя прокекта" v-model="form.name"></b-form-input>
-                </b-form-group>
-                <b-form-checkbox v-model="form.display" name="check-button" switch class="switch">
-                    Отображать страницу в Навбаре?
-                </b-form-checkbox>
-                <br>
-                <b-form-group label="HTML код на странице" description="Єто будет отображено на странице"
-                    label-for="textArea">
-                    <b-form-textarea id="textArea" placeholder="Тут введите HTML код" v-model="form.inner">
-                    </b-form-textarea>
-                </b-form-group>
-                <b-button variant="success" @click="ulpd">Отправить</b-button>
+                <b-row>
+                    <b-col cols="12" lg="6" class="p-4 m-0">
+                        <b-form-group label="Имя страницы:" description="Єто будет отабраженно на главной странице в навбаре"
+                            label-for="inpName">
+                            <b-form-input id="inpName" required placeholder="Введите название страницы" v-model="$store.state.pages.form.name"></b-form-input>
+                        </b-form-group>
+                    </b-col>
+                    <b-col cols="12" lg="6">
+                        <br>
+                        Отображать страницу в Навбаре?
+                        <b-form-checkbox v-model="$store.state.pages.form.display" name="check-button" switch class="switch"></b-form-checkbox>
+                    </b-col>
+                </b-row>
+                <Html />
+                <div class="bg-light p-3 border border-top-0 border-dark" v-html="$store.state.pages.form.inner"></div>
+                <div class="text-right p-4 mb-5">
+                    <b-button variant="success" @click="ulpd">Добавить</b-button>
+                </div>
             </b-form>
-            <div v-html="form.inner" class="text-truncate"></div>
         </b-container>
-        <b-container class="midContent">
+        <b-container class="midContent border-dark pb-5">
+            <b-row class="bg-dark p-1 text-light">
+                <b-col cols="12" lg="2" class="text-center">Название</b-col>
+                <b-col cols="12" lg="6" class="text-center">HTML code</b-col>
+                <b-col cols="12" lg="4" class="text-center">Действия</b-col>
+            </b-row>
             <b-row>
-                <b-col cols="12" v-for="page in pageData" :key="page.key" class="pageBlock">
-                    <b-row>
-                        <b-col sm="12" lg="3">Название: {{page.name}}</b-col>
-                        <b-col sm="12" lg="6" class="text-truncate">
-                            <span>Код:</span>
-                            <span class="font-weight-light ">{{page.inner}}</span>
-                        </b-col>
-                        <b-col sm="12" lg="3" class="text-right">
-                            <b-button-group>
-                                <b-button variant="warning" v-b-modal.changePage @click="changeModal(page)">Изменить
-                                </b-button>
-                                <b-button variant="danger" @click="delPage(page._id)">Удалить</b-button>
-                            </b-button-group>
+                <b-col cols="12" v-for="page in $store.state.pages._Page" :key="page.key" class="p-1 bg-white border border-top-0 border-dark">
+                    <b-row align-v="center">
+                        <b-col sm="12" lg="2" class="text-center border-right border-dark">{{page.name}}</b-col>
+                        <b-col sm="12" lg="6" class="text-truncate border-right border-dark"><code>{{page.inner}}</code></b-col>
+                        <b-col sm="12" lg="4">
+                            <b-row>
+                                <b-col>
+                                    <b-button-group>
+                                        <b-button variant="warning" v-b-modal.changePage @click="$store.commit('pages/updateChange', page)">Изменить</b-button>
+                                        <b-button variant="danger" @click="delPage(page._id)">Удалить</b-button>
+                                    </b-button-group>
+                                </b-col>
+                                <b-col class="text-right">
+                                    <small class="pr-3">
+                                        Pos: {{page.position}}
+                                    </small>
+                                    <b-button-group class="text-right">
+                                        <b-button @click="counter(-1, page._id)"><i class="fas fa-arrow-up"></i></b-button>
+                                        <b-button @click="counter(1, page._id)"><i class="fas fa-arrow-down"></i></b-button>
+                                    </b-button-group>
+                                </b-col>
+                            </b-row>
                         </b-col>
                     </b-row>
                 </b-col>
             </b-row>
         </b-container>
-        <b-modal id="changePage" :title="'Изменить: ' + change.name" size="xl">
-            <b-form>
-                <b-form-group label="Имя страницы:" description="Єто будет отабраженно на главной странице в навбаре">
-                    <b-form-input requireq placeholder="Имя страницы" v-model="change.newName"></b-form-input>
-                </b-form-group>
-                <b-form-checkbox v-model="change.display" name="check-button" switch class="switch">
-                    Отображать страницу в Навбаре?
-                </b-form-checkbox>
-                <br>
-                <b-form-group label="HTML код на странице" description="Єто будет отображено на странице">
-                    <b-form-textarea requireq placeholder="HTML код на странице" v-model="change.inner">
-                    </b-form-textarea>
-                </b-form-group>
-            </b-form>
-            <hr>
-            <div v-html="change.inner"></div>
-            <template slot="modal-footer" slot-scope="{ ok, cancel }">
-                <b-button variant="success" @click="putChange(); cancel();">Сохранить</b-button>
-                <b-button id="btnClose" @click="cancel();">Закрыть</b-button>
-                <b-tooltip target="btnClose" variant="danger">
-                    Осторожно! Все несохраненые данные будут утеряны!
-                </b-tooltip>
-            </template>
-
-        </b-modal>
+        <Change />
     </div>
 </template>
 
 <script>
-import axios from 'axios';
+import Html from './html'
+import Change from './cahnge'
 export default {
-    data() {
-        return {
-            form: {
-                name: '',
-                inner: '',
-                display: true
-            },
-            pageData: this.$store.state._Page,
-            change: {
-                id: '',
-                name: '',
-                newName: '',
-                inner: '',
-                display: true
-            }
-        }
+    components:{
+        Html,
+        Change
     },
     methods:{
-        ulpd(){
-            this.pageData = this.$store.state._Page;
-            axios
-                .post(this.$store.state._ServerHttp + 'api/addpage', this.form)
+        async ulpd(){
+            await this.$axios
+                .post(this.$store.state._ServerHttp + 'api/addpage', this.$store.state.pages.form)
                 .then(res => {
-                    this.$store.commit('pushToPage', res.data);
+                    this.$store.commit('pages/push', res.data.resultat);
                     this.$notify({
                         group: 'foo',
                         title: "Success",
-                        text: `Страница <strong>${this.form.name}</strong> успешно добавленна`,
+                        text: res.data.msg,
                         type: 'success'
                     })
                 })
                 .catch(err => {
                     this.$notify({
                         group: 'foo',
-                        title: `ERROR $`
+                        title: `ERROR ${err.status}`,
+                        text: err.response.data.msg,
+                        type: 'error'
                     })
                 })
         },
-        changeModal(body){
-            this.change.id = body._id;
-            this.change.name = body.name;
-            this.change.newName = body.name;
-            this.change.inner = body.inner;
-            this.change.display = body.display;
+        async delPage(id) {
+            await this.$axios
+                .delete(this.$store.state._ServerHttp + 'api/deletepage/' + id)
+                .then(res => {
+                    this.$store.commit('pages/delete', id)
+                    this.$notify({
+                        group: 'foo',
+                        title: "Success",
+                        text: res.data.msg,
+                        type: 'success'
+                    })
+                })
+                .catch(err => {
+                    this.$notify({
+                        group: 'foo',
+                        title: `ERROR ${err.status}`,
+                        text: err.response.data.msg,
+                        type: 'error'
+                    })
+                })
         },
-        putChange(){
-            let body = {
-                id: this.change.id,
-                name: this.change.newName,
-                inner: this.change.inner,
-                display: this.change.display
-            };
-            axios.put(this.$store.state._ServerHttp + 'page/' + this.change.id, body).then(res => {
-                this.$store.commit('changePage', body);
-            });
-        },
-        delPage(id) {
-            this.$store.commit('deletPage', id);
-            this.pageData = this.pageData.filter(u => u._id !== id);
+        async counter(num, _id){
+            const object = { num, _id }
+            let position = 0
+            await this.$store.commit('pages/counter', object)
+            await this.$store.state.pages._Page.forEach((element, index) => {
+                if(element._id === _id){
+                    position = element.position
+                }
+            })
+            await this.$axios
+                .put(`${this.$store.state._ServerHttp}api/putpageposition/${_id}`, {position})
+                .then(res => {
+                    this.$notify({
+                        group: 'foo',
+                        title: "Success",
+                        text: res.data.msg,
+                        type: 'success'
+                    })
+                })
+                .catch(err => {
+                    this.$notify({
+                        group: 'foo',
+                        title: `ERROR ${err.status}`,
+                        text: err.response.data.msg,
+                        type: 'error'
+                    })
+                })
         }
     }
 }
 </script>
-<style scoped>
-.content {
-    padding-top: 45px;
-}
-.pageBlock{
-    padding: 5px;
-    border: 1px solid rgba(0, 0, 0, 0.11);
-    background-color: rgba(0, 0, 0, 0.027);
-}
-.midContent {
-    margin-top: 15px;
-}
-</style>

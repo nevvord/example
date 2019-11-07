@@ -10,7 +10,7 @@
         @sliding-start="onSlideStart"
         @sliding-end="onSlideEnd"
         >
-            <b-carousel-slide class="img" img-src="~/static/image/banner-2.jpg">
+            <b-carousel-slide class="img" img-alt="ypasecurity" img-src="~/static/image/banner-2.jpg">
                 <b-row>
                     <b-col>
                         <h3>ИНФОРМАЦИОННЫЕ ТЕХНОЛОГИИ И АВТОМАТИЗАЦИЯ</h3>

@@ -7,8 +7,7 @@
             <b-collapse id="nav-collapse" is-nav>
                 <b-navbar-nav>
                     <b-nav-item to="/projects">Проекты</b-nav-item>
-                    <b-nav-item to="/contacts">Контакты</b-nav-item>
-                    <b-nav-item v-for="page in $store.state.pages._Page" :key="page.key" :to="`pages/${page._id}`" v-if="page.display">{{page.name}}</b-nav-item>
+                    <b-nav-item v-for="page in $store.state.pages._Page" :key="page.key" :to="`/pages/${page._id}`" v-if="page.display">{{page.name}}</b-nav-item>
                 </b-navbar-nav>
             </b-collapse>
         </b-navbar>        

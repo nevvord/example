@@ -42,5 +42,13 @@ export default async function({ store }){
         .catch(err => {
             console.log(err)
         })
+    await axios
+        .get(`${serverHttp}api/getfiles`)
+        .then(res => {
+            store.commit('files/update', res.data)
+        })
+        .catch(err => {
+            console.log(err)
+        })
     
 }

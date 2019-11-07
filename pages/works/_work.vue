@@ -32,7 +32,7 @@ export default {
         }
     },
     mounted(){    
-        const curWork = this.$store.state.works._Works.filter(work => work._id = this.$route.params.work)
+        const curWork = this.$store.state.works._Data.filter(work => work._id === this.$route.params.work)
         this.inner = curWork[0].inner
         this.projects = curWork[0].projects
     }

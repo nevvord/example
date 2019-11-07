@@ -32,7 +32,7 @@ export default {
         }
     },
     mounted(){    
-        const curSpecialization = this.$store.state.specializations._Specialization.filter(spec => spec._id = this.$route.params.specialization)
+        const curSpecialization = this.$store.state.specializations._Specialization.filter(spec => spec._id === this.$route.params.specialization)
         this.inner = curSpecialization[0].inner
         this.projects = curSpecialization[0].projects
     }

@@ -4,6 +4,6 @@ export const state = () => ({
 
 export const mutations = {
     setContent(state, change) {
-        state.content = change;
+        state.content = change
     }
 }

@@ -1,5 +1,5 @@
 <template>
-    <div class="content">
+    <div class="bg-light ml-5">
         <div v-if="this.$store.state.admin.content === 'projects'">
             <Projects />
         </div>
@@ -46,12 +46,3 @@ export default {
     
 }
 </script>
-
-<style scoped>
-.content {
-    margin-left: 22px;
-}
-.defContent{
-    margin-left: 25px;
-}
-</style>
