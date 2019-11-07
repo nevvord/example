@@ -25,13 +25,11 @@
 </template>
 
 <script>
-import Projects from '~/components/crm/content/Projects';
-import Works from '~/components/crm/content/Works';
-import Specialization from '~/components/crm/content/Specialization';
-import Technology from '~/components/crm/content/Technology';
-import Page from '~/components/crm/content/Page';
-import { mapMutations } from 'vuex';
-
+import Projects from '../components/crm/content/projects'
+import Works from '../components/crm/content/works'
+import Specialization from '../components/crm/content/specialization'
+import Technology from '../components/crm/content/technology'
+import Page from '../components/crm/content/page'
 
 export default {
     middleware: 'getApi',
