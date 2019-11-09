@@ -33,6 +33,13 @@
         </b-container>
     </div>
 </template>
+<script>
+export default {
+    head:{
+        title: 'ЮЖПРОМАВТОМАТИКА | Проекты'
+    }
+}
+</script>
 <style scoped>
 .content {
     padding: 75px;

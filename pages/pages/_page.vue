@@ -6,7 +6,7 @@
 <script>
 export default {
     head:{
-        title: 'Специялизация',
+        title: 'ЮЖПРОМАВТОМАТИКА | Страницы',
     },
     data(){
         return{

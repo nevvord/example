@@ -6,7 +6,7 @@
 <script>
 export default {
     head:{
-        title: 'Пороект'
+        title: 'ЮЖПРОМАВТОМАТИКА | Проекты',
     },
     data(){
         return{
