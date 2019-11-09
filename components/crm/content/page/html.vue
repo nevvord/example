@@ -18,21 +18,9 @@
           line: true,
           keyMap: "sublime",
           mode: 'text/x-vue',
-          theme: 'base16-dark',
-          extraKeys: {
-            'F11'(cm) {
-              cm.setOption("fullScreen", !cm.getOption("fullScreen"))
-            },
-            'Esc'(cm) {
-              if (cm.getOption("fullScreen")) cm.setOption("fullScreen", false)
-            }
-          }
+          theme: 'base16-dark'
         }
       }
     }
   }
 </script>
-
-<style scoped>
-
-</style>

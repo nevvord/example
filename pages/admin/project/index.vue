@@ -6,19 +6,19 @@
         <b-row>
           <b-col sm="12" lg="6">
             <b-form-group id="input-group-1" label="Имя проекта:" label-for="input-1" description="Это будет отображено на странице проектов">
-              <b-form-input id="input-1" v-model="$store.state.projects.form.name" type="text" required placeholder="Ввидите имя проекта">
+              <b-form-input id="input-1" v-model="$store.state.projects.form.name" required type="text" required placeholder="Ввидите имя проекта">
               </b-form-input>
             </b-form-group>
           </b-col>
           <b-col sm="12" lg="6">
             <b-form-group id="input-group-2" label="Ссылка на сайт проекта:" label-for="input-1" description="Это создаст ссылку на сайт (Если конечно он есть)">
-              <b-form-input id="input-1" v-model="$store.state.projects.form.link" type="url" placeholder="http://ssilka.com">
+              <b-form-input id="input-1" v-model="$store.state.projects.form.link" required type="url" placeholder="http://ssilka.com">
               </b-form-input>
             </b-form-group>
           </b-col>
           <b-col sm="12">
             <b-form-group id="input-group-3" label="Описание проекта:" label-for="input-2">
-              <b-form-textarea id="input-2" v-model="$store.state.projects.form.description" required
+              <b-form-textarea id="input-2" required v-model="$store.state.projects.form.description" required
                 placeholder="Описание проекта"></b-form-textarea>
             </b-form-group>
           </b-col>
@@ -86,26 +86,16 @@
 </template>
 
 <script>
-  import ChangeHtml from './changeHtml'
-  import ChangeProject from './changeProject'
-  import Html from './html'
+  import ChangeHtml from '~/components/crm/content/projects/changeHtml'
+  import ChangeProject from '~/components/crm/content/projects/changeProject'
+  import Html from '~/components/crm/content/projects/html'
 
   export default {
+    layout: 'cp',
     components: {
       ChangeHtml,
       ChangeProject,
       Html
-    },
-    data() {
-      return {
-        form: {
-          name: '',
-          link: '',
-          description: '',
-          inner: '',
-          file: null
-        }
-      }
     },
     methods: {
       async upld(evt) {

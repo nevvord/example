@@ -3,7 +3,7 @@ export const state = () => ({
     form: {
         name: '',
         description: '',
-        fiel: null,
+        file: null,
         technology: [],
         projects: [],
         inner: ''
@@ -54,8 +54,7 @@ export const mutations = {
             description: state.change.description,
             technology: state.change.technology,
             projects: state.change.projects,
-            inner: state.change.inner,
-            file: state.change.file
+            inner: state.change.inner
         }
         if(newFile){
             dataBody = {

@@ -9,11 +9,11 @@
         </b-form-group>
 
         <b-form-group id="input-group-2" label="Ссылка на технологию:" label-for="input-2">
-          <b-form-input id="input-2" v-model="form.link" placeholder="http://link.com"></b-form-input>
+          <b-form-input id="input-2" v-model="form.link" required placeholder="http://link.com"></b-form-input>
         </b-form-group>
  
         <b-form-group id="input-group-3" label="Лого технологии:" label-for="input-3">
-          <b-form-file v-model="form.file" :state="Boolean(form.file)" placeholder="Выберете картинку..."
+          <b-form-file v-model="form.file" :state="Boolean(form.file)" required placeholder="Выберете картинку..."
             drop-placeholder="Drop file here..."></b-form-file>
           <div class="mt-3">Выбранная картинка: {{ form.file ? form.file.name : '' }}</div>
         </b-form-group>
@@ -50,6 +50,7 @@
 
 <script>
     export default  {
+        layout: 'cp',
         data() {
             return {
                 form: {
@@ -129,7 +130,7 @@
                 state._Works.forEach(element => {
                     this.$axios.put(`${state._ServerHttp}workTech/${element._id}`, {
                         technology: element.technology
-                    });
+                    })
                 })
             }
         }

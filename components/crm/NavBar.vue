@@ -1,54 +1,102 @@
 <template>
     <div>
-        <div :class="{slideMenuShow: sShow, slideMenuHide: sHide  }">
-            <b-row>
-                <b-col>
-                    <div :class="{itemSlideMenu: true, bgItemAtive : pgBG} " @click="setContent('page')">
-                        Страницы
-                    </div>
-                    <div :class="{itemSlideMenu: true, bgItemAtive : prBG} " @click="setContent('projects')">
-                        Проекты
-                    </div>
-                    <div :class="{itemSlideMenu: true, bgItemAtive : wrBG}" @click="setContent('works')">
-                        Работы
-                    </div>
-                    <div :class="{itemSlideMenu: true, bgItemAtive : spBG}" @click="setContent('specialization')">
-                        Специализация
-                    </div>
-                    <div :class="{itemSlideMenu: true, bgItemAtive : tcBG}" @click="setContent('technology')">
-                        Технологии
-                    </div>
-                </b-col>
-            </b-row>
-        </div>
-        <div class="content bg-dark" >
+        <div class="content bg-dark text-center" >
                 <div class="cLogo vertical_text">
                     NCP
                 </div>
-            <b-row>
-                <b-col>
-                    <b-link class="item" @click="$store.commit('admin/setContent', 'fp')">
-                        <i class="fas fa-home"></i>
-                    </b-link>
+            <b-row  class="m-0 text-center">
+                <b-col class="p-0 item py-1" id="home-admin" @click="$router.push('/admin')">
+                    <i class="fas fa-home"></i>
+                    <b-tooltip target="home-admin" placement="right" variant="info" triggers="hover">
+                        Главная админки
+                    </b-tooltip>
                 </b-col>
             </b-row>
-            <b-row>
-                <b-col>
-                    <b-link  class="item" @click="openSlider()">
-                        <i class="fas fa-edit">
-                    </i></b-link>
-                </b-col>
-            </b-row>
-            <b-row>
-                <b-col class="item" @click="changeHide()">
+            <b-row class="m-0 text-center">
+                <b-col class="p-0 item py-1" @click="changeHide()" id="player">
                     <i class="fas fa-play"></i>
+                    <b-tooltip target="player" placement="right" variant="info" triggers="hover">
+                        ChiledCow    
+                    </b-tooltip>
                 </b-col>
             </b-row>
-            <b-row>
-                <b-col class="item" v-b-modal.file>
+            <hr>
+            <b-row class="m-0 text-center">
+                <b-col class="p-0 item py-1" v-b-modal.file id="files">
                     <i class="fas fa-file-image"></i>
+                    <b-tooltip target="files" placement="right" variant="info" triggers="hover">
+                        Файлы
+                    </b-tooltip>
                 </b-col>
             </b-row>
+            <hr>
+            <b-row class="m-0 text-center">
+                <b-col class="p-0 item py-1" id="pages" @click="$router.push('/admin/page')">
+                    <i class="fas fa-file-word"></i>
+                </b-col>
+                <b-tooltip target="pages" placement="right" variant="info" triggers="hover">
+                    Страницы
+                </b-tooltip>
+            </b-row>
+            <b-row class="m-0 text-center">
+                <b-col class="p-0 item py-1" id="technologies" @click="$router.push('/admin/technology')">
+                    <i class="fab fa-js"></i>
+                </b-col>
+                <b-tooltip target="technologies" placement="right" variant="info" triggers="hover">
+                    Технологии
+                </b-tooltip>
+            </b-row>
+            <b-row class="m-0 text-center">
+                <b-col class="p-0 item py-1" id="projects" @click="$router.push('/admin/project')">
+                    <i class="fas fa-hamsa"></i>
+                </b-col>
+                <b-tooltip target="projects" placement="right" variant="info" triggers="hover">
+                    Проекты
+                </b-tooltip>
+            </b-row>
+            <hr>
+            <b-row class="m-0 text-center">
+                <b-col class="p-0 item py-1" id="works" @click="$router.push('/admin/work')">
+                    <i class="fas fa-briefcase"></i>
+                </b-col>
+                <b-tooltip target="works" placement="right" variant="info" triggers="hover">
+                    Работы
+                </b-tooltip>
+            </b-row>
+            <b-row class="m-0 text-center">
+                <b-col class="p-0 item py-1" id="specializations" @click="$router.push('/admin/specialization')">
+                    <i class="fas fa-hand-spock"></i>
+                </b-col>
+                <b-tooltip target="specializations" placement="right" variant="info" triggers="hover">
+                    Специализации
+                </b-tooltip>
+            </b-row>
+            <b-row class="m-0 text-center">
+                <b-col class="p-0 item py-1" id="carusel" @click="$router.push('/admin/carusel')">
+                    <i class="fas fa-image"></i>
+                </b-col>
+                <b-tooltip target="carusel" placement="right" variant="info" triggers="hover">
+                    Карусель
+                </b-tooltip>
+            </b-row>
+            <b-row class="m-0 text-center">
+                <b-col class="p-0 item py-1" id="hp-text" @click="$router.push('/admin/hp')">
+                    <i class="fas fa-magic"></i>
+                </b-col>
+                <b-tooltip target="hp-text" placement="right" variant="info" triggers="hover">
+                    Текст на главной странице
+                </b-tooltip>
+            </b-row>
+            <hr>
+            <b-row class="m-0 text-center">
+                <b-col class="p-0 item py-1" id="hp" @click="$router.push('/')">
+                    <i class="fas fa-sign-out-alt"></i>
+                </b-col>
+                <b-tooltip target="hp" placement="right" variant="info" triggers="hover">
+                    Главная страница
+                </b-tooltip>
+            </b-row>
+
 
             <b-row class="btmBlock">
                 <b-col cols="12">
@@ -100,15 +148,6 @@ export default {
     data(){
         return{
             hide: true,
-            // Переменые для выплывающего меню
-            sShow : false,
-            sHide : true,
-            // Переменные для активации элементов
-            prBG: false,
-            wrBG: false,
-            spBG: false,
-            tcBG: false,
-            pgBG: false
         }
     },
     methods: {
@@ -139,7 +178,6 @@ export default {
 
                 let fd = new FormData()
                 fd.append('image', this.$store.state.files.form.file, this.$store.state.files.form.file.name)
-                fd.append('token', token)
                 
                 this.$axios
                     .post(`${this.$store.state._ServerHttp}api/addfile`, fd)
@@ -164,51 +202,6 @@ export default {
         },
         changeHide(){
             this.hide = !this.hide
-        },
-        // Метод для открытия выплывающего меню
-        openSlider() {
-            this.sShow = !this.sShow;
-            this.sHide = !this.sHide;
-        },
-        // Костыль для активации элемента меню
-        activeElement(change){
-            if (change === "projects") {
-                this.prBG = true;
-                this.wrBG = false;
-                this.spBG = false;
-                this.tcBG = false;
-                this.pgBG = false;
-            }else if (change === "works") {
-                this.prBG = false;
-                this.wrBG = true;
-                this.spBG = false;
-                this.tcBG = false;
-                this.pgBG = false;
-            }else if (change === "specialization") {
-                this.prBG = false;
-                this.wrBG = false;
-                this.spBG = true;
-                this.tcBG = false;
-                this.pgBG = false;
-            }else if (change === "technology") {
-                this.prBG = false;
-                this.wrBG = false;
-                this.spBG = false;
-                this.tcBG = true;
-                this.pgBG = false;
-            }else if (change === "page") {
-                this.prBG = false;
-                this.wrBG = false;
-                this.spBG = false;
-                this.tcBG = false;
-                this.pgBG = true;
-            }
-        },
-        // Настройки контента
-        setContent(change) {
-            this.$store.commit('admin/setContent', change)
-            this.openSlider()
-            this.activeElement(change)
         },
         exit(){
             this.$axios
@@ -240,6 +233,9 @@ export default {
 </script>
 
 <style scoped>
+.n-cursor-p{
+    cursor: pointer;
+}
 .btn-delete{
     position: absolute;
     padding: 3px 10px;
@@ -262,7 +258,7 @@ export default {
 
 .player{
     position: fixed;
-    top: 98px;
+    top: 70px;
     left: 45px;
     width: 250px;
     transition: 0.5s;
@@ -354,8 +350,6 @@ export default {
 }
 
 .item {
-    display: block;
-    padding: 3px 0;
     cursor: pointer;
     color: aliceblue;
     transition: 0.3s;
@@ -363,14 +357,20 @@ export default {
 
 .item:hover {
     color: #e5474b;
+    background-color: #0000002a;
 }
 .content {
     position: fixed;
-    text-align: center;
+    display: block;
     left: 0;
     width: 40px;
     height: 200vh;
     z-index: 99;
     background-color: #999;
+}
+
+hr {
+    padding: 0;
+    margin: 0;
 }
 </style>

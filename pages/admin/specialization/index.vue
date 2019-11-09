@@ -7,13 +7,13 @@
   </div>
 </template>
 <script>
-import axios from 'axios'
-import Add from './add'
-import Show from './show'
-import ChangeHtml from './changeHtml'
-import ChangeSpecialization from './changeSpecialization'
+import Add from '~/components/crm/content/specialization/add'
+import Show from '~/components/crm/content/specialization/show'
+import ChangeHtml from '~/components/crm/content/specialization/changeHtml'
+import ChangeSpecialization from '~/components/crm/content/specialization/changeSpecialization'
 
 export default {
+  layout: 'cp',
   components: {
     Add,
     Show,

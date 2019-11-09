@@ -2,11 +2,11 @@
     <b-modal id="modal-2" :title="'Изменить: ' + $store.state.specializations.change.oldName" size="xl">
       <b-form-group label-cols-sm="4" label-cols-lg="2" description="Это поле отобразится на главной странице"
         label="Введите название:" label-for="input-name">
-        <b-input v-model="$store.state.specializations.change.name" id="input-name"></b-input>
+        <b-input v-model="$store.state.specializations.change.name" required id="input-name"></b-input>
       </b-form-group>
       <b-form-group label-cols-sm="4" label-cols-lg="2" description="Это поле отобразится на главной странице"
         label="Введите описание:" label-for="textarea-description">
-        <b-form-textarea placeholder="Введи хоть что-то для потомков!" v-model="$store.state.specializations.change.description"
+        <b-form-textarea placeholder="Введи хоть что-то для потомков!" required v-model="$store.state.specializations.change.description"
           id="textarea-description"></b-form-textarea>
       </b-form-group>
       <hr>
@@ -18,7 +18,7 @@
         <b-col sm="12" lg="8">
           <p>Изменить картинку:</p>
           <b-form-group label="Картинка на главной странице:" label-for="inpImg">
-            <b-form-file id="inpUmg" v-model="$store.state.specializations.change.newFile" :state="Boolean($store.state.specializations.change.newFile)"
+            <b-form-file id="inpUmg" v-model="$store.state.specializations.change.newFile" required :state="Boolean($store.state.specializations.change.newFile)"
               placeholder="Выберете картинку..." drop-placeholder="Drop file here..."></b-form-file>
             <div class="mt-3">Выбранная картинка: {{ $store.state.specializations.change.newFile ? $store.state.specializations.change.newFile.name : '' }}</div>
           </b-form-group>

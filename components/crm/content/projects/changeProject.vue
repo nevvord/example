@@ -5,7 +5,7 @@
         </b-form-group>
         <b-form-group label="Ссылка на сайт проекта"
             description="Поле не обязательно. Ссылка не будет отображена если ее не ввести" label-for="inputLink">
-            <b-form-input id="inputLink" v-model="$store.state.projects.changeProject.link" type="url" placeholder="http://ssilka.com">
+            <b-form-input id="inputLink" v-model="$store.state.projects.changeProject.link" required type="url" placeholder="http://ssilka.com">
             </b-form-input>
         </b-form-group>
         <b-form-group label="Описание проекта" description="Обязательное поле" label-for="inputDesc">
@@ -43,6 +43,7 @@ export default {
     methods: {
         async setProj(){
             this.disabled = true
+            
             const fd = new FormData()
             if(this.$store.state.projects.changeProject.newFile){
                 fd.append('image', this.$store.state.projects.changeProject.newFile, this.$store.state.projects.changeProject.newFile.name)

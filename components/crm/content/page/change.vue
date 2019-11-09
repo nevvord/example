@@ -27,7 +27,6 @@
     </b-modal>
 </template>
 <script>
-import axios from 'axios'
 export default {
     data() {
       return {
@@ -47,7 +46,7 @@ export default {
     methods:{
         async putChange(){
             this.disabled = true
-            await axios
+            await this.$axios
                 .put(this.$store.state._ServerHttp + 'api/putpage/' + this.$store.state.pages.change._id, this.$store.state.pages.change)
                 .then(res => {
                     console.log(res.data);

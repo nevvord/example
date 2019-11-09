@@ -4,7 +4,7 @@
       <!--Название-->
       <b-form @submit="upld">
         <b-form-group id="input-group-1" label="Название специализации:" label-for="input-1">
-          <b-form-input id="input-1" v-model="$store.state.specializations.form.name" type="text" required
+          <b-form-input id="input-1" required v-model="$store.state.specializations.form.name" type="text" required
             placeholder="Ввидите название специализации">
           </b-form-input>
         </b-form-group>
@@ -17,7 +17,7 @@
       <!--Описание-->
       <!--Картинка-->
         <b-form-group id="input-group-3" label="Картинка на главной странице:" label-for="input-3">
-          <b-form-file v-model="$store.state.specializations.form.file" :state="Boolean($store.state.specializations.form.file)" placeholder="Выберете картинку..."
+          <b-form-file v-model="$store.state.specializations.form.file" required :state="Boolean($store.state.specializations.form.file)" placeholder="Выберете картинку..."
             drop-placeholder="Drop file here..."></b-form-file>
           <div class="mt-3">Выбранная картинка: {{ $store.state.specializations.form.file ? $store.state.specializations.form.file.name : '' }}</div>
         </b-form-group>

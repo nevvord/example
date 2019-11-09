@@ -20,8 +20,8 @@
                             </b-row>
                             <hr>
                             <b-row>
-                                <b-col>
-                                    <b-button-group class="margCentr">
+                                <b-col class="text-center">
+                                    <b-button-group>
                                         <b-button variant="success" v-b-modal.modal-1
                                             @click="$store.commit('works/updateChange', works)"> HTML </b-button>
                                         <b-button variant="warning" v-b-modal.modal-2 @click="$store.commit('works/updateChange', works)">

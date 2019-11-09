@@ -50,5 +50,21 @@ export default async function({ store }){
         .catch(err => {
             console.log(err)
         })
+    await axios
+        .get(`${serverHttp}api/carousel`)
+        .then(res => {
+            store.commit('carousel/update', res.data)
+        })
+        .catch(err => {
+            console.log(err)
+        })
+    await axios
+        .get(`${serverHttp}api/inner`)
+        .then(res => {
+            store.commit('inner/update', res.data)
+        })
+        .catch(err => {
+            console.log(err)
+        })
     
 }

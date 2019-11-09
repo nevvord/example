@@ -62,9 +62,10 @@
 </template>
 
 <script>
-import Html from './html'
-import Change from './cahnge'
+import Html from '~/components/crm/content/page/html'
+import Change from '~/components/crm/content/page/change'
 export default {
+    layout: 'cp',
     components:{
         Html,
         Change
@@ -72,7 +73,7 @@ export default {
     methods:{
         async ulpd(){
             await this.$axios
-                .post(this.$store.state._ServerHttp + 'api/addpage', this.$store.state.pages.form)
+                .post(`${this.$store.state._ServerHttp}api/addpage`, this.$store.state.pages.form)
                 .then(res => {
                     this.$store.commit('pages/push', res.data.resultat);
                     this.$notify({

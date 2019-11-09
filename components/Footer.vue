@@ -8,10 +8,24 @@
             </b-row>
             <b-row class="text-white">
                 <b-col sm="12" lg="7">
-                    <gmap-map :center="center" :map-type-id="mapTypeId" :zoom="18">
-                        <gmap-marker v-for="(item, index) in markers" :key="index" :position="item.position"
-                            @click="center = item.position" />
-                    </gmap-map>
+                    <no-ssr>
+                        <iframe 
+                        width="100%" 
+                        height="100%" 
+                        frameborder="0" 
+                        scrolling="no" 
+                        marginheight="0" 
+                        marginwidth="0" 
+                        src="https://www.openstreetmap.org/export/embed.html?bbox=30.71683466434479%2C46.47135105506826%2C30.72033226490021%2C46.47300804310445&amp;layer=mapnik" 
+                        class="border border-dark"
+                        ></iframe>
+                        <br/>
+                        <!--
+                        <small>
+                            <a href="https://www.openstreetmap.org/#map=19/46.47218/30.71858">View Larger Map</a>
+                        </small>
+                        -->
+                    </no-ssr>
                 </b-col>
                 <b-col sm="12" lg="5">
                     <p>Украина</p>

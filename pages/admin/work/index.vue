@@ -7,12 +7,13 @@
     </div>
 </template>
 <script>
-import Add from './add'
-import Show from './show'
-import Html from './html'
-import Change from './change'
+import Add from '~/components/crm/content/works/add'
+import Show from '~/components/crm/content/works/show'
+import Html from '~/components/crm/content/works/html'
+import Change from '~/components/crm/content/works/change'
 
 export default {
+	layout: 'cp',
   components: {
     Add,
     Show,
@@ -91,7 +92,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 .checkBox {
   padding: 5px;
   width: auto;
@@ -109,30 +110,6 @@ export default {
   max-height: 35px;
 }
 
-
-.innerHTML {
-	height: 50px;
-}
-
-.margCentr {
-  margin: 0 12px;
-}
-
-.content {
-	padding: 50px 0;
-}
-
-.botContent {
-	margin-top: 50px;
-}
-
-.innerHtmlBlock {
-	padding: 15px;
-	background-color: rgb(236, 236, 236);
-	border-radius: 12px;
-	margin-bottom: 15px;
-}
-
 .imgInChangeBlock img {
   box-shadow: 0px 0px 15px black;
   border-radius: 10px;
@@ -146,12 +123,5 @@ export default {
   height: 25px;
   padding: 0 10px;
   border-right: solid 1px rgba(0, 0, 0, 0.171) ; 
-}
-.margin-left {
-  margin-left: 25px;
-}
-
-.max-width {
-  max-width: 1075px;
 }
 </style>
