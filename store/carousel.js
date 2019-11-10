@@ -29,7 +29,8 @@ export const mutations = {
         let dataBody = {
             _id: state.change._id,
             name: state.change.name,
-            inner: state.change.inner
+            inner: state.change.inner,
+            file: state.change.oldFile
         }
         if(newFile){
             dataBody = {

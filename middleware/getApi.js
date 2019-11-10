@@ -1,6 +1,8 @@
 import axios from 'axios'
 import { serverHttp } from '../config/default.json'
 
+axios.defaults.withCredentials = true;
+
 export default async function({ store }){
     await axios
         .get(serverHttp + 'api/technologies')

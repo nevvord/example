@@ -1,39 +1,42 @@
 <template>
-<div v-if="ready">
-    <div v-if="this.$store.state._Auth">
-        <NavBar />
-        <nuxt />   
+<div>
+
+    <div v-if="ready">
+        <div v-if="this.$store.state._Auth">
+            <NavBar />
+            <nuxt />   
+        </div>
+        <div v-else>
+            <b-container>
+                <h3 class="text-center">Вы не автаризованы</h3>
+                <br>
+                <br>
+                <b-row>
+                    <b-col class="text-center">
+                        <b-row>
+                            <b-col sm="12" lg="4"></b-col>
+                            <b-col sm="12" lg="4">
+                                <b-form @submit="authSend">
+                                    <b-form-group label="Электронная почта:">
+                                        <b-form-input type="email" v-model="form.mail" placeholder="mail@gmail.com"></b-form-input>
+                                    </b-form-group>
+                                    <b-form-group label="Введите пароль:">
+                                        <b-form-input type="password" v-model="form.password" placeholder="••••••"></b-form-input>
+                                    </b-form-group>
+                                    <b-button type="submit" variant="success">Вход</b-button>
+                                </b-form>
+                            </b-col>
+                            <b-col sm="12" lg="4"></b-col>
+                        </b-row>
+                    </b-col>
+                </b-row>
+            </b-container>
+        </div>
     </div>
-    <div v-else>
-        <b-container>
-            <h3 class="text-center">Вы не автаризованы</h3>
-            <br>
-            <br>
-            <b-row>
-                <b-col class="text-center">
-                    <b-row>
-                        <b-col sm="12" lg="4"></b-col>
-                        <b-col sm="12" lg="4">
-                            <b-form @submit="authSend">
-                                <b-form-group label="Электронная почта:">
-                                    <b-form-input type="email" v-model="form.mail" placeholder="mail@gmail.com"></b-form-input>
-                                </b-form-group>
-                                <b-form-group label="Введите пароль:">
-                                    <b-form-input type="password" v-model="form.password" placeholder="••••••"></b-form-input>
-                                </b-form-group>
-                                <b-button type="submit" variant="success">Вход</b-button>
-                            </b-form>
-                        </b-col>
-                        <b-col sm="12" lg="4"></b-col>
-                    </b-row>
-                </b-col>
-            </b-row>
-        </b-container>
+    <div v-else class="text-center padding-top">
+        <b-spinner variant="success" type="grow" label="Spinning"></b-spinner>
     </div>
     <notifications group="foo" position="bottom right" />
-</div>
-<div v-else class="text-center padding-top">
-    <b-spinner variant="success" type="grow" label="Spinning"></b-spinner>
 </div>
 </template>
 
@@ -75,11 +78,10 @@ export default {
             })
             .catch(err => {
                 this.$store.commit('setAuth', false)
-                this.ready = true
-                
+                err.response.status === 418 ? this.ready = true : this.ready = false
                 this.$notify({
                         group: 'foo',
-                        title: 'ERROR',
+                        title: `ERROR ${err.response.status}`,
                         text: err.response.data.msg,
                         type: 'error'
                     })

@@ -12,7 +12,7 @@ export default {
       { hid: 'description', name: 'description', content: process.env.npm_package_description || '' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/ypa-logo.png' }
+      { rel: 'icon', type: 'image/x-icon', href: '/ypa-logo.ico' }
     ],
     script: [
       { src: "https://kit.fontawesome.com/b194ce6fcf.js", body: true }

@@ -1,9 +1,9 @@
 <template>
   <div class="content bg-light">
     <Slider /> 
+    <SomeContent />
     <Works />
     <Job />
-    <SomeContent />
   </div>
 </template>
 
