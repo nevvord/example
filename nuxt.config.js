@@ -51,7 +51,7 @@ export default {
     'bootstrap-vue/nuxt',
     'nuxt-fontawesome',
     '@nuxtjs/axios',
-    "@nuxtjs/dotenv"
+    "@nuxtjs/dotenv",
   ],
   axios: {
     // proxyHeaders: false
@@ -63,6 +63,7 @@ export default {
     /*
     ** You can extend webpack config here
     */
+    analyze: true,
     extend(config, ctx) {
     },
   }

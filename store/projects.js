@@ -22,15 +22,19 @@ export const mutations = {
     },
     change(state, newFile){
         let project = {
+            _id: state.changeProject._id,
             name: state.changeProject.name,
             link: state.changeProject.link,
-            description: state.changeProject.description
+            description: state.changeProject.description,
+            file: state.changeProject.file
         }
-        if(state.changeProject.newFile !== null){
+        if(newFile && newFile !== null){
             project = {
                 ...project,
                 file: newFile
             }
+            state.changeProject.file = newFile
+            state.changeProject.newFile = null
         }
         state._Project = state._Project.map(proj => {
             if(proj._id === state.changeProject._id) {
@@ -38,8 +42,6 @@ export const mutations = {
             }
             return proj
         })
-        state.changeProject.file = newFile
-        state.changeProject.newFile = null
     },
     updateChangeProject(state, project) {
         state.changeProject = {

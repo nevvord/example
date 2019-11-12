@@ -8,17 +8,18 @@
                 Отображать страницу в Навбаре?
             </b-form-checkbox>
             <br>
-            <section class="container">
-                <no-ssr placeholder="Codemirror Loading...">
-                    <codemirror v-model="$store.state.pages.change.inner" :options="cmOption"></codemirror>
-                </no-ssr>
-            </section>
         </b-form>
-        <hr>
-        <div v-html="$store.state.pages.change.inner"></div>
+        <section>
+            <no-ssr placeholder="Codemirror Loading...">
+                <codemirror v-model="$store.state.pages.change.inner" :options="cmOption"></codemirror>
+            </no-ssr>
+        </section>
+        <div v-html="$store.state.pages.change.inner" class="border border-dark"></div>
         <template slot="modal-footer" slot-scope="{ ok, cancel }">
-            <b-button variant="success" :disabled="disabled" @click="putChange()">Сохранить</b-button>
-            <b-button id="btnClose" @click="cancel();">Закрыть</b-button>
+            <b-button-group>
+                <b-button variant="success" squared :disabled="disabled" @click="putChange()">Сохранить</b-button>
+                <b-button id="btnClose" variant="warning" squared @click="cancel">Закрыть</b-button>
+            </b-button-group>
             <b-tooltip target="btnClose" variant="danger">
                 Осторожно! Все несохраненые данные будут утеряны!
             </b-tooltip>

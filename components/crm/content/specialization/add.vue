@@ -1,22 +1,22 @@
 <template>
-    <b-container class="bg-white pt-4">
-        <h3 class="p-2 border-bottom border-dark">Добавить Специализацию</h3>
+    <b-container class="bg-white p-0 border">
+        <h3 class="p-3 bg-dark text-light">Добавить Специализацию</h3>
       <!--Название-->
       <b-form @submit="upld">
-        <b-form-group id="input-group-1" label="Название специализации:" label-for="input-1">
+        <b-form-group id="input-group-1" class="px-3" label="Название специализации:" label-for="input-1">
           <b-form-input id="input-1" required v-model="$store.state.specializations.form.name" type="text" required
             placeholder="Ввидите название специализации">
           </b-form-input>
         </b-form-group>
       <!--Название-->
       <!--Описание-->
-        <b-form-group id="input-group-2" label="Текст на главной странице:" label-for="input-2">
+        <b-form-group id="input-group-2" class="px-3" label="Текст на главной странице:" label-for="input-2">
           <b-form-input id="input-2" v-model="$store.state.specializations.form.description" required
             placeholder="Введите текст который будет отображатся на стартовой странице."></b-form-input>
         </b-form-group>
       <!--Описание-->
       <!--Картинка-->
-        <b-form-group id="input-group-3" label="Картинка на главной странице:" label-for="input-3">
+        <b-form-group id="input-group-3" class="px-3" label="Картинка на главной странице:" label-for="input-3">
           <b-form-file v-model="$store.state.specializations.form.file" required :state="Boolean($store.state.specializations.form.file)" placeholder="Выберете картинку..."
             drop-placeholder="Drop file here..."></b-form-file>
           <div class="mt-3">Выбранная картинка: {{ $store.state.specializations.form.file ? $store.state.specializations.form.file.name : '' }}</div>
@@ -24,7 +24,6 @@
       <!--Картинка-->
         <!--Технологии и проекты-->
         <b-tabs content-class="mt-3 pb-3">
-
           <b-tab title="Технологии">
             <b-form-group id="input-group-4">
               <b-form-checkbox-group v-model="$store.state.specializations.form.technology" id="checkboxes-4" :state="state">
@@ -67,7 +66,7 @@
         <no-ssr placeholder="Codemirror Loading...">
             <codemirror v-model="$store.state.specializations.form.inner" :options="cmOption"></codemirror>
         </no-ssr>
-        <div class="bg-light p-3 border border-top-0 border-dark" v-html="$store.state.specializations.form.inner"></div>
+        <div class="bg-light border border-top-0 border-dark" v-html="$store.state.specializations.form.inner"></div>
         <!--HTML для страницы-->
         <div class="text-right p-2">
           <b-button type="submit" variant="success">Добавить</b-button>

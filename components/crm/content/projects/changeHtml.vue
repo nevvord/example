@@ -1,13 +1,13 @@
 <template>
     <b-modal id="change-html" :title="$store.state.projects.changeProject.name" size="xl">
         <div v-if="changeHTMLIneer === true">
-            <section class="container">
+            <section>
                 <no-ssr placeholder="Codemirror Loading...">
-                <codemirror v-model="$store.state.projects.changeProject.inner" :options="cmOption"></codemirror>
+                    <codemirror v-model="$store.state.projects.changeProject.inner" :options="cmOption"></codemirror>
                 </no-ssr>
             </section>
         </div>
-        <div v-html="$store.state.projects.changeProject.inner"></div>
+        <div :class="{'border border-dark': changeHTMLIneer}" v-html="$store.state.projects.changeProject.inner"></div>
         <!-- Настройки футера модала -->
         <template slot="modal-footer" slot-scope="{ ok, cancel }">
             <div v-if="changeHTMLIneer === false">

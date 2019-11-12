@@ -1,5 +1,5 @@
 <template>
-    <b-container class="botContent">
+    <b-container class="my-5">
         <b-row align-v="start">
             <b-col v-for="works in $store.state.works._Data" :key="works.key" sm="12" lg="4">
                 <b-row>

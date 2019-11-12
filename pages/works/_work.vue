@@ -1,5 +1,5 @@
 <template>
-    <div class="content">
+    <b-container class="mt-3">
         <div v-html="inner"></div>
         <hr>
         <b-row>
@@ -18,7 +18,7 @@
                 </b-row>
             </b-col>
         </b-row>
-    </div>
+    </b-container>
 </template>
 <script>
 export default {
@@ -38,8 +38,3 @@ export default {
     }
 }
 </script>
-<style scoped>
-.content {
-    padding: 75px 75px;
-}
-</style>

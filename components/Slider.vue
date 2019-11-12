@@ -43,10 +43,6 @@ export default {
 </script>
 
 <style scoped>
-.slider {
-    margin-top: 56px;
-}
-
 .img {
     max-height: 95vh;
 }

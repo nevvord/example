@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="pt-5">
     <Navbar />
     <nuxt />
     <Footer />
@@ -22,4 +22,7 @@ export default {
 </script>
 
 <style>
+.n-p{
+  padding-top: 56px;
+}
 </style>

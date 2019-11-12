@@ -5,7 +5,7 @@
                 <codemirror v-model="$store.state.works.change.inner" :options="cmOption"></codemirror>
             </no-ssr>
         </div>
-        <div v-html="$store.state.works.change.inner"></div>
+        <div :class="{'border border-dark': changeHTMLIneer}" v-html="$store.state.works.change.inner"></div>
         <template slot="modal-footer" slot-scope="{ ok, cancel }">
             <div v-if="changeHTMLIneer === false">
                 <b-button variant="warning" @click="changeHTMLIneer = !changeHTMLIneer">Изменить</b-button>

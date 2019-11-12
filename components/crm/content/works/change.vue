@@ -39,17 +39,16 @@
                     </b-form-checkbox-group>
                 </b-form-group>
             </b-tab>
-            <b-tab class="margin-left" title="Проекты">
+            <b-tab title="Проекты">
                 <b-form-group id="input-group-6">
                     <b-form-checkbox-group v-model="$store.state.works.change.projects" id="checkbox-6">
-                        <b-form-checkbox class="checkBoxProject bg-light col-12" v-for="proj in $store.state.projects._Project"
+                        <b-form-checkbox class="border-bottom" v-for="proj in $store.state.projects._Project"
                             :key="proj.key" :value="proj._id">
-                            <b-row class="max-width">
-                                <b-col sm="6" md="1" lg="1" xl="1">
-                                    <b-img class="imgCheckBox" :src="$store.state._ServerHttp + proj.file" fluid>
-                                    </b-img>
+                            <b-row align-v="center">
+                                <b-col cols="6" md="1">
+                                    <b-img style="width: 75%;" :src="$store.state._ServerHttp + proj.file" fluid />
                                 </b-col>
-                                <b-col sm="6" md="11" lg="4" xl="4">
+                                <b-col class="bg-light p-2" sm="6" md="11" lg="4" xl="4">
                                     <span>{{proj.name}}</span>
                                 </b-col>
                                 <b-col sm="12" md="7" lg="5" xl="7" class="text-truncate">

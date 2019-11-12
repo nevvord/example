@@ -1,9 +1,9 @@
 <template>
-  <div>
-    <b-container class="bg-white pt-4">
-      <h3 class="border-bottom border-dark p-2">Добавить Проект</h3>
+  <div class="bg-light">
+    <b-container class="bg-white border p-0">
+      <h3 class="bg-dark text-light p-3">Добавить Проект</h3>
       <b-form @submit="upld">
-        <b-row>
+        <b-row class="p-3">
           <b-col sm="12" lg="6">
             <b-form-group id="input-group-1" label="Имя проекта:" label-for="input-1" description="Это будет отображено на странице проектов">
               <b-form-input id="input-1" v-model="$store.state.projects.form.name" required type="text" required placeholder="Ввидите имя проекта">
@@ -12,7 +12,7 @@
           </b-col>
           <b-col sm="12" lg="6">
             <b-form-group id="input-group-2" label="Ссылка на сайт проекта:" label-for="input-1" description="Это создаст ссылку на сайт (Если конечно он есть)">
-              <b-form-input id="input-1" v-model="$store.state.projects.form.link" required type="url" placeholder="http://ssilka.com">
+              <b-form-input id="input-1" v-model="$store.state.projects.form.link" type="url" placeholder="http://ssilka.com">
               </b-form-input>
             </b-form-group>
           </b-col>
@@ -29,19 +29,16 @@
               <div class="mt-3">Выбранная картинка: {{ $store.state.projects.form.file ? $store.state.projects.form.file.name : '' }}</div>
             </b-form-group>
           </b-col>
-          <b-col cols="12">
-            <Html />
-            <div class="bg-light p-3 border border-top-0 border-dark" v-html="$store.state.projects.form.inner"></div>
-          </b-col>
         </b-row>
+        <Html />
+        <div class="bg-light border border-top-0 border-dark" v-html="$store.state.projects.form.inner"></div>
         <div class="text-right p-3">
-          <b-button type="submit" variant="success">Добавить</b-button>
+          <b-button type="submit" squared variant="success">Добавить</b-button>
         </div>
       </b-form>
     </b-container>
-    <hr>
     <!--Отрисовка Проектов-->
-    <b-container>
+    <b-container class="my-5">
       <b-row>
         <b-col class="bg-white mb-2 border" cols="12" v-for="proj in $store.state.projects._Project" :key="proj.key">
           <b-row class="p-2 border-bottom mb-2">

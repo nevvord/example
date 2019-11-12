@@ -5,7 +5,7 @@
                 <b-form-input requireq placeholder="Имя страницы" v-model="$store.state.carousel.change.name"></b-form-input>
             </b-form-group>
             <b-row>
-                <b-col class="my-4 px-5">
+                <b-col class="mb-5">
                     <b-img :src="$store.state._ServerHttp + $store.state.carousel.change.oldFile" fluid></b-img>
                 </b-col>
                 <b-col>
@@ -22,14 +22,13 @@
                     </b-form-group>
                 </b-col>
             </b-row>
-            <section class="container">
+            <section>
                 <no-ssr placeholder="Codemirror Loading...">
                     <codemirror v-model="$store.state.carousel.change.inner" :options="cmOption"></codemirror>
                 </no-ssr>
             </section>
         </b-form>
-        <hr>
-        <div v-html="$store.state.carousel.change.inner"></div>
+        <div class="border border-dark" v-html="$store.state.carousel.change.inner"></div>
         <template slot="modal-footer" slot-scope="{ ok, cancel }">
             <b-button variant="success" :disabled="disabled" @click="putChange()">Сохранить</b-button>
             <b-button id="btnClose" @click="cancel();">Закрыть</b-button>

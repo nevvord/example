@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section class="m-0 p-0">
     <no-ssr placeholder="Codemirror Loading...">
       <codemirror v-model="$store.state.pages.form.inner" :options="cmOption"></codemirror>
     </no-ssr>

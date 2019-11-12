@@ -1,7 +1,7 @@
 <template>
     <div class="bg-light">
-        <b-container class="bg-white">
-            <h3 class="border-bottom border-dark p-1 pt-4">Добавить страницу</h3>
+        <b-container class="bg-white border mb-5 p-0">
+            <h3 class="bg-dark text-light p-3">Добавить страницу</h3>
             <b-form>
                 <b-row>
                     <b-col cols="12" lg="6" class="p-4 m-0">
@@ -17,12 +17,13 @@
                     </b-col>
                 </b-row>
                 <Html />
-                <div class="bg-light p-3 border border-top-0 border-dark" v-html="$store.state.pages.form.inner"></div>
-                <div class="text-right p-4 mb-5">
-                    <b-button variant="success" @click="ulpd">Добавить</b-button>
+                <div class="bg-light border border-top-0 border-dark" v-html="$store.state.pages.form.inner"></div>
+                <div class="text-right p-3">
+                    <b-button variant="success" :disabled="$store.state.pages.form.name ? false : true" squared @click="ulpd">Добавить</b-button>
                 </div>
             </b-form>
         </b-container>
+
         <b-container class="midContent border-dark pb-5">
             <b-row class="bg-dark p-1 text-light">
                 <b-col cols="12" lg="2" class="text-center">Название</b-col>
@@ -30,10 +31,10 @@
                 <b-col cols="12" lg="4" class="text-center">Действия</b-col>
             </b-row>
             <b-row>
-                <b-col cols="12" v-for="page in $store.state.pages._Page" :key="page.key" class="p-1 bg-white border border-top-0 border-dark">
+                <b-col cols="12" v-for="page in $store.state.pages._Page" :key="page.key" class="bg-white border border-top-0 border-dark">
                     <b-row align-v="center">
-                        <b-col sm="12" lg="2" class="text-center border-right border-dark">{{page.name}}</b-col>
-                        <b-col sm="12" lg="6" class="text-truncate border-right border-dark"><code>{{page.inner}}</code></b-col>
+                        <b-col sm="12" lg="2" class="text-center border-right border-dark p-3" :class="[page.display ? 'bg-success' : 'bg-warning']">{{page.name}}</b-col>
+                        <b-col sm="12" lg="6" class="text-truncate border-right border-dark p-3"><code>{{page.inner}}</code></b-col>
                         <b-col sm="12" lg="4">
                             <b-row>
                                 <b-col>

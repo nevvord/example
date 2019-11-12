@@ -47,18 +47,19 @@ export const mutations = {
         })
     },
     change(state, newFile){
-        let dataBody = {
+        let body = {
             _id: state.change._id,
             name: state.change.name,
             link: state.change.link,
             description: state.change.description,
             technology: state.change.technology,
             projects: state.change.projects,
-            inner: state.change.inner
+            inner: state.change.inner,
+            file: state.change.file
         }
         if(newFile){
-            dataBody = {
-                ...dataBody,
+            body = {
+                ...body,
                 file: newFile
             }
             state.change.file = newFile
@@ -68,7 +69,7 @@ export const mutations = {
         
         state._Data = state._Data.map(data => {
             if(data._id === state.change._id) {
-                return dataBody
+                return body
             }
             return data
         })

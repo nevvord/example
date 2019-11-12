@@ -25,6 +25,7 @@
             </b-carousel>
         </b-container>
         <b-container class="border p-0 bg-white mt-5">
+            <h2 class="bg-dark p-3 text-light">Добавить элемент карусели</h2>
             <b-form @submit="upload">
                 <b-row>
                     <b-col cols="12" lg="6">
@@ -52,7 +53,7 @@
                         <codemirror v-model="$store.state.carousel.form.inner" :options="cmOption"></codemirror>
                     </no-ssr>
                 </section>
-                <div class="bg-light p-3 border border-top-0 border-dark" v-html="$store.state.carousel.form.inner"></div>
+                <div class="bg-light border border-top-0 border-dark" v-html="$store.state.carousel.form.inner"></div>
                 <div class="p-3 text-right">
                     <b-button variant="success" squared type="submit">Добавить</b-button>
                 </div>
@@ -60,32 +61,32 @@
         </b-container>
 
         <b-container class="mt-4 bg-white">
-            <b-row class="bg-dark p-2 text-light text-center">
-                <b-col cols="1" class="border-right">
+            <b-row class="bg-dark text-light text-center">
+                <b-col cols="1" class="border-right p-2">
                     IMG
                 </b-col>
-                <b-col cols="2" class="border-right">
+                <b-col cols="2" class="border-right p-2">
                     Название
                 </b-col>
-                <b-col cols="7" class="border-right">
+                <b-col cols="7" class="border-right p-2">
                     HTML
                 </b-col>
-                <b-col cols="2">
+                <b-col cols="2" class="p-2">
                     Действия
                 </b-col>
             </b-row>
-            <b-row class="text-center p-2" v-for="carousel in $store.state.carousel._Data" :key="carousel.key">
-                <b-col cols="1" class="border-right">
+            <b-row class="text-center" align-v="center" v-for="carousel in $store.state.carousel._Data" :key="carousel.key">
+                <b-col cols="1">
                     <b-img :src="$store.state._ServerHttp + carousel.file" fluid></b-img>
                 </b-col>
-                <b-col cols="2" class="border-right">
+                <b-col cols="2" class="bg-secondary border-bottom text-light p-3">
                     {{carousel.name}}
                 </b-col>
-                <b-col cols="7" class="border-right">
+                <b-col cols="7" class="text-truncate">
                     {{carousel.inner}}
                 </b-col>
-                <b-col cols="2">
-                    <b-button-group>
+                <b-col cols="2" class="p-0 text-center">
+                    <b-button-group class="">
                         <b-button variant="warning" v-b-modal.changeCarousel @click="$store.commit('carousel/updateChange', carousel)">Изменить</b-button>
                         <b-button variant="danger" @click="del(carousel._id, carousel.file)">Удалить</b-button>
                     </b-button-group>

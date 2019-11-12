@@ -5,7 +5,8 @@ export const state = () => ({
         oldName: '',
         name: '',
         inner: '<p></p>',
-        display: true
+        display: true,
+        position: 0
     },
     form: {
         name: '',
@@ -30,7 +31,8 @@ export const mutations = {
             _id: state.change._id,
             name: state.change.name,
             inner: state.change.inner,
-            display: state.change.display
+            display: state.change.display,
+            position: state.change.position
         }
         state._Page = state._Page.map(page => {
             if(page._id === state.change._id) {
