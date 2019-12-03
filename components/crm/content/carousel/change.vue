@@ -24,14 +24,14 @@
             </b-row>
             <section>
                 <no-ssr placeholder="Codemirror Loading...">
-                    <codemirror v-model="$store.state.carousel.change.inner" :options="cmOption"></codemirror>
+                    <codemirror v-if="$store.state.carousel.change.inner" v-model="$store.state.carousel.change.inner" :options="cmOption"></codemirror>
                 </no-ssr>
             </section>
         </b-form>
         <div class="border border-dark" v-html="$store.state.carousel.change.inner"></div>
         <template slot="modal-footer" slot-scope="{ ok, cancel }">
             <b-button variant="success" :disabled="disabled" @click="putChange()">Сохранить</b-button>
-            <b-button id="btnClose" @click="cancel();">Закрыть</b-button>
+            <b-button id="btnClose" @click="cancel()">Закрыть</b-button>
             <b-tooltip target="btnClose" variant="danger">
                 Осторожно! Все несохраненые данные будут утеряны!
             </b-tooltip>
@@ -48,11 +48,12 @@ export default {
           tabSize: 4,
           foldGutter: true,
           styleActiveLine: true,
+          lineWrapping: true,
           lineNumbers: true,
           line: true,
           keyMap: "sublime",
           mode: 'text/x-vue',
-          theme: 'base16-dark'
+          theme: 'base16-dark',
         }
       }
     },

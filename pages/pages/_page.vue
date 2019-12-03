@@ -1,6 +1,6 @@
 <template>
     <b-container>
-        <div v-html="inner" class="content"></div>
+        <div v-html="inner"></div>
     </b-container>
 </template>
 <script>
@@ -19,8 +19,4 @@ export default {
     }
 }
 </script>
-<style scoped>
-.content {
-    padding: 75px 0px;
-}
-</style>
+

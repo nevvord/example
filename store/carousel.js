@@ -1,13 +1,6 @@
 export const state = () => ({
     _Data: [],
-    change: {
-        _id: '',
-        oldName: '',
-        name: '',
-        inner: '<p></p>',
-        file: null,
-        oldFile: null
-    },
+    change: {},
     form: {
         name: '',
         inner: '',

@@ -48,11 +48,9 @@
                             </b-form-group>
                     </b-col>
                 </b-row>
-                <section class="w-100">
-                    <no-ssr placeholder="Codemirror Loading...">
-                        <codemirror v-model="$store.state.carousel.form.inner" :options="cmOption"></codemirror>
-                    </no-ssr>
-                </section>
+                <no-ssr placeholder="Codemirror Loading...">
+                    <codemirror v-model="$store.state.carousel.form.inner" :options="cmOption"></codemirror>
+                </no-ssr>
                 <div class="bg-light border border-top-0 border-dark" v-html="$store.state.carousel.form.inner"></div>
                 <div class="p-3 text-right">
                     <b-button variant="success" squared type="submit">Добавить</b-button>
